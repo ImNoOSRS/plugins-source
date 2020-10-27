@@ -12,3 +12,7 @@ Repository information:
 Github Repository owner: ImNoOSRS
 
 Github Repository name: plugins
+
+# Are you planning on creating your own plugins?
+This tool might help you: https://github.com/ImNoOSRS/plugincreator
+Description: Creates empty base plugins with your config.
