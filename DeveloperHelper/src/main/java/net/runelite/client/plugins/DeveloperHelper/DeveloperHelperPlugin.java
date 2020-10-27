@@ -1,0 +1,538 @@
+//Created by PluginCreated by ImNo: https://discord.gg/dhfRTRE
+package net.runelite.client.plugins.DeveloperHelper;
+
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.inject.Provides;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.*;
+import net.runelite.api.events.*;
+import net.runelite.api.kit.KitType;
+import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetID;
+import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.api.widgets.WidgetItem;
+import net.runelite.client.callback.ClientThread;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
+import net.runelite.client.game.ItemManager;
+import net.runelite.client.plugins.Plugin;
+import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginType;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.Clipboard;
+import net.runelite.client.util.ImageUtil;
+import net.runelite.client.util.QuantityFormatter;
+import org.apache.commons.lang3.ObjectUtils;
+import org.pf4j.Extension;
+
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.swing.text.NumberFormatter;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.List;
+
+@Extension
+@PluginDescriptor(
+        name = "Developer Helper",
+        description = "Developer Helper by ImNo https://github.com/ImNoOSRS ",
+        type = PluginType.SYSTEM
+)
+@Slf4j
+public class DeveloperHelperPlugin extends Plugin {
+
+    public boolean copy_widgets_on_next_tick = false;
+    // Injects our config
+    @Inject
+    private ConfigManager configManager;
+    @Inject
+    private DeveloperHelperConfig config;
+    @Inject
+    private Client client;
+    @Inject
+    private ClientThread clientThread;
+    @Inject
+    private ClientToolbar clientToolbar;
+    
+    @Provides
+    DeveloperHelperConfig provideConfig(ConfigManager configManager) {
+        return configManager.getConfig(DeveloperHelperConfig.class);
+    }
+
+    @Subscribe
+    private void onConfigChanged(ConfigChanged event) {
+        if (event.getGroup().equals("DeveloperHelper"))
+        {
+            switch(event.getKey())
+            {
+                case "example":
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private NavigationButton navButton;
+
+    @Override
+    protected void startUp() {
+        sidepanel(true);
+    }
+
+    @Override
+    protected void shutDown() {
+        sidepanel(false);
+    }
+
+    DeveloperHelperPanel panel;
+    public void sidepanel(Boolean show)
+    {
+        if(show) {
+            panel = injector.getInstance(DeveloperHelperPanel.class);
+            final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "developer_helper_icon.png");
+
+            navButton = NavigationButton.builder()
+                    .tooltip("Developer Helper")
+                    .icon(icon)
+                    .priority(2)
+                    .panel(panel)
+                    .build();
+
+            clientToolbar.addNavigation(navButton);
+        }
+        else
+        {
+            clientToolbar.removeNavigation(navButton);
+        }
+    }
+
+
+    @Subscribe
+    private void onGameTick(GameTick gameTick)
+    {
+        if(copy_widgets_on_next_tick)
+        {
+            copy_widgets_on_next_tick = false;
+            if (client.getGameState() != GameState.LOGGED_IN) {
+                return;
+            }
+            CopyWidgets();
+        }
+    }
+
+    String widgetdata;
+    public void CopyWidgets()
+    {
+        widgetdata = "DUMP_WIDGETS_START\n";
+        for (final Widget widgetRoot : client.getWidgetRoots()) {
+            this.processWidget(widgetRoot);
+        }
+        widgetdata += "END";
+        Clipboard.store(widgetdata);
+    }
+
+    private void processWidget(final Widget widget) {
+        if (widget == null) {
+            return;
+        }
+
+        String line =  "Widget{" + widget.getName() + "}:" + widget.getText() + "(" + widget.getId() + ") - Type:" + widget.getType() + ", CT:" + widget.getContentType();
+        String group = "__" + WidgetInfo.TO_GROUP(widget.getId()) + "." + WidgetInfo.TO_CHILD(widget.getId()) + "[" + widget.getIndex() + "]";
+        widgetdata += line + group + "\n";
+
+        for (final Widget child : widget.getStaticChildren()) {
+            this.processWidget(child);
+        }
+        for (final Widget dynamicChild : widget.getDynamicChildren()) {
+            this.processWidget(dynamicChild);
+        }
+        for (final Widget nestedChild : widget.getNestedChildren()) {
+            this.processWidget(nestedChild);
+        }
+    }
+
+    @Subscribe
+    private void onBeforeRender(BeforeRender event)
+    {
+
+    }
+
+
+    private static final String copyid = "Copy Object ID";
+    private static final String copyworldpoint = "Copy Object WorldPoint";
+    private static final String copylocalpoint = "Copy Object LocalPoint";
+    private static final String copytileworldpoint = "Copy Tile WorldPoint";
+    private static final String copytilelocalpoint = "Copy Tile LocalPoint";
+    private static final String WALK_HERE = "Walk here";
+
+
+    int counter = 0;
+    boolean canopen = false;
+    @Subscribe
+    private void onMenuOpened(MenuOpened event)
+    {
+        if(!canopen)
+        {
+            return;
+        }
+
+        if(!config.copyItemData())
+        {
+            return;
+        }
+
+        if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.ITEM_SECOND_OPTION)
+        {
+            if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.ITEM_USE) {
+                if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.CC_OP) {
+                    return;
+                }
+            }
+        }
+
+
+        List<MenuEntry> menu_entries = new ArrayList<>();
+
+        for (MenuEntry entry : event.getMenuEntries()) {
+            menu_entries.add(entry);
+        }
+
+        counter = menu_entries.get(1).getParam0();
+        MenuEntry newm = new MenuEntry();
+        log.info(event.getFirstEntry().getOption());
+        if(event.getFirstEntry().getOption().contains("Withdraw-") || event.getFirstEntry().getOption().contains("Deposit-"))
+        {
+            MenuEntry copy_name = base_entry(menu_entries.get(1), "Copy item NAME");
+            menu_entries.add(copy_name);
+            event.setMenuEntries(menu_entries.toArray(new MenuEntry[0]));
+            return;
+        }
+
+        if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.CC_OP) {
+            Integer identifier = menu_entries.get(1).getIdentifier();
+
+            MenuEntry copy_name = base_entry(menu_entries.get(1), "Copy item NAME");
+            menu_entries.add(copy_name);
+
+            MenuEntry copy_id = base_entry(menu_entries.get(1), "Copy item ID");
+            menu_entries.add(copy_id);
+
+            ItemDefinition def = client.getItemDefinition(identifier);
+            if(def.getNote() != -1)
+            {
+                identifier = def.getLinkedNoteId();
+
+                MenuEntry copy_id_unnoted = base_entry(menu_entries.get(1), "Copy item ID (Unnoted)");
+                copy_id_unnoted.setIdentifier(identifier);
+                menu_entries.add(copy_id_unnoted);
+            }
+            event.setMenuEntries(menu_entries.toArray(new MenuEntry[0]));
+            return;
+        }
+    }
+
+    public MenuEntry base_entry(MenuEntry current, String newname)
+    {
+        MenuEntry base = new MenuEntry();
+        base.setOption(newname);
+        base.setTarget(current.getTarget());
+        base.setOpcode(MenuOpcode.RUNELITE.getId());
+        counter++;
+        base.setParam0(counter);
+        base.setParam1(current.getParam1());
+        base.setIdentifier(current.getIdentifier());
+        return base;
+    }
+
+    public void insert_menu_entry(MenuEntry entry)
+    {
+        client.insertMenuItem(entry.getOption(), entry.getTarget(), entry.getOpcode(), entry.getIdentifier(), entry.getParam0(), entry.getParam1(), false);
+    }
+
+    @Subscribe
+    private void onMenuEntryAdded(MenuEntryAdded event)
+    {
+        if(config.shift() && !client.isKeyPressed(KeyCode.KC_SHIFT))
+        {
+            canopen = false;
+            return;
+        }
+        canopen = true;
+        if (event.getOpcode() != MenuOpcode.EXAMINE_OBJECT.getId())
+        {
+            if(!config.copyTileData())
+            {
+                return;
+            }
+            if(event.getOption().equals(WALK_HERE))
+            {
+                MenuEntry menuEntry = new MenuEntry();
+
+                menuEntry.setOption(copytileworldpoint);
+                menuEntry.setTarget(event.getTarget());
+                menuEntry.setParam0(menuEntry.getParam0());
+                menuEntry.setParam1(event.getParam1());
+                menuEntry.setIdentifier(event.getIdentifier());
+                menuEntry.setOpcode(MenuOpcode.RUNELITE.getId());
+
+                insert_menu_entry(menuEntry);
+                MenuEntry menuEntry3 = new MenuEntry();
+
+                menuEntry3.setOption(copytilelocalpoint);
+                menuEntry3.setTarget(event.getTarget());
+                menuEntry3.setParam0(menuEntry3.getParam0());
+                menuEntry3.setParam1(event.getParam1());
+                menuEntry3.setIdentifier(event.getIdentifier());
+                menuEntry3.setOpcode(MenuOpcode.RUNELITE.getId());
+                insert_menu_entry(menuEntry3);
+            }
+            return;
+        }
+
+        if(!config.copyObjectData())
+        {
+            return;
+        }
+
+        final Tile tile = client.getScene().getTiles()[client.getPlane()][event.getParam0()][event.getParam1()];
+        final TileObject tileObject = findTileObject(tile, event.getIdentifier());
+
+        if (tileObject == null)
+        {
+            return;
+        }
+
+        MenuEntry[] menuEntries = client.getMenuEntries();
+        menuEntries = Arrays.copyOf(menuEntries, menuEntries.length + 2);
+        MenuEntry menuEntry = menuEntries[menuEntries.length - 1] = new MenuEntry();
+
+        menuEntry.setOption(copyid);
+        menuEntry.setTarget(event.getTarget());
+        menuEntry.setParam0(event.getParam0());
+        menuEntry.setParam1(event.getParam1());
+        menuEntry.setIdentifier(event.getIdentifier());
+        menuEntry.setOpcode(MenuOpcode.RUNELITE.getId());
+
+        MenuEntry menuEntry2 = menuEntries[menuEntries.length - 2] = new MenuEntry();
+
+        menuEntry2.setOption(copyworldpoint);
+        menuEntry2.setTarget(event.getTarget());
+        menuEntry2.setParam0(event.getParam0() + 1);
+        menuEntry2.setParam1(event.getParam1());
+        menuEntry2.setIdentifier(event.getIdentifier());
+        menuEntry2.setOpcode(MenuOpcode.RUNELITE.getId());
+
+        MenuEntry menuEntry3 = menuEntries[menuEntries.length - 3] = new MenuEntry();
+
+        menuEntry3.setOption(copylocalpoint);
+        menuEntry3.setTarget(event.getTarget());
+        menuEntry3.setParam0(event.getParam0() + 2);
+        menuEntry3.setParam1(event.getParam1());
+        menuEntry3.setIdentifier(event.getIdentifier());
+        menuEntry3.setOpcode(MenuOpcode.RUNELITE.getId());
+        client.setMenuEntries(menuEntries);
+    }
+
+    public void gamelog(String message) {
+        client.addChatMessage(
+                ChatMessageType.GAMEMESSAGE,
+                "",
+                message,
+                null
+        );
+    }
+
+    @Subscribe
+    private void onMenuOptionClicked(MenuOptionClicked event)
+    {
+        if(event.getOption() == "Copy item ID" || event.getOption() == "Copy item ID (Unnoted)") {
+            Integer idf = event.getIdentifier();
+            String itemname = "Failed grabbing name.";
+            ItemDefinition i = client.getItemDefinition(event.getIdentifier());
+            if(i != null)
+            {
+                itemname = i.getName();
+            }
+            Clipboard.store(idf.toString());
+        }
+        if(event.getOption() == "Copy item NAME") {
+            /*
+            String itemname = "Failed grabbing name.";
+            ItemDefinition i = client.getItemDefinition(event.getIdentifier());
+            if(i != null)
+            {
+                itemname = i.getName();
+            }*/
+            Clipboard.store(event.getTarget().replace("<", ">").split(">")[2]);
+        }
+
+        if (event.getMenuOpcode() != MenuOpcode.RUNELITE || !(event.getOption().equals(copyid) || event.getOption().equals(copyworldpoint)|| event.getOption().equals(copytileworldpoint) || event.getOption().equals(copylocalpoint)|| event.getOption().equals(copytilelocalpoint)))
+        {
+            String storing = "" + event.getOption() + " > [";
+            storing += "Identifier:" + event.getIdentifier();
+            storing += " MenuOpcode:" + event.getOpcode();
+            storing += " Param0:" + event.getParam0();
+            storing += " Param1:" + event.getParam1();
+            storing += "]";
+            if(panel.MenuAction.isSelected())
+            {
+                switch((String)panel.ActionHandleType.getSelectedItem()) {
+                    case "Copy":
+                        Clipboard.store(storing);
+                        break;
+                    case "Log in console":
+                        log.info(storing);
+                        break;
+                    case "Log in chat":
+                        gamelog(storing);
+                        break;
+                }
+            }
+            return;
+        }
+
+
+        if(event.getOption().equals(copytileworldpoint))
+        {
+            Tile t = client.getSelectedSceneTile();
+            if(t != null) {
+                Clipboard.store("new WorldPoint(" + t.getWorldLocation().getX() + ", " + t.getWorldLocation().getY() + ", " + t.getWorldLocation().getPlane() + ")");
+            }
+            else
+            {
+                Clipboard.store("Could not locate Tile");
+            }
+            return;
+        }
+        else if(event.getOption().equals(copytilelocalpoint))
+        {
+            Tile t = client.getSelectedSceneTile();
+            if(t != null) {
+                Clipboard.store("new LocalPoint(" + t.getLocalLocation().getX() + ", " + t.getLocalLocation().getY() + ")");
+            }
+            else
+            {
+                Clipboard.store("Could not locate Tile");
+            }
+            return;
+        }
+
+        Scene scene = client.getScene();
+        Tile[][][] tiles = scene.getTiles();
+        final int x = event.getParam0();
+        final int y = event.getParam1();
+        final int z = client.getPlane();
+        final Tile tile = tiles[z][x][y];
+
+        TileObject object = findTileObject(tile, event.getIdentifier());
+        if (object == null)
+        {
+            return;
+        }
+
+        // object.getId() is always the base object id, getObjectDefinition transforms it to
+        // the correct object we see
+        ObjectDefinition objectDefinition = getObjectDefinition(object.getId());
+        String name = objectDefinition.getName();
+        // Name is probably never "null" - however prevent adding it if it is, as it will
+        // become ambiguous as objects with no name are assigned name "null"
+        if (Strings.isNullOrEmpty(name) || name.equals("null"))
+        {
+            return;
+        }
+
+        if(event.getOption().equals(copyid)) {
+            Clipboard.store("" + object.getId());
+        }
+        else if(event.getOption().equals(copyworldpoint)) {
+            Clipboard.store("new WorldPoint(" + object.getWorldLocation().getX() + ", " + object.getWorldLocation().getY() + ", " + object.getWorldLocation().getPlane() +")");
+        }
+        else if(event.getOption().equals(copylocalpoint)) {
+            Clipboard.store("new LocalPoint(" + object.getLocalLocation().getX() + ", " + object.getLocalLocation().getY() + ")");
+        }
+    }
+
+    @Nullable
+    private ObjectDefinition getObjectDefinition(int id)
+    {
+        ObjectDefinition objectComposition = client.getObjectDefinition(id);
+        return objectComposition.getImpostorIds() == null ? objectComposition : objectComposition.getImpostor();
+    }
+
+    private TileObject findTileObject(Tile tile, int id)
+    {
+        if (tile == null)
+        {
+            return null;
+        }
+
+        final GameObject[] tileGameObjects = tile.getGameObjects();
+        final DecorativeObject tileDecorativeObject = tile.getDecorativeObject();
+        final WallObject tileWallObject = tile.getWallObject();
+        final GroundObject groundObject = tile.getGroundObject();
+
+        if (objectIdEquals(tileWallObject, id))
+        {
+            return tileWallObject;
+        }
+
+        if (objectIdEquals(tileDecorativeObject, id))
+        {
+            return tileDecorativeObject;
+        }
+
+        if (objectIdEquals(groundObject, id))
+        {
+            return groundObject;
+        }
+
+        for (GameObject object : tileGameObjects)
+        {
+            if (objectIdEquals(object, id))
+            {
+                return object;
+            }
+        }
+        return null;
+    }
+
+    private boolean objectIdEquals(TileObject tileObject, int id)
+    {
+        if (tileObject == null)
+        {
+            return false;
+        }
+
+        if (tileObject.getId() == id)
+        {
+            return true;
+        }
+
+        // Menu action EXAMINE_OBJECT sends the transformed object id, not the base id, unlike
+        // all of the GAME_OBJECT_OPTION actions, so check the id against the impostor ids
+        final ObjectDefinition comp = client.getObjectDefinition(tileObject.getId());
+
+        if (comp.getImpostorIds() != null)
+        {
+            for (int impostorId : comp.getImpostorIds())
+            {
+                if (impostorId == id)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+}
