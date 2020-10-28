@@ -35,6 +35,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 import java.util.*;
@@ -174,73 +175,61 @@ public class DeveloperHelperPlugin extends Plugin {
     private static final String copytilelocalpoint = "Copy Tile LocalPoint";
     private static final String WALK_HERE = "Walk here";
 
-
-    int counter = 0;
-    boolean canopen = false;
-    @Subscribe
-    private void onMenuOpened(MenuOpened event)
-    {
-        if(!canopen)
-        {
-            return;
+    public static class IsKeyPressed {
+        private static volatile boolean wPressed = false;
+        public static boolean isShiftPressed() {
+            synchronized (IsKeyPressed.class) {
+                return wPressed;
+            }
         }
 
-        if(!config.copyItemData())
-        {
-            return;
-        }
+        public static void main(String[] args) {
+            KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
 
-        if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.ITEM_SECOND_OPTION)
-        {
-            if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.ITEM_USE) {
-                if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.CC_OP) {
-                    return;
+                @Override
+                public boolean dispatchKeyEvent(KeyEvent ke) {
+                    synchronized (IsKeyPressed.class) {
+                        switch (ke.getID()) {
+                            case KeyEvent.KEY_PRESSED:
+                                if (ke.getKeyCode() == KeyEvent.VK_SHIFT) {
+                                    wPressed = true;
+                                }
+                                break;
+
+                            case KeyEvent.KEY_RELEASED:
+                                if (ke.getKeyCode() == KeyEvent.VK_SHIFT) {
+                                    wPressed = false;
+                                }
+                                break;
+                        }
+                        return false;
+                    }
                 }
-            }
-        }
-
-
-        List<MenuEntry> menu_entries = new ArrayList<>();
-
-        for (MenuEntry entry : event.getMenuEntries()) {
-            menu_entries.add(entry);
-        }
-
-        counter = menu_entries.get(1).getParam0();
-        MenuEntry newm = new MenuEntry();
-        log.info(event.getFirstEntry().getOption());
-        if(event.getFirstEntry().getOption().contains("Withdraw-") || event.getFirstEntry().getOption().contains("Deposit-"))
-        {
-            MenuEntry copy_name = base_entry(menu_entries.get(1), "Copy item NAME");
-            menu_entries.add(copy_name);
-            event.setMenuEntries(menu_entries.toArray(new MenuEntry[0]));
-            return;
-        }
-
-        if(event.getFirstEntry().getMenuOpcode() != MenuOpcode.CC_OP) {
-            Integer identifier = menu_entries.get(1).getIdentifier();
-
-            MenuEntry copy_name = base_entry(menu_entries.get(1), "Copy item NAME");
-            menu_entries.add(copy_name);
-
-            MenuEntry copy_id = base_entry(menu_entries.get(1), "Copy item ID");
-            menu_entries.add(copy_id);
-
-            ItemDefinition def = client.getItemDefinition(identifier);
-            if(def.getNote() != -1)
-            {
-                identifier = def.getLinkedNoteId();
-
-                MenuEntry copy_id_unnoted = base_entry(menu_entries.get(1), "Copy item ID (Unnoted)");
-                copy_id_unnoted.setIdentifier(identifier);
-                menu_entries.add(copy_id_unnoted);
-            }
-            event.setMenuEntries(menu_entries.toArray(new MenuEntry[0]));
-            return;
+            });
         }
     }
 
+    int counter = 0;
+    @Subscribe
+    private void onMenuOpened(MenuOpened event)
+    {
+
+    }
+
     public MenuEntry base_entry(MenuEntry current, String newname)
+    {
+        MenuEntry base = new MenuEntry();
+        base.setOption(newname);
+        base.setTarget(current.getTarget());
+        base.setOpcode(MenuOpcode.RUNELITE.getId());
+        counter++;
+        base.setParam0(counter);
+        base.setParam1(current.getParam1());
+        base.setIdentifier(current.getIdentifier());
+        return base;
+    }
+
+    public MenuEntry base_entry(MenuEntryAdded current, String newname)
     {
         MenuEntry base = new MenuEntry();
         base.setOption(newname);
@@ -263,10 +252,32 @@ public class DeveloperHelperPlugin extends Plugin {
     {
         if(config.shift() && !client.isKeyPressed(KeyCode.KC_SHIFT))
         {
-            canopen = false;
             return;
         }
-        canopen = true;
+
+        int op = event.getOpcode();
+        String option = event.getOption();
+        switch(option)
+        {
+            case "Withdraw-All-but-1":
+                MenuEntry copy_bank_name = base_entry(event, "Copy item NAME");
+                insert_menu_entry(copy_bank_name);
+                break;
+            case "Drop":
+            case "Destroy":
+                MenuEntry copy_id = base_entry(event, "Copy item ID");
+                insert_menu_entry(copy_id);
+                ItemDefinition def = client.getItemDefinition(event.getIdentifier());
+                if(def.getNote() != -1)
+                {
+                    MenuEntry copy_id_unnoted = base_entry(event, "Copy item ID (Unnoted)");
+                    copy_id_unnoted.setIdentifier(def.getLinkedNoteId());
+                    insert_menu_entry(copy_id_unnoted);
+                }
+                MenuEntry copy_name = base_entry(event, "Copy item NAME");
+                insert_menu_entry(copy_name);
+                break;
+        }
         if (event.getOpcode() != MenuOpcode.EXAMINE_OBJECT.getId())
         {
             if(!config.copyTileData())
