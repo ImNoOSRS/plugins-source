@@ -363,6 +363,21 @@ public class DeveloperHelperPlugin extends Plugin {
     }
 
     @Subscribe
+    void onChatMessage(ChatMessage event) {
+        if(!panel.LogChatbox.isSelected())
+        {
+            return;
+        }
+        if (client.getGameState() != GameState.LOGGED_IN)
+        {
+            return;
+        }
+
+        String message = event.getMessage();
+        log.info("GameMessage: " + message);
+    }
+
+    @Subscribe
     private void onMenuOptionClicked(MenuOptionClicked event)
     {
         if(event.getOption() == "Copy item ID" || event.getOption() == "Copy item ID (Unnoted)") {
@@ -394,7 +409,7 @@ public class DeveloperHelperPlugin extends Plugin {
             storing += " Param0:" + event.getParam0();
             storing += " Param1:" + event.getParam1();
             storing += "]";
-            if(panel.MenuAction.isSelected())
+            if(panel.LogMenuActions.isSelected())
             {
                 switch((String)panel.ActionHandleType.getSelectedItem()) {
                     case "Copy":

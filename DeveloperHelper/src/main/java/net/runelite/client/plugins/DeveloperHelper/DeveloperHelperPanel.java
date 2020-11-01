@@ -107,7 +107,8 @@ class DeveloperHelperPanel extends PluginPanel
         return e;
     }
 
-    public JCheckBox MenuAction = new JCheckBox();
+    public JCheckBox LogMenuActions = new JCheckBox();
+    public JCheckBox LogChatbox = new JCheckBox();
     String[] HandleTypes = { "Log in console", "Log in chat", "Copy" };
     public JComboBox ActionHandleType = new JComboBox(HandleTypes);
 
@@ -179,8 +180,11 @@ class DeveloperHelperPanel extends PluginPanel
         });
 
         container.add(new JLabel("Handle MenuClicked"));
-        container.add(MenuAction);
+        container.add(LogMenuActions);
         container.add(ActionHandleType);
+
+        container.add(new JLabel("Log Chatbox"));
+        container.add(LogChatbox);
 
         JButton loadplugin = new JButton("Hotswap a plugin");
         container.add(loadplugin);
