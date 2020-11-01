@@ -23,12 +23,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.5"
+version = "0.0.6"
 
 project.extra["PluginName"] = "hallowedhelper"
 project.extra["PluginDescription"] = "This is a HallowedHelper plugin by ImNo#0890."
 project.extra["PluginProvider"] = "ImNo"
-project.extra["Support"] = "https://www.youtube.com/watch?v=hPS6bl9QOHw"
 
 tasks {
     jar {
@@ -38,8 +37,7 @@ tasks {
                     "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
                     "Plugin-Provider" to project.extra["PluginProvider"],
                     "Plugin-Description" to project.extra["PluginDescription"],
-                    "Plugin-License" to project.extra["PluginLicense"],
-                    "Support" to project.extra["Support"]
+                    "Plugin-License" to project.extra["PluginLicense"]
             ))
         }
     }

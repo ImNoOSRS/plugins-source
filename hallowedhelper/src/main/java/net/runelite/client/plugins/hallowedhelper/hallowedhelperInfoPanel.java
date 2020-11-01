@@ -44,12 +44,14 @@ public class hallowedhelperInfoPanel extends OverlayPanel
             tableComponent.setColumnAlignments(TableAlignment.LEFT, TableAlignment.RIGHT);
 
             tableComponent.addRow("Hallowed-Info", "");
-            tableComponent.addRow("FLOOR4_ROTATION", "" + plugin.floor4_fire_rotation);
-            tableComponent.addRow("TICKS_SINCE:", "" + plugin.floor_4_ticks_since_statue);
-            tableComponent.addRow("FLOOR5_ROTATION", "" + plugin.floor5_fire_rotation);
-            tableComponent.addRow("TICKS5_SINCE:", "" + plugin.floor_5_ticks_since_statue);
-            tableComponent.addRow("FLOOR5[2]_ROTATION", "" + plugin.floor5_2A_fire_rotation);
-            tableComponent.addRow("TICKS5[2]_SINCE:", "" + plugin.floor5_2A_ticks_since_statue);
+            if(config.ShowValues()) {
+                tableComponent.addRow("FLOOR4_ROTATION", "" + plugin.floor4_fire_rotation);
+                tableComponent.addRow("TICKS_SINCE:", "" + plugin.floor_4_ticks_since_statue);
+                tableComponent.addRow("FLOOR5_ROTATION", "" + plugin.floor5_fire_rotation);
+                tableComponent.addRow("TICKS5_SINCE:", "" + plugin.floor_5_ticks_since_statue);
+                tableComponent.addRow("FLOOR5[2]_ROTATION", "" + plugin.floor5_2A_fire_rotation);
+                tableComponent.addRow("TICKS5[2]_SINCE:", "" + plugin.floor5_2A_ticks_since_statue);
+            }
             tableComponent.addRow("Location: ", getLocation());
             //tableComponent.addRow("Region ID: ", "" + client.getLocalPlayer().getWorldLocation().getRegionID());
             //its shit /\
