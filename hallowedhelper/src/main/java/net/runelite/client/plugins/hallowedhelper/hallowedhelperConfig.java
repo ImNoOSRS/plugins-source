@@ -501,7 +501,6 @@ public interface hallowedhelperConfig extends Config {
     }
 
 
-    @Alpha
     @ConfigItem(
             position = 3,
             keyName = "GlitchyHit",
@@ -514,7 +513,6 @@ public interface hallowedhelperConfig extends Config {
         return false;
     }
 
-    @Alpha
     @ConfigItem(
             position = 4,
             keyName = "GlitchyGrapple",
@@ -527,7 +525,6 @@ public interface hallowedhelperConfig extends Config {
         return false;
     }
 
-    @Alpha
     @ConfigItem(
             position = 4,
             keyName = "ShowDebugInfoHH",
@@ -541,7 +538,6 @@ public interface hallowedhelperConfig extends Config {
     }
 
 
-    @Alpha
     @ConfigItem(
             position = 5,
             keyName = "HHShowValues",
@@ -550,6 +546,19 @@ public interface hallowedhelperConfig extends Config {
             section = "otherSection"
     )
     default boolean ShowValues()
+    {
+        return false;
+    }
+
+
+    @ConfigItem(
+            position = 6,
+            keyName = "IgnoreFloor5Implentation",
+            name = "Disable the floor 5 implentation.",
+            description = "Disables the special implentation.",
+            section = "otherSection"
+    )
+    default boolean DisableFloor5Implentation()
     {
         return false;
     }

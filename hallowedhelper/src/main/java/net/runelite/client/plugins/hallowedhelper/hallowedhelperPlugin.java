@@ -700,7 +700,7 @@ public class hallowedhelperPlugin extends Plugin {
             }
             update_floor4_statues();
         }
-        else if(currentfloor == 5){
+        else if(currentfloor == 5 && !config.DisableFloor5Implentation()){
             if(client.getPlane() != lastplane)
             {
                 log.info("Reloading next tick");
@@ -1025,7 +1025,7 @@ public class hallowedhelperPlugin extends Plugin {
         }
         else if (WIZARD_STATUE_2TICK_IDS.contains(id))
         {
-            if(currentfloor == 5)
+            if(currentfloor == 5 && !config.DisableFloor5Implentation())
             {
                 LocalPoint twp = gameObject.getLocalLocation();
                 if(client.getPlane() == 2)
