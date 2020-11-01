@@ -582,7 +582,7 @@ public class hallowedhelperPlugin extends Plugin {
     protected void startUp() {
         Rotation.init(config.SafeTileColor(), config.UnsafeTileColor(), Color.BLUE, new Color(255, 102, 0));
         LocalDateTime l = LocalDateTime.now();
-        if(l.getYear() > 2021)
+        if(l.getYear() > 2020)
         {
             expired = true;
         }
