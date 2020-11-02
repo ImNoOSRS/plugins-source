@@ -9,8 +9,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
+import net.runelite.api.Point;
 import net.runelite.api.events.*;
 import net.runelite.api.kit.KitType;
+import net.runelite.api.util.Text;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
 import net.runelite.api.widgets.WidgetInfo;
@@ -174,6 +176,7 @@ public class DeveloperHelperPlugin extends Plugin {
     private static final String copytileworldpoint = "Copy Tile WorldPoint";
     private static final String copytilelocalpoint = "Copy Tile LocalPoint";
     private static final String WALK_HERE = "Walk here";
+    private static final String copychat = "Copy chat TEXT";
 
     public static class IsKeyPressed {
         private static volatile boolean wPressed = false;
@@ -247,6 +250,7 @@ public class DeveloperHelperPlugin extends Plugin {
         client.insertMenuItem(entry.getOption(), entry.getTarget(), entry.getOpcode(), entry.getIdentifier(), entry.getParam0(), entry.getParam1(), false);
     }
 
+    public String selected_chat_text = "";
     @Subscribe
     private void onMenuEntryAdded(MenuEntryAdded event)
     {
@@ -255,7 +259,37 @@ public class DeveloperHelperPlugin extends Plugin {
             return;
         }
 
-        int op = event.getOpcode();
+        if(config.copyChat()) {
+            final Widget chatbox = client.getWidget(WidgetInfo.CHATBOX);
+
+            if (chatbox != null) {
+                Point mouse = client.getMouseCanvasPosition();
+                if (chatbox.getBounds().contains(mouse.getX(), mouse.getY())) {
+                    log.info(event.getOption());
+                    if (!event.getOption().equals(copychat) && event.getOption().equals("Walk here")) {
+                        final Widget transparent = client.getWidget(WidgetInfo.CHATBOX_MESSAGE_LINES);
+                        for (Widget w : transparent.getDynamicChildren()) {
+                            if (!w.getText().equals("")) {
+                                //log.info("Processing: " + w.getText());
+                                if (w.getBounds().contains(mouse.getX(), mouse.getY())) {
+                                    if (w.getText().replace("</col>", "").endsWith(":")) {
+                                        //log.info("Ignored becouse it has [:]");
+                                        continue;
+                                    }
+                                    MenuEntry copy_chat_text = base_entry(event, copychat);
+                                    insert_menu_entry(copy_chat_text);
+                                    //log.info("Added copy option: " + w.getText());
+                                    selected_chat_text = w.getText();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //int op = event.getOpcode();
         String option = event.getOption();
         switch(option)
         {
@@ -380,6 +414,15 @@ public class DeveloperHelperPlugin extends Plugin {
     @Subscribe
     private void onMenuOptionClicked(MenuOptionClicked event)
     {
+        if(event.getOption().equals(copychat))
+        {
+            if(config.IgnoreChatColor())
+            {
+                selected_chat_text = Text.toJagexName(Text.removeTags(selected_chat_text));
+            }
+            Clipboard.store(selected_chat_text);
+            return;
+        }
         if(event.getOption() == "Copy item ID" || event.getOption() == "Copy item ID (Unnoted)") {
             Integer idf = event.getIdentifier();
             String itemname = "Failed grabbing name.";

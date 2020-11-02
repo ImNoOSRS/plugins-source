@@ -64,9 +64,31 @@ public interface DeveloperHelperConfig extends Config {
     }
 
     @ConfigItem(
+            name = "Copy Chat Text",
+            description = "Copies chat text for you.",
+            position = 4,
+            keyName = "dhCopyChatText"
+    )
+    default boolean copyChat()
+    {
+        return true;
+    }
+
+    @ConfigItem(
+            name = "Ignore chat colordata",
+            description = "Ignores the colordata for you.",
+            position = 5,
+            keyName = "dhCopyChatIgnoreColor"
+    )
+    default boolean IgnoreChatColor()
+    {
+        return false;
+    }
+
+    @ConfigItem(
             name = "Require Shift For Copying",
             description = "Make it so you need shift to copy data.",
-            position = 3,
+            position = 6,
             keyName = "dhShiftRequired"
     )
     default boolean shift()
