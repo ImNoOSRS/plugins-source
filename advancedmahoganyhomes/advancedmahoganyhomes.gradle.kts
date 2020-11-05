@@ -23,10 +23,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.1"
+version = "0.2.0"
 
-project.extra["PluginName"] = "Mahogany Homes"
-project.extra["PluginDescription"] = "Mahogany Homes Assistant."
+project.extra["PluginName"] = "Advanced Mahogany Homes"
+project.extra["PluginDescription"] = "Advanced Mahogany Homes Assistant."
 project.extra["PluginProvider"] = "ImNo"
 
 tasks {

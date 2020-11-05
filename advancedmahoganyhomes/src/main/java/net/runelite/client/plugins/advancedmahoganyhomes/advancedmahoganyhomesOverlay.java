@@ -23,7 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.mahoganyhomes;
+package net.runelite.client.plugins.advancedmahoganyhomes;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -44,8 +44,8 @@ import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.WorldLocation;
 import net.runelite.client.graphics.ModelOutlineRenderer;
-import net.runelite.client.plugins.mahoganyhomes.mahoganyhomesConfig;
-import net.runelite.client.plugins.mahoganyhomes.mahoganyhomesPlugin;
+import net.runelite.client.plugins.advancedmahoganyhomes.advancedmahoganyhomesConfig;
+import net.runelite.client.plugins.advancedmahoganyhomes.advancedmahoganyhomesPlugin;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -57,18 +57,18 @@ import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
-class mahoganyhomesOverlay extends Overlay {
+class advancedmahoganyhomesOverlay extends Overlay {
     @Inject
     private ItemManager itemManager;
     private final ModelOutlineRenderer modelOutlineRenderer;
 
     private final Client client;
-    private final mahoganyhomesConfig config;
-    private final mahoganyhomesPlugin plugin;
+    private final advancedmahoganyhomesConfig config;
+    private final advancedmahoganyhomesPlugin plugin;
     private final TextComponent textComponent = new TextComponent();
 
     @Inject
-    private mahoganyhomesOverlay(final Client client, final mahoganyhomesConfig config, final mahoganyhomesPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
+    private advancedmahoganyhomesOverlay(final Client client, final advancedmahoganyhomesConfig config, final advancedmahoganyhomesPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_SCENE);

@@ -448,6 +448,7 @@ public class DeveloperHelperPlugin extends Plugin {
         {
             String storing = "" + event.getOption() + " > [";
             storing += "Identifier:" + event.getIdentifier();
+            storing += "Target:" + event.getTarget();
             storing += " MenuOpcode:" + event.getOpcode();
             storing += " Param0:" + event.getParam0();
             storing += " Param1:" + event.getParam1();

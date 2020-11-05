@@ -1,5 +1,5 @@
 //Created by PluginCreated by ImNo: https://github.com/ImNoOSRS 
-package net.runelite.client.plugins.mahoganyhomes;
+package net.runelite.client.plugins.advancedmahoganyhomes;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
@@ -38,17 +38,17 @@ import java.util.List;
 
 @Extension
 @PluginDescriptor(
-        name = "<html>Mahogany Homes <font size=\"\" color=\"red\"<b>BETA</font></b></html>",
+        name = "Advanced Mahogany Homes",
         description = "Mahogany Homes Assistant.",
         type = PluginType.SYSTEM
 )
 @Slf4j
-public class mahoganyhomesPlugin extends Plugin {
+public class advancedmahoganyhomesPlugin extends Plugin {
     // Injects our config
     @Inject
     private ConfigManager configManager;
     @Inject
-    private mahoganyhomesConfig config;
+    private advancedmahoganyhomesConfig config;
     @Inject
     private Client client;
     @Inject
@@ -56,9 +56,9 @@ public class mahoganyhomesPlugin extends Plugin {
     @Inject
     private OverlayManager overlayManager;
     @Inject
-    private mahoganyhomesOverlay overlay;
+    private advancedmahoganyhomesOverlay overlay;
     @Inject
-    private mahoganyhomesOverlayPanel overlaypanel;
+    private advancedmahoganyhomesOverlayPanel overlaypanel;
 
     public int var_object1 = 10554;
     public int var_object2 = 10555;
@@ -137,8 +137,8 @@ public class mahoganyhomesPlugin extends Plugin {
     }
 
     @Provides
-    mahoganyhomesConfig provideConfig(ConfigManager configManager) {
-        return configManager.getConfig(mahoganyhomesConfig.class);
+    advancedmahoganyhomesConfig provideConfig(ConfigManager configManager) {
+        return configManager.getConfig(advancedmahoganyhomesConfig.class);
     }
 
     @Subscribe

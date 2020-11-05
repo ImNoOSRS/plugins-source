@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2019 Owain van Brakel <https://github.com/Owain94>
+ * Copyright (c) 2020 ImNoOSRS <https://github.com/ImNoOSRS>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ *	list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *	this list of conditions and the following disclaimer in the documentation
+ *	and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -22,22 +22,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package net.runelite.client.plugins.PlayerLogger;
 
-version = "0.0.5"
+import net.runelite.client.config.*;
 
-project.extra["PluginName"] = "collection log"
-project.extra["PluginDescription"] = "Display level requirements in Achievement Diary interface"
-project.extra["PluginProvider"] = "ImNo & Okarin"
-tasks {
-    jar {
-        manifest {
-            attributes(mapOf(
-                    "Plugin-Version" to project.version,
-                    "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
-                    "Plugin-Provider" to project.extra["PluginProvider"],
-                    "Plugin-Description" to project.extra["PluginDescription"],
-                    "Plugin-License" to project.extra["PluginLicense"]
-            ))
-        }
-    }
+@ConfigGroup("PlayerLogger")
+
+public interface PlayerLoggerConfig extends Config {
+
+	@ConfigItem(
+			name = "Player clickboxes",
+			description = "Show player clickboxes",
+			position = 1,
+			keyName = "PlayerLoggerClickboxes"
+	)
+	default boolean PlayerClickboxes()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+			name = "Player Infobox",
+			description = "Shows infobox with detection information.",
+			position = 2,
+			keyName = "PlayerLoggerInfobox"
+	)
+	default boolean PlayerInfobox()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+			keyName = "ResetDataPlayerLogger",
+			name = "Reset Data",
+			description = "Resets the collected info.",
+			position = 3
+	)
+	default Button ResetData()
+	{
+		return new Button();
+	}
+	
 }

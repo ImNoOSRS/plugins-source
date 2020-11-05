@@ -24,7 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.mahoganyhomes;
+package net.runelite.client.plugins.advancedmahoganyhomes;
 
 import java.awt.*;
 import javax.inject.Inject;
@@ -39,15 +39,15 @@ import net.runelite.client.ui.overlay.components.table.TableComponent;
 
 @Slf4j
 @Singleton
-class mahoganyhomesOverlayPanel extends OverlayPanel {
+class advancedmahoganyhomesOverlayPanel extends OverlayPanel {
 
     private final Client client;
-    private final mahoganyhomesConfig config;
-    private final mahoganyhomesPlugin plugin;
+    private final advancedmahoganyhomesConfig config;
+    private final advancedmahoganyhomesPlugin plugin;
     private final TextComponent textComponent = new TextComponent();
 
     @Inject
-    private mahoganyhomesOverlayPanel(final Client client, final mahoganyhomesConfig config, final mahoganyhomesPlugin plugin) {
+    private advancedmahoganyhomesOverlayPanel(final Client client, final advancedmahoganyhomesConfig config, final advancedmahoganyhomesPlugin plugin) {
         setPosition(OverlayPosition.TOP_LEFT);
         this.client = client;
         this.config = config;

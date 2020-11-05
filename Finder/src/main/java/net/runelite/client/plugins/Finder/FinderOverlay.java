@@ -173,11 +173,11 @@ class FinderOverlay extends Overlay
                     OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, g.getName(), g.getLogicalHeight() + 40), g.getName(), Color.GREEN);
                 }
             }
-            else
+            /*else
             {
                 //OverlayUtil.renderNpcOverlay(graphics, g, Color.CYAN, 1, 100, 80, client);
                 OverlayUtil.renderActorOverlay(graphics, g, config.shownames() ? g.getName() : "", config.color());
-            }
+            }*/
 
             //OverlayUtil.renderA(graphics, g, config.color(), 1, 1, 2, client);
             //OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, g.getName(), g.getLogicalHeight() - 40), g.getName(), Color.GREEN);
@@ -185,8 +185,23 @@ class FinderOverlay extends Overlay
 
         for(Player g : plugin.getPlayers())
         {
-            OverlayUtil.renderActorOverlay(graphics, g, config.shownames() ? g.getName() : "", config.color());
-            //OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, g.getName(), g.getLogicalHeight() - 40), g.getName(), Color.GREEN);
+            Shape clickbox = Perspective.getClickbox(client, g.getModel(), g.getOrientation(), g.getLocalLocation());
+            if(clickbox != null) {
+
+                OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
+                if(config.shownames()) {
+                    Point p = g.getCanvasTextLocation(graphics, g.getName(), g.getModelHeight() + 40);
+                    if (p == null) {
+                        continue;
+                    }
+                    OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, g.getName(), g.getLogicalHeight() + 40), g.getName(), Color.GREEN);
+                }
+            }
+            /*else
+            {
+                //OverlayUtil.renderNpcOverlay(graphics, g, Color.CYAN, 1, 100, 80, client);
+                OverlayUtil.renderActorOverlay(graphics, g, config.shownames() ? g.getName() : "", config.color());
+            }*/
         }
         return null;
     }
