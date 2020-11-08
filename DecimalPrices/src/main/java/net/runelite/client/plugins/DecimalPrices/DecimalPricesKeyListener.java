@@ -1,4 +1,4 @@
-package net.runelite.client.plugins.decimalprices;
+package net.runelite.client.plugins.DecimalPrices;
 
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;

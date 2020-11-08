@@ -1,4 +1,4 @@
-package net.runelite.client.plugins.decimalprices;
+package net.runelite.client.plugins.DecimalPrices;
 
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import javax.inject.Inject;
         tags = {"decimal", "GE", "price"},
         type = PluginType.UTILITY
 )
-public class DecimalPrices extends Plugin {
+public class DecimalPricesPlugin extends Plugin {
     @Inject
     private Client client;
 

@@ -64,7 +64,7 @@ public class PlayerLoggerPlugin extends Plugin {
 	}
 
 	@Getter(AccessLevel.PACKAGE)
-	public Map<Player, PlayerData> players = new HashMap();
+	public Map<String, PlayerData> players = new HashMap();
 
 	@Override
 	protected void startUp() {
@@ -78,7 +78,7 @@ public class PlayerLoggerPlugin extends Plugin {
 
 	public void load()
 	{
-		for(Map.Entry<Player, PlayerData> entry : players.entrySet())
+		for(Map.Entry<String, PlayerData> entry : players.entrySet())
 		{
 			PlayerData pd = entry.getValue();
 			pd.isactive = false;
@@ -91,13 +91,15 @@ public class PlayerLoggerPlugin extends Plugin {
 				{
 					PlayerData pd = players.get(player);
 					pd.isactive = true;
-					players.put(player, pd);
+					pd.player = player;
+					players.put(player.getName(), pd);
 				}
 				else {
 					PlayerData pd = new PlayerData();
 					pd.isactive = true;
 					pd.chats = 0;
-					players.put(player, pd);
+					pd.player = player;
+					players.put(player.getName(), pd);
 				}
 			}
 		}
@@ -130,25 +132,27 @@ public class PlayerLoggerPlugin extends Plugin {
 
 	public void handleplayer(Player player, boolean active)
 	{
-		if(players.containsKey(player))
+		if(players.containsKey(player.getName()))
 		{
 			PlayerData pd = players.get(player);
 			pd.isactive = active;
-			players.put(player, pd);
+			pd.player = player;
+			players.put(player.getName(), pd);
 		}
 		else {
 			PlayerData pd = new PlayerData();
 			pd.isactive = active;
 			pd.chats = 0;
-			players.put(player, pd);
+			pd.player = player;
+			players.put(player.getName(), pd);
 		}
 	}
 
 	public void handlechat(Player player)
 	{
-		PlayerData pd = players.get(player);
+		PlayerData pd = players.get(player.getName());
 		pd.chats++;
-		players.put(player, pd);
+		players.put(player.getName(), pd);
 	}
 
 	@Subscribe
@@ -161,11 +165,11 @@ public class PlayerLoggerPlugin extends Plugin {
 	@Subscribe
 	private void onChatMessage(final ChatMessage message)
 	{
-		for(Map.Entry<Player, PlayerData> entry : players.entrySet())
+		for(Map.Entry<String, PlayerData> entry : players.entrySet())
 		{
-			if(entry.getKey().getName() == message.getName())
+			if(entry.getKey().equals(message.getName()))
 			{
-				handlechat(entry.getKey());
+				handlechat(entry.getValue().player);
 				return;
 			}
 		}

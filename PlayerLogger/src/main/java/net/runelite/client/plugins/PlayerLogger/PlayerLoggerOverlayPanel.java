@@ -83,7 +83,7 @@ class PlayerLoggerOverlayPanel extends OverlayPanel {
 			int current_players_who_chatted = 0;
 			int current_players_who_chatted_total = 0;
 			if (!plugin.players.isEmpty()) {
-				for (Map.Entry<Player, PlayerData> entry : plugin.players.entrySet()) {
+				for (Map.Entry<String, PlayerData> entry : plugin.players.entrySet()) {
 					players++;
 					PlayerData pd = entry.getValue();
 					if (pd.isactive) {

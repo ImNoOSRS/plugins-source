@@ -82,10 +82,10 @@ class PlayerLoggerOverlay extends Overlay {
 	public Dimension render(Graphics2D graphics) {
 		if(config.PlayerClickboxes()) {
 			if (!plugin.players.isEmpty()) {
-				for (Map.Entry<Player, PlayerData> entry : plugin.players.entrySet()) {
+				for (Map.Entry<String, PlayerData> entry : plugin.players.entrySet()) {
 					PlayerData pd = entry.getValue();
 					if (pd.isactive) {
-						RenderPlayer(graphics, entry.getKey());
+						RenderPlayer(graphics, entry.getValue().player);
 					}
 				}
 			}
