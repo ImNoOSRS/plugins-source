@@ -1,6 +1,7 @@
 //Created by PluginCreator by ImNo: https://github.com/ImNoOSRS 
 package net.runelite.client.plugins.PlayerLogger;
 
+import net.runelite.api.util.Text;
 import net.runelite.client.ui.overlay.OverlayManager;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
@@ -115,7 +116,7 @@ public class PlayerLoggerPlugin extends Plugin {
 	@Subscribe
 	private void onGameStateChanged(final GameStateChanged event)
 	{
-		final GameState gameState = event.getGameState();;
+		final GameState gameState = event.getGameState();
 		if(gameState == GameState.LOGGED_IN)
 		{
 			load();
@@ -134,7 +135,7 @@ public class PlayerLoggerPlugin extends Plugin {
 	{
 		if(players.containsKey(player.getName()))
 		{
-			PlayerData pd = players.get(player);
+			PlayerData pd = players.get(player.getName());
 			pd.isactive = active;
 			pd.player = player;
 			players.put(player.getName(), pd);
@@ -150,6 +151,7 @@ public class PlayerLoggerPlugin extends Plugin {
 
 	public void handlechat(Player player)
 	{
+		log.info("Handling chat for: " + player.getName());
 		PlayerData pd = players.get(player.getName());
 		pd.chats++;
 		players.put(player.getName(), pd);
@@ -167,7 +169,7 @@ public class PlayerLoggerPlugin extends Plugin {
 	{
 		for(Map.Entry<String, PlayerData> entry : players.entrySet())
 		{
-			if(entry.getKey().equals(message.getName()))
+			if(entry.getKey().equals(Text.sanitize(message.getName())))
 			{
 				handlechat(entry.getValue().player);
 				return;

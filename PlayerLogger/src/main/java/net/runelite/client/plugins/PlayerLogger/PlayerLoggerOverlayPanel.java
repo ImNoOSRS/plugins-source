@@ -98,7 +98,7 @@ class PlayerLoggerOverlayPanel extends OverlayPanel {
 						}
 					}
 				}
-				tableComponent.addRow("PlayerLogger 0.0.1");
+				tableComponent.addRow("PlayerLogger 0.0.4");
 				tableComponent.addRow("Players found: ", "" + players);
 				tableComponent.addRow("Chatted: ", "" + players_who_chatted);
 				tableComponent.addRow("Chatted total: ", "" + players_who_chatted_total);
