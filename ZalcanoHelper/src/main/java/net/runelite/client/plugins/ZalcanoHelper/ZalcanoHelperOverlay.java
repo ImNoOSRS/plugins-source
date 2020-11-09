@@ -90,7 +90,6 @@ class ZalcanoHelperOverlay extends Overlay {
 		{
 			return;
 		}
-		ZalcanoHelperPlugin.zalcanostate state = plugin.getzalcanostate();
 		for(LocalPoint l : plugin.getFallingrocklocations())
 		{
 			WorldPoint w = WorldPoint.fromLocal(client, l);
@@ -111,6 +110,8 @@ class ZalcanoHelperOverlay extends Overlay {
 			render_object_server_tile(graphics, WorldPoint.fromLocal(client, l), c, 0 , 0);
 			OverlayText(graphics, l, "" + countdown, c, 0, 0);
 		}
+
+		ZalcanoHelperPlugin.zalcanostate state = plugin.getzalcanostate();
 		if(plugin.glowingrock != null)
 		{
 			Shape clickbox = plugin.glowingrock.getClickbox();
@@ -126,7 +127,6 @@ class ZalcanoHelperOverlay extends Overlay {
 				}
 			}
 		}
-
 		if (state != ZalcanoHelperPlugin.zalcanostate.mine) {
 			if (plugin.furnace != null) {
 				if (plugin.has_raw_ore) {
@@ -147,54 +147,106 @@ class ZalcanoHelperOverlay extends Overlay {
 				}
 			}
 
-			if(plugin.has_imbued_ore)
+			if(plugin.has_imbued_ore || config.servertile())
 			{
 				final LocalPoint servertile = LocalPoint.fromWorld(client, client.getLocalPlayer().getWorldLocation());
-
+				final Polygon serverpoly = Perspective.getCanvasTileAreaPoly(client, servertile, 1);
 				if (servertile == null)
 				{
 					return;
 				}
-				for(GameObject g : plugin.getBlue_boost_circles())
-				{
-					Shape clickbox = g.getClickbox();
-					if (clickbox != null) {
-						Color c = Color.BLUE;
+				if(config.showbluecircles()) {
+					if (config.alwaysshowbluetiles() || plugin.has_imbued_ore) {
+						for (GameObject g : plugin.getBlue_boost_circles()) {
+							Shape clickbox = g.getClickbox();
+							if (clickbox != null) {
+								Color c = config.bluecirclecolor();
 						/*if(clickbox.getBounds().contains(servertile.getX(), servertile.getY()))
 						{
 							c = Color.GREEN;
 						}*/
-						Polygon polygon = Perspective.getCanvasTileAreaPoly(client, g.getLocalLocation(), 3);
-						final Polygon polygon2 = Perspective.getCanvasTileAreaPoly(client, servertile, 1);
-						if(polygon.contains(polygon2.getBounds().getCenterX(), polygon2.getBounds().getCenterY()))
-						{
-							c = Color.RED;
-						}
-						OverlayUtil.renderPolygon(graphics, polygon, c);
-						OverlayUtil.renderPolygon(graphics, polygon2, Color.BLUE);
+								Polygon polygon = Perspective.getCanvasTileAreaPoly(client, g.getLocalLocation(), 3);
+								if (polygon.contains(serverpoly.getBounds().getCenterX(), serverpoly.getBounds().getCenterY())) {
+									c = config.activebluecirclecolor();
+								}
+
+								OverlayUtil.renderPolygon(graphics, polygon, c);
+
+								if(config.bluecircleticks()) {
+									int ticks_till_dissapear = Math.abs(plugin.ticks_since_circle - 25);
+									Color dissapear = Color.GREEN;
+									if (ticks_till_dissapear < 10) {
+										dissapear = Color.YELLOW;
+									} else if (ticks_till_dissapear < 4) {
+										dissapear = Color.RED;
+									}
+									Point p = g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20);
+									if (p != null) {
+										OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20), "" + ticks_till_dissapear, dissapear);
+									}
+								}
+								//OverlayUtil.renderPolygon(graphics, polygon2, Color.BLUE);
+
 						/*
 						OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
 						OverlayText(graphics, g.getLocalLocation(), "" + servertile.getX() + "->" + clickbox.getBounds().getX(), c, 0, 0);
 						OverlayText(graphics, g.getLocalLocation(), "" + servertile.getY() + "->" + clickbox.getBounds().getY(), c, 2, 0);*/
+							}
+						}
 					}
 				}
+				drawStrokeAndFill(graphics, config.serverTileOutlineColor(), config.serverTileFillColor(),
+						config.serverTileOutlineWidth(), serverpoly);
 			}
 		}
 
 		if(plugin.zalcano != null)
 		{
+			String text = state.toString();
+
 			if (state == ZalcanoHelperPlugin.zalcanostate.mine || plugin.has_imbued_ore) {
 				Shape clickbox = Perspective.getClickbox(client, plugin.zalcano.getModel(), plugin.zalcano.getOrientation(), plugin.zalcano.getLocalLocation());
 				if (clickbox != null) {
 
 					OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.MAGENTA);
-					Point p = plugin.zalcano.getCanvasTextLocation(graphics, plugin.zalcano.getName(), plugin.zalcano.getModelHeight() + 40);
-					if (p != null) {
-						OverlayUtil.renderTextLocation(graphics, plugin.zalcano.getCanvasTextLocation(graphics, state.toString(), plugin.zalcano.getLogicalHeight() + 40), state.toString(), Color.GREEN);
-					}
 				}
 			}
+			else
+			{
+				text = state.toString();
+				if(plugin.has_imbued_ore)
+				{
+					text = "Attack";
+				}
+			}
+
+			Point p = plugin.zalcano.getCanvasTextLocation(graphics, plugin.zalcano.getName(), plugin.zalcano.getModelHeight() + 40);
+			if (p != null) {
+				OverlayUtil.renderTextLocation(graphics, plugin.zalcano.getCanvasTextLocation(graphics, text, plugin.zalcano.getLogicalHeight() + 40), text, Color.GREEN);
+			}
+
+			if(state == ZalcanoHelperPlugin.zalcanostate.normal)
+			{
+				if(plugin.ticks_since_anim > 10)
+				{
+					plugin.ticks_since_anim = 1;
+				}
+				int count = Math.abs(plugin.ticks_since_anim - 11);
+				Color c = Color.GREEN;
+				if(count == 3)
+				{
+					c = Color.YELLOW;
+				}
+				else if(count < 3)
+				{
+					c = Color.RED;
+				}
+				final Point canvasPoint = plugin.zalcano.getCanvasTextLocation(graphics, "" + count, plugin.zalcano.getLogicalHeight() - 400);
+				OverlayUtil.renderTextLocation(graphics, "" + count, config.TickFontSize(),
+						config.TickFontStyle().getFont(), c, canvasPoint, config.TickFontShadow(), 0);
+			}
 		}
+
 	}
 
 	public void render_object_server_tile(Graphics2D graphics, WorldPoint worldlocation, Color color, int offsetx, int offsety)

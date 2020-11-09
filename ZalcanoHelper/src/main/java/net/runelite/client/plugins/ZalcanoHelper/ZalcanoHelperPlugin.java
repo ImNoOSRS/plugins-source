@@ -132,8 +132,14 @@ public class ZalcanoHelperPlugin extends Plugin {
 		dead,
 		unknown
 	}
+
+	public int ticks_since_anim = 0;
 	public zalcanostate getzalcanostate()
 	{
+		if(zalcano == null)
+		{
+			return zalcanostate.unknown;
+		}
 		int animation = zalcano.getAnimation();
 		if(animation == 8433)
 		{
@@ -170,6 +176,7 @@ public class ZalcanoHelperPlugin extends Plugin {
 	public void clear()
 	{
 		blue_boost_circles.clear();
+		last_anim = -1;
 	}
 
 
@@ -178,6 +185,10 @@ public class ZalcanoHelperPlugin extends Plugin {
 		if(event.getGameState() == GameState.LOGGED_IN)
 		{
 			clear();
+			if(isAtZalcano())
+			{
+				load();
+			}
 		}
 	}
 
@@ -198,6 +209,7 @@ public class ZalcanoHelperPlugin extends Plugin {
 				break;
 			case ObjectID.DEMONIC_SYMBOL_36200:
 				blue_boost_circles.add(gameobject);
+				ticks_since_circle = 0;
 				break;
 			case ObjectID.FURNACE_36195:
 				furnace = gameobject;
@@ -270,22 +282,45 @@ public class ZalcanoHelperPlugin extends Plugin {
 		}
 	}
 
+
+	private int last_anim = 0;
+	public int ticks_since_circle = 0;
 	@Subscribe
 	public void onGameTick(GameTick event) {
-		has_raw_ore = inventoryContains(23905);
-		has_smithed_ore = inventoryContains(23906);
-		has_imbued_ore = inventoryContains(23907);
-		if(fallingrocklocations.size() > 0)
+		if(blue_boost_circles.size() > 0)
 		{
-			tickssincefallingrocks++;
-			if(tickssincefallingrocks == maxticks)
-			{
-				fallingrocklocations.clear();
-			}
+			ticks_since_circle++;
 		}
-		if(rock_danger)
-		{
-			rock_danger_counter--;
+		if(isAtZalcano()) {
+			if(zalcano == null)
+			{
+				for(NPC npc : client.getNpcs())
+				{
+					handleNpc(npc);
+				}
+			}
+			if(zalcano != null) {
+				int animation = zalcano.getAnimation();
+				if (animation != -1) {
+					if (last_anim != animation) {
+						ticks_since_anim = 0;
+					}
+				}
+				last_anim = animation;
+			}
+			ticks_since_anim++;
+			has_raw_ore = inventoryContains(23905);
+			has_smithed_ore = inventoryContains(23906);
+			has_imbued_ore = inventoryContains(23907);
+			if (fallingrocklocations.size() > 0) {
+				tickssincefallingrocks++;
+				if (tickssincefallingrocks == maxticks) {
+					fallingrocklocations.clear();
+				}
+			}
+			if (rock_danger) {
+				rock_danger_counter--;
+			}
 		}
 	}
 
