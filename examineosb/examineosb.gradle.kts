@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.6"
+version = "0.0.7"
 
 project.extra["PluginName"] = "Examine with Osbuddy"
 project.extra["PluginDescription"] = "Send examine information to the API and Osbuddy"

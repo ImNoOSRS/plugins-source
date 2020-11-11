@@ -62,10 +62,7 @@ import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.chat.QueuedMessage;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.plugins.Plugin;
-import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginManager;
-import net.runelite.client.plugins.PluginType;
+import net.runelite.client.plugins.*;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.QuantityFormatter;
 import net.runelite.http.api.examine.ExamineClient;
@@ -127,6 +124,21 @@ public class ExaminePlugin extends Plugin
 	OSBGrandExchangeClient provideOsbGrandExchangeClient(OkHttpClient okHttpClient)
 	{
 		return new OSBGrandExchangeClient(okHttpClient);
+	}
+
+	@Override
+	protected void startUp() {
+		// Stop the GPU plugin before starting up
+		for (Plugin plugin : pluginManager.getPlugins()) {
+			if (plugin.getName().equals("Examine") && pluginManager.isPluginEnabled(plugin)) {
+				try {
+					System.out.println("Stopping Examine plugin");
+					pluginManager.stopPlugin(plugin);
+				} catch (PluginInstantiationException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
 	}
 
 	@Subscribe

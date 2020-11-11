@@ -23,10 +23,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.4"
+version = "0.0.1"
 
-project.extra["PluginName"] = "Zalcano Helper"
-project.extra["PluginDescription"] = "Helps you with Zalcano"
+project.extra["PluginName"] = "Config Search"
+project.extra["PluginDescription"] = "Allows you to search in config sections of plugins."
 project.extra["PluginProvider"] = "ImNo"
 
 tasks {

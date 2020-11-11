@@ -22,23 +22,23 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package net.runelite.client.plugins.ConfigSearch;
 
-version = "0.0.4"
+import net.runelite.client.config.*;
 
-project.extra["PluginName"] = "Zalcano Helper"
-project.extra["PluginDescription"] = "Helps you with Zalcano"
-project.extra["PluginProvider"] = "ImNo"
+@ConfigGroup("ConfigSearch")
 
-tasks {
-	jar {
-		manifest {
-			attributes(mapOf(
-					"Plugin-Version" to project.version,
-					"Plugin-Id" to nameToId(project.extra["PluginName"] as String),
-					"Plugin-Provider" to project.extra["PluginProvider"],
-					"Plugin-Description" to project.extra["PluginDescription"],
-					"Plugin-License" to project.extra["PluginLicense"]
-			))
-		}
+public interface ConfigSearchConfig extends Config {
+
+	@ConfigSection(
+			name = "Example Checkbox",
+			description = "",
+			position = 1,
+			keyName = "examplecheckbox"
+	)
+	default boolean examplecheckbox()
+	{
+		return false;
 	}
+	
 }

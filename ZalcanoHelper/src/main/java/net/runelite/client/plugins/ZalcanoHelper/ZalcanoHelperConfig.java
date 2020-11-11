@@ -237,7 +237,7 @@ public interface ZalcanoHelperConfig extends Config {
 	@ConfigItem(
 			position = 5,
 			keyName = "BlueActiveOverlayColor",
-			name = "Overlay color",
+			name = "Interacting Overlay",
 			description = "Change the overlay fill color of the circle overlay.",
 			titleSection = "circletiles"
 	)

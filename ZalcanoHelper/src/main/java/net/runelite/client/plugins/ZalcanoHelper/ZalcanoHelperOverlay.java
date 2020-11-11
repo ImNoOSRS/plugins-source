@@ -208,7 +208,12 @@ class ZalcanoHelperOverlay extends Overlay {
 				Shape clickbox = Perspective.getClickbox(client, plugin.zalcano.getModel(), plugin.zalcano.getOrientation(), plugin.zalcano.getLocalLocation());
 				if (clickbox != null) {
 
-					OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.MAGENTA);
+					Color zalcano_color = Color.MAGENTA;
+					if(client.getLocalPlayer().getInteracting() != null)
+					{
+						zalcano_color = Color.YELLOW;
+					}
+					OverlayUtil.renderClickBox(graphics, mouse(), clickbox, zalcano_color);
 				}
 			}
 			else
