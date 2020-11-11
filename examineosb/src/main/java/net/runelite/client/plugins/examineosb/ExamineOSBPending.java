@@ -24,48 +24,14 @@
  */
 package net.runelite.client.plugins.examineosb;
 
-import java.util.Objects;
+import java.time.Instant;
+import lombok.Data;
 
-class CacheKey
+@Data
+class ExamineOSBPending
 {
-	private final ExamineType type;
-	private final int id;
-
-	CacheKey(final ExamineType type, final int id)
-	{
-		this.type = type;
-		this.id = id;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		int hash = 3;
-		hash = 23 * hash + Objects.hashCode(this.type);
-		hash = 23 * hash + this.id;
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null)
-		{
-			return false;
-		}
-		if (getClass() != obj.getClass())
-		{
-			return false;
-		}
-		final CacheKey other = (CacheKey) obj;
-		if (this.id != other.id)
-		{
-			return false;
-		}
-		return this.type == other.type;
-	}
+	private ExamineOSBType type;
+	private int id;
+	private int quantity;
+	private Instant created;
 }

@@ -60,7 +60,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class ExaminePluginTest
 {
 	@Inject
-	ExaminePlugin examinePlugin;
+	ExamineOSBPlugin examinePlugin;
 
 	@Mock
 	@Bind

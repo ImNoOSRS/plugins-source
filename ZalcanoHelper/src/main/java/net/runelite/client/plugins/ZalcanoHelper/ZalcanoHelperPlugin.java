@@ -299,6 +299,8 @@ public class ZalcanoHelperPlugin extends Plugin {
 	public int ticks_since_circle = 0;
 	@Subscribe
 	public void onGameTick(GameTick event) {
+		//graphicsspawned_for_normal_stones=60
+		//after 5 attacks=blue??
 		if(blue_boost_circles.size() > 0)
 		{
 			ticks_since_circle++;

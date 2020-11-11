@@ -24,10 +24,48 @@
  */
 package net.runelite.client.plugins.examineosb;
 
-public enum ExamineType
+import java.util.Objects;
+
+class ExamineOSBCacheKey
 {
-	ITEM,
-	ITEM_BANK_EQ,
-	NPC,
-	OBJECT
+	private final ExamineOSBType type;
+	private final int id;
+
+	ExamineOSBCacheKey(final ExamineOSBType type, final int id)
+	{
+		this.type = type;
+		this.id = id;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 3;
+		hash = 23 * hash + Objects.hashCode(this.type);
+		hash = 23 * hash + this.id;
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null)
+		{
+			return false;
+		}
+		if (getClass() != obj.getClass())
+		{
+			return false;
+		}
+		final ExamineOSBCacheKey other = (ExamineOSBCacheKey) obj;
+		if (this.id != other.id)
+		{
+			return false;
+		}
+		return this.type == other.type;
+	}
 }

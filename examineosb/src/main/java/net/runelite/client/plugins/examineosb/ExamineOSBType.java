@@ -24,14 +24,10 @@
  */
 package net.runelite.client.plugins.examineosb;
 
-import java.time.Instant;
-import lombok.Data;
-
-@Data
-class PendingExamine
+public enum ExamineOSBType
 {
-	private ExamineType type;
-	private int id;
-	private int quantity;
-	private Instant created;
+	ITEM,
+	ITEM_BANK_EQ,
+	NPC,
+	OBJECT
 }

@@ -107,6 +107,11 @@ class ZalcanoHelperOverlay extends Overlay {
 			{
 				c = Color.RED;
 			}
+
+			int distance = WorldPoint.fromLocal(client, l).distanceTo2D(client.getLocalPlayer().getWorldLocation());
+			if ((distance) > countdown) {
+				c = Color.GRAY;
+			}
 			render_object_server_tile(graphics, WorldPoint.fromLocal(client, l), c, 0 , 0);
 			OverlayText(graphics, l, "" + countdown, c, 0, 0);
 		}

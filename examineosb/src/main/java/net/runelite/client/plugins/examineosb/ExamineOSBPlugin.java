@@ -84,12 +84,12 @@ import org.pf4j.Extension;
 	type = PluginType.UTILITY
 )
 @Slf4j
-public class ExaminePlugin extends Plugin
+public class ExamineOSBPlugin extends Plugin
 {
 	private static final Pattern X_PATTERN = Pattern.compile("^\\d+ x ");
 
-	private final Deque<PendingExamine> pending = new ArrayDeque<>();
-	private final Cache<CacheKey, Boolean> cache = CacheBuilder.newBuilder()
+	private final Deque<ExamineOSBPending> pending = new ArrayDeque<>();
+	private final Cache<ExamineOSBCacheKey, Boolean> cache = CacheBuilder.newBuilder()
 		.maximumSize(128L)
 		.build();
 
@@ -160,13 +160,13 @@ public class ExaminePlugin extends Plugin
 			return;
 		}
 
-		ExamineType type;
+		ExamineOSBType type;
 		int id, quantity = -1;
 		switch (event.getMenuOpcode())
 		{
 			case EXAMINE_ITEM:
 			{
-				type = ExamineType.ITEM;
+				type = ExamineOSBType.ITEM;
 				id = event.getIdentifier();
 
 				int widgetId = event.getParam1();
@@ -178,12 +178,12 @@ public class ExaminePlugin extends Plugin
 				break;
 			}
 			case EXAMINE_ITEM_GROUND:
-				type = ExamineType.ITEM;
+				type = ExamineOSBType.ITEM;
 				id = event.getIdentifier();
 				break;
 			case CC_OP_LOW_PRIORITY:
 			{
-				type = ExamineType.ITEM_BANK_EQ;
+				type = ExamineOSBType.ITEM_BANK_EQ;
 				int[] qi = findItemFromWidget(event.getParam1(), event.getParam0());
 				if (qi == null)
 				{
@@ -195,18 +195,18 @@ public class ExaminePlugin extends Plugin
 				break;
 			}
 			case EXAMINE_OBJECT:
-				type = ExamineType.OBJECT;
+				type = ExamineOSBType.OBJECT;
 				id = event.getIdentifier();
 				break;
 			case EXAMINE_NPC:
-				type = ExamineType.NPC;
+				type = ExamineOSBType.NPC;
 				id = event.getIdentifier();
 				break;
 			default:
 				return;
 		}
 
-		PendingExamine pendingExamine = new PendingExamine();
+		ExamineOSBPending pendingExamine = new ExamineOSBPending();
 		pendingExamine.setType(type);
 		pendingExamine.setId(id);
 		pendingExamine.setQuantity(quantity);
@@ -221,20 +221,20 @@ public class ExaminePlugin extends Plugin
 		{
 
 		}*/
-		ExamineType type;
+		ExamineOSBType type;
 		switch (event.getType())
 		{
 			case ITEM_EXAMINE:
-				type = ExamineType.ITEM;
+				type = ExamineOSBType.ITEM;
 				break;
 			case OBJECT_EXAMINE:
-				type = ExamineType.OBJECT;
+				type = ExamineOSBType.OBJECT;
 				break;
 			case NPC_EXAMINE:
-				type = ExamineType.NPC;
+				type = ExamineOSBType.NPC;
 				break;
 			case GAMEMESSAGE:
-				type = ExamineType.ITEM_BANK_EQ;
+				type = ExamineOSBType.ITEM_BANK_EQ;
 				break;
 			default:
 				return;
@@ -246,7 +246,7 @@ public class ExaminePlugin extends Plugin
 			return;
 		}
 
-		PendingExamine pendingExamine = pending.pop();
+		ExamineOSBPending pendingExamine = pending.pop();
 
 		if (pendingExamine.getType() != type)
 		{
@@ -259,7 +259,7 @@ public class ExaminePlugin extends Plugin
 
 		// If it is an item, show the price of it
 		final ItemDefinition itemDefinition;
-		if (pendingExamine.getType() == ExamineType.ITEM || pendingExamine.getType() == ExamineType.ITEM_BANK_EQ)
+		if (pendingExamine.getType() == ExamineOSBType.ITEM || pendingExamine.getType() == ExamineOSBType.ITEM_BANK_EQ)
 		{
 			final int itemId = pendingExamine.getId();
 			final int itemQuantity = pendingExamine.getQuantity();
@@ -284,12 +284,12 @@ public class ExaminePlugin extends Plugin
 		}
 
 		// Large quantities of items show eg. 100000 x Coins
-		if (type == ExamineType.ITEM && X_PATTERN.matcher(event.getMessage()).lookingAt())
+		if (type == ExamineOSBType.ITEM && X_PATTERN.matcher(event.getMessage()).lookingAt())
 		{
 			return;
 		}
 
-		CacheKey key = new CacheKey(type, pendingExamine.getId());
+		ExamineOSBCacheKey key = new ExamineOSBCacheKey(type, pendingExamine.getId());
 		Boolean cached = cache.getIfPresent(key);
 		if (cached != null)
 		{
@@ -530,7 +530,7 @@ public class ExaminePlugin extends Plugin
 		}
 	}
 
-	private void submitExamine(PendingExamine examine, String text)
+	private void submitExamine(ExamineOSBPending examine, String text)
 	{
 		int id = examine.getId();
 
