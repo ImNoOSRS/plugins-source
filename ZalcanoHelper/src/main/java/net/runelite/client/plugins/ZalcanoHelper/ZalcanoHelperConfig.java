@@ -256,7 +256,7 @@ public interface ZalcanoHelperConfig extends Config {
 	)
 	default Color activebluecirclecolor()
 	{
-		return Color.RED;
+		return Color.CYAN;
 	}
 
 }
