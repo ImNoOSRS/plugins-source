@@ -79,6 +79,9 @@ public class ZalcanoHelperPlugin extends Plugin {
 	@Getter(AccessLevel.PACKAGE)
 	private final Set<GameObject> blue_boost_circles = new HashSet<>();
 
+	@Getter(AccessLevel.PACKAGE)
+	private final Set<GameObject> red_damage_circles = new HashSet<>();
+
 	public NPC zalcano;
 	public GameObject furnace;
 	public GameObject altar;
@@ -176,6 +179,7 @@ public class ZalcanoHelperPlugin extends Plugin {
 	public void clear()
 	{
 		blue_boost_circles.clear();
+		red_damage_circles.clear();
 		last_anim = -1;
 	}
 
@@ -211,6 +215,10 @@ public class ZalcanoHelperPlugin extends Plugin {
 				blue_boost_circles.add(gameobject);
 				ticks_since_circle = 0;
 				break;
+			case ObjectID.DEMONIC_SYMBOL://red
+				red_damage_circles.add(gameobject);
+				ticks_since_circle = 0;
+				break;
 			case ObjectID.FURNACE_36195:
 				furnace = gameobject;
 				break;
@@ -227,6 +235,10 @@ public class ZalcanoHelperPlugin extends Plugin {
 		if(gameobject.getId() == ObjectID.DEMONIC_SYMBOL_36200)
 		{
 			blue_boost_circles.remove(gameobject);
+		}
+		else if(gameobject.getId() == ObjectID.DEMONIC_SYMBOL)
+		{
+			red_damage_circles.remove(gameobject);
 		}
 	}
 

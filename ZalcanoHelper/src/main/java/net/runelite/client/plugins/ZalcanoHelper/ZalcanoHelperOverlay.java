@@ -80,11 +80,11 @@ class ZalcanoHelperOverlay extends Overlay {
 
 	@Override
 	public Dimension render(Graphics2D graphics) {
-		render_lightning(graphics);
+		render_all(graphics);
 		return null;
 	}
 
-	public void render_lightning(Graphics2D graphics)
+	public void render_all(Graphics2D graphics)
 	{
 		if(!plugin.isAtZalcano())
 		{
@@ -147,7 +147,7 @@ class ZalcanoHelperOverlay extends Overlay {
 				}
 			}
 
-			if(plugin.has_imbued_ore || config.servertile())
+			if(plugin.has_imbued_ore || config.servertile() || config.showbluecircles() || config.showredcircles())
 			{
 				final LocalPoint servertile = LocalPoint.fromWorld(client, client.getLocalPlayer().getWorldLocation());
 				final Polygon serverpoly = Perspective.getCanvasTileAreaPoly(client, servertile, 1);
@@ -155,48 +155,21 @@ class ZalcanoHelperOverlay extends Overlay {
 				{
 					return;
 				}
-				if(config.showbluecircles()) {
-					if (config.alwaysshowbluetiles() || plugin.has_imbued_ore) {
-						for (GameObject g : plugin.getBlue_boost_circles()) {
-							Shape clickbox = g.getClickbox();
-							if (clickbox != null) {
-								Color c = config.bluecirclecolor();
-						/*if(clickbox.getBounds().contains(servertile.getX(), servertile.getY()))
-						{
-							c = Color.GREEN;
-						}*/
-								Polygon polygon = Perspective.getCanvasTileAreaPoly(client, g.getLocalLocation(), 3);
-								if (polygon.contains(serverpoly.getBounds().getCenterX(), serverpoly.getBounds().getCenterY())) {
-									c = config.activebluecirclecolor();
-								}
 
-								OverlayUtil.renderPolygon(graphics, polygon, c);
-
-								if(config.bluecircleticks()) {
-									int ticks_till_dissapear = Math.abs(plugin.ticks_since_circle - 25);
-									Color dissapear = Color.GREEN;
-									if (ticks_till_dissapear < 10) {
-										dissapear = Color.YELLOW;
-									} else if (ticks_till_dissapear < 4) {
-										dissapear = Color.RED;
-									}
-									Point p = g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20);
-									if (p != null) {
-										OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20), "" + ticks_till_dissapear, dissapear);
-									}
-								}
-								//OverlayUtil.renderPolygon(graphics, polygon2, Color.BLUE);
-
-						/*
-						OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
-						OverlayText(graphics, g.getLocalLocation(), "" + servertile.getX() + "->" + clickbox.getBounds().getX(), c, 0, 0);
-						OverlayText(graphics, g.getLocalLocation(), "" + servertile.getY() + "->" + clickbox.getBounds().getY(), c, 2, 0);*/
-							}
-						}
+				if (config.alwaysshowcircles() || plugin.has_imbued_ore) {
+					if(config.showbluecircles()) {
+						render_circles(graphics, plugin.getBlue_boost_circles(), serverpoly, false);
 					}
 				}
-				drawStrokeAndFill(graphics, config.serverTileOutlineColor(), config.serverTileFillColor(),
-						config.serverTileOutlineWidth(), serverpoly);
+
+				if(config.showredcircles()) {
+					render_circles(graphics, plugin.getRed_damage_circles(), serverpoly, true);
+				}
+
+				if(config.servertile()) {
+					drawStrokeAndFill(graphics, config.serverTileOutlineColor(), config.serverTileFillColor(),
+							config.serverTileOutlineWidth(), serverpoly);
+				}
 			}
 		}
 
@@ -252,6 +225,66 @@ class ZalcanoHelperOverlay extends Overlay {
 			}
 		}
 
+	}
+
+	public void render_circles(Graphics2D graphics, Set<GameObject> set, Polygon serverpoly, boolean red)
+	{
+		for (GameObject g : set) {
+			Shape clickbox = g.getClickbox();
+			if (clickbox != null) {
+				Color c = config.bluecirclecolor();
+				Polygon polygon = Perspective.getCanvasTileAreaPoly(client, g.getLocalLocation(), 3);
+				if (polygon.contains(serverpoly.getBounds().getCenterX(), serverpoly.getBounds().getCenterY())) {
+					c = config.activebluecirclecolor();
+				}
+
+				int ticks_till_dissapear = Math.abs(plugin.ticks_since_circle - 25);
+				if(red)
+				{
+					if(plugin.ticks_since_circle > -1 && plugin.ticks_since_circle < 3)
+					{
+						c = Color.ORANGE;
+					}
+					else
+					{
+						int distance = WorldPoint.fromLocal(client, g.getLocalLocation()).distanceTo2D(client.getLocalPlayer().getWorldLocation());
+						if ((distance - 1) > ticks_till_dissapear) {
+							c = Color.GRAY;
+						}
+						else if(ticks_till_dissapear == 2)
+						{
+							c = Color.YELLOW;
+						}
+						else {
+							c = Color.RED;
+						}
+					}
+
+					if (config.circleticks()) {
+						Point p = g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20);
+						if (p != null) {
+							OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20), "" + ticks_till_dissapear, Color.WHITE);
+						}
+					}
+				}
+				OverlayUtil.renderPolygon(graphics, polygon, c);
+
+				if(!red) {
+					if (config.circleticks()) {
+						Color dissapear = Color.GREEN;
+						if (ticks_till_dissapear < 10) {
+							dissapear = Color.YELLOW;
+						} else if (ticks_till_dissapear < 4) {
+							dissapear = Color.RED;
+						}
+						Point p = g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20);
+						if (p != null) {
+							OverlayUtil.renderTextLocation(graphics, g.getCanvasTextLocation(graphics, "" + ticks_till_dissapear, -20), "" + ticks_till_dissapear, dissapear);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void render_object_server_tile(Graphics2D graphics, WorldPoint worldlocation, Color color, int offsetx, int offsety)

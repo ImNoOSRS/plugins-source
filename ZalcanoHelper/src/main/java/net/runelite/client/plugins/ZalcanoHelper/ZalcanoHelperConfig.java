@@ -196,14 +196,27 @@ public interface ZalcanoHelperConfig extends Config {
 		return true;
 	}
 
+
 	@ConfigItem(
-			keyName = "ZalcanoForceBlueTiles",
-			position = 2,
-			name = "Show when not needed",
+			keyName = "ZalcanoRedTiles",
+			position = 1,
+			name = "Show Red Circles",
 			description = "",
 			titleSection = "circletiles"
 	)
-	default boolean alwaysshowbluetiles()
+	default boolean showredcircles()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+			keyName = "ZalcanoForceBlueTiles",
+			position = 2,
+			name = "Always show (blue)",
+			description = "",
+			titleSection = "circletiles"
+	)
+	default boolean alwaysshowcircles()
 	{
 		return false;
 	}
@@ -215,7 +228,7 @@ public interface ZalcanoHelperConfig extends Config {
 			description = "Shows the ticks till blue tiles despawn.",
 			titleSection = "circletiles"
 	)
-	default boolean bluecircleticks()
+	default boolean circleticks()
 	{
 		return true;
 	}
