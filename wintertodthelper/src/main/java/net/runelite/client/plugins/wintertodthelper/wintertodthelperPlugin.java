@@ -45,7 +45,7 @@ import java.util.*;
 @PluginDescriptor(
         name = "Wintertoder Helper",
         description = "Helps with wintertodt, duh",
-        type = PluginType.SYSTEM
+        type = PluginType.SKILLING
 )
 @Slf4j
 public class wintertodthelperPlugin extends Plugin

@@ -42,7 +42,7 @@ import java.util.List;
 @PluginDescriptor(
 		name = "Zalcano Helper",
 		description = "Helps you with Zalcano",
-		type = PluginType.SYSTEM
+		type = PluginType.PVM
 )
 @Slf4j
 public class ZalcanoHelperPlugin extends Plugin {
