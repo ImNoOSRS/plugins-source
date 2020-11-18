@@ -39,6 +39,7 @@ import javax.swing.*;
 import joptsimple.util.KeyValuePair;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
+import net.runelite.api.queries.WallObjectQuery;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.Notifier;
@@ -138,7 +139,7 @@ class DeveloperHelperPanel extends PluginPanel
             {
                 all += string + "\n";
             }
-            Clipboard.store(all);
+            Clipboard.store(all.trim());
         });
 
         JButton CopyIntStack = new JButton("Copy Intstack");
@@ -151,7 +152,7 @@ class DeveloperHelperPanel extends PluginPanel
             {
                 all += current + "\n";
             }
-            Clipboard.store(all);
+            Clipboard.store(all.trim());
         });
 
         JButton CopyVarbitps = new JButton("Copy All Varbitps");
@@ -164,7 +165,7 @@ class DeveloperHelperPanel extends PluginPanel
             {
                 all += current + "\n";
             }
-            Clipboard.store(all);
+            Clipboard.store(all.trim());
         });
 
         JButton CopygetVarcMap = new JButton("Copy All getVarcMap");
@@ -176,8 +177,33 @@ class DeveloperHelperPanel extends PluginPanel
             for (Map.Entry<Integer, Object> entry : strings.entrySet()) {
                 all += entry.getKey() + ":" + entry.getValue().toString() + "\n";
             }
-            Clipboard.store(all);
+            Clipboard.store(all.trim());
         });
+
+        JButton CopyWallObjects = new JButton("Copy All WallObjects");
+        container.add(CopyWallObjects);
+        CopyWallObjects.addActionListener(ev -> clientThread.invokeLater(() ->
+        {
+            String all = "";
+            final LocatableQueryResults<WallObject> wallQueryResults = new WallObjectQuery().result(client);
+
+            for (final WallObject wallObject : wallQueryResults) {
+                //for(Field i : ObjectID.class.getFields())
+                ObjectDefinition od = client.getObjectDefinition(wallObject.getId());
+                if (od == null) {
+                    continue;
+                }
+                if (od.getImpostorIds() != null) {
+                    if(od.getImpostor() != null)//Hotfix
+                    {
+                        od = od.getImpostor();
+                    }
+                }
+                all += "Wallobject { id:" + od.getId() + ", name: " + od.getName() + "}\n";
+            }
+            Clipboard.store(all.trim());
+
+        }));
 
         container.add(new JLabel("Handle MenuClicked"));
         container.add(LogMenuActions);

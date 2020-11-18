@@ -259,7 +259,7 @@ public class FinderPlugin extends Plugin implements KeyListener {
                 to_find = "";
             }
             FindObjects();
-            if (gameobjects.size() > 0 | npcs.size() > 0 | groundobjects.size() > 0 | players.size() > 0) {
+            if (gameobjects.size() > 0 | npcs.size() > 0 | groundobjects.size() > 0 | wallobjects.size() > 0 | players.size() > 0) {
                 if (!overlayManager.anyMatch(o -> o instanceof FinderOverlay)) {
                     overlayManager.add(overlay);
                 }
@@ -375,7 +375,9 @@ public class FinderPlugin extends Plugin implements KeyListener {
                         }
                     }
                     if (od.getName().toLowerCase().contains(find)) {
-                        wallobjects.put(wallObject, od.getName());
+                        if(!wallobjects.containsKey(wallObject)) {
+                            wallobjects.put(wallObject, od.getName());
+                        }
                     }
                 }
             }
@@ -428,6 +430,17 @@ public class FinderPlugin extends Plugin implements KeyListener {
             if(entry.getKey() == event.getGroundObject())
             {
                 groundobjects.remove(entry);
+            }
+        }
+    }
+
+    @Subscribe
+    private void onWallObjectDespawned(WallObjectDespawned event)
+    {
+        for (Map.Entry<GroundObject, String> entry : groundobjects.entrySet()) {
+            if(entry.getKey() == event.getWallObject())
+            {
+                wallobjects.remove(entry);
             }
         }
     }
