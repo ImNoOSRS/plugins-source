@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2019 Owain van Brakel <https://github.com/Owain94>
+ * Copyright (c) 2018, TheLonelyDev <https://github.com/TheLonelyDev>
+ * Copyright (c) 2018, Adam <Adam@sigterm.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,25 +23,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package net.runelite.client.plugins.GroundMarkersWithLabels;
 
-version = "0.0.6"
+import java.awt.event.KeyEvent;
+import javax.inject.Inject;
+import net.runelite.client.input.KeyListener;
 
-project.extra["PluginName"] = "Finder"
-project.extra["PluginDescription"] = "Find players, objects or npc's"
-project.extra["PluginProvider"] = "ImNo"
-project.extra["Support"] = "https://www.youtube.com/watch?v=hPS6bl9QOHw"
+public class GroundMarkerInputListener implements KeyListener
+{
+	private static final int HOTKEY = KeyEvent.VK_SHIFT;
 
-tasks {
-    jar {
-        manifest {
-            attributes(mapOf(
-                    "Plugin-Version" to project.version,
-                    "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
-                    "Plugin-Provider" to project.extra["PluginProvider"],
-                    "Plugin-Description" to project.extra["PluginDescription"],
-                    "Plugin-License" to project.extra["PluginLicense"],
-                    "Support" to project.extra["Support"]
-            ))
-        }
-    }
+	private final GroundMarkerWithLabelsPlugin plugin;
+
+	@Inject
+	private GroundMarkerInputListener(GroundMarkerWithLabelsPlugin plugin)
+	{
+		this.plugin = plugin;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		if (e.getKeyCode() == HOTKEY)
+		{
+			plugin.setHotKeyPressed(true);
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		if (e.getKeyCode() == HOTKEY)
+		{
+			plugin.setHotKeyPressed(false);
+		}
+	}
 }

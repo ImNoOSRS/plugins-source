@@ -531,6 +531,40 @@ public class DeveloperHelperPlugin extends Plugin {
         }
     }
 
+    public void LogWidgets(Widget w)
+    {
+        String widget = "Widget loaded: " + w.getId() + "[" + w.getIndex() + "]" + " > " + w.getText();
+        log(widget);
+        /*for(Widget child : w.getChildren())
+        {
+            widget = "Child: " + child.getId() + "[" + child.getIndex() + "]" + " > " + w.getText();
+            log(widget);
+        }*/
+    }
+
+    public void log(String text)
+    {
+        switch((String)panel.ActionHandleType.getSelectedItem()) {
+            case "Log in chat":
+                gamelog(text);
+                break;
+            default:
+                log.info(text);
+                break;
+        }
+    }
+
+    @Subscribe
+    private void onWidgetLoaded(WidgetLoaded event)
+    {
+        if(panel.LogOnWidgetLoaded.isSelected())
+        {
+            //LogWidgets(w);
+            String widget = "Widget loaded: " + event.getGroupId();
+            log(widget);
+        }
+    }
+
     @Nullable
     private ObjectDefinition getObjectDefinition(int id)
     {

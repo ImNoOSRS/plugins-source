@@ -532,6 +532,10 @@ public class FinderPlugin extends Plugin implements KeyListener {
     {
         if (config.hotkey().matches(e))
         {
+            /*if(config.hotkey() == new Keybind(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK))
+            {
+                String ctrlf = configManager.getConfiguration("bank", "ctrlfSearch");
+            }*/
             ask_box();
         }
     }

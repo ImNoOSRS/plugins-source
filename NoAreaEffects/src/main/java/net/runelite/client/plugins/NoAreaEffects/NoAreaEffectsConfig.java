@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2019 Owain van Brakel <https://github.com/Owain94>
+ * Copyright (c) 2020 ImNoOSRS <https://github.com/ImNoOSRS>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ *	list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *	this list of conditions and the following disclaimer in the documentation
+ *	and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -22,25 +22,23 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package net.runelite.client.plugins.NoAreaEffects;
 
-version = "0.0.6"
+import net.runelite.client.config.*;
 
-project.extra["PluginName"] = "Finder"
-project.extra["PluginDescription"] = "Find players, objects or npc's"
-project.extra["PluginProvider"] = "ImNo"
-project.extra["Support"] = "https://www.youtube.com/watch?v=hPS6bl9QOHw"
+@ConfigGroup("NoAreaEffects")
 
-tasks {
-    jar {
-        manifest {
-            attributes(mapOf(
-                    "Plugin-Version" to project.version,
-                    "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
-                    "Plugin-Provider" to project.extra["PluginProvider"],
-                    "Plugin-Description" to project.extra["PluginDescription"],
-                    "Plugin-License" to project.extra["PluginLicense"],
-                    "Support" to project.extra["Support"]
-            ))
-        }
-    }
+public interface NoAreaEffectsConfig extends Config {
+
+	@ConfigItem(
+			name = "Tears of guthix",
+			description = "",
+			position = 1,
+			keyName = "TearsOfGuthixBright"
+	)
+	default boolean TearsOfGuthix()
+	{
+		return true;
+	}
+	
 }

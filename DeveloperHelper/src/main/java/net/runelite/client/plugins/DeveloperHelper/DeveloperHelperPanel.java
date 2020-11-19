@@ -110,6 +110,7 @@ class DeveloperHelperPanel extends PluginPanel
 
     public JCheckBox LogMenuActions = new JCheckBox();
     public JCheckBox LogChatbox = new JCheckBox();
+    public JCheckBox LogOnWidgetLoaded = new JCheckBox();
     String[] HandleTypes = { "Log in console", "Log in chat", "Copy" };
     public JComboBox ActionHandleType = new JComboBox(HandleTypes);
 
@@ -212,7 +213,10 @@ class DeveloperHelperPanel extends PluginPanel
         container.add(new JLabel("Log Chatbox"));
         container.add(LogChatbox);
 
-        JButton loadplugin = new JButton("Hotswap a plugin");
+        container.add(new JLabel("Log OnWidgetCreated"));
+        container.add(LogOnWidgetLoaded);
+
+        /*JButton loadplugin = new JButton("Hotswap a plugin");
         container.add(loadplugin);
         loadplugin.addActionListener((ev) ->
         {
@@ -242,7 +246,7 @@ class DeveloperHelperPanel extends PluginPanel
             });
             options.revalidate();
             options.repaint();
-        });
+        });*/
 
         //JComboBox PluginList = new JComboBox(ar.toArray());
         //container.add(PluginList);
