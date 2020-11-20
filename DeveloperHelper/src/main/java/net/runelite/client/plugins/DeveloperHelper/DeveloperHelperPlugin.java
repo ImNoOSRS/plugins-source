@@ -254,6 +254,17 @@ public class DeveloperHelperPlugin extends Plugin {
     @Subscribe
     private void onMenuEntryAdded(MenuEntryAdded event)
     {
+        if(panel.LogMenuEntryAdded.isSelected())
+        {
+            String storing = "MenuEntryAdded: " + event.getOption() + " > [";
+            storing += "Identifier:" + event.getIdentifier();
+            storing += " Target:" + event.getTarget();
+            storing += " MenuOpcode:" + event.getOpcode();
+            storing += " Param0:" + event.getParam0();
+            storing += " Param1:" + event.getParam1();
+            storing += "]";
+            log(storing);
+        }
         if(config.shift() && !client.isKeyPressed(KeyCode.KC_SHIFT))
         {
             return;
@@ -448,7 +459,7 @@ public class DeveloperHelperPlugin extends Plugin {
         {
             String storing = "" + event.getOption() + " > [";
             storing += "Identifier:" + event.getIdentifier();
-            storing += "Target:" + event.getTarget();
+            storing += " Target:" + event.getTarget();
             storing += " MenuOpcode:" + event.getOpcode();
             storing += " Param0:" + event.getParam0();
             storing += " Param1:" + event.getParam1();
