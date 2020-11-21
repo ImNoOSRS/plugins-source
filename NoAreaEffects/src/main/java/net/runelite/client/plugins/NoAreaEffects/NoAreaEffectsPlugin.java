@@ -66,9 +66,15 @@ public class NoAreaEffectsPlugin extends Plugin {
 			switch(event.getKey())
 			{
 				case "TearsOfGuthixBright":
-					if(client.getLocalPlayer().getWorldLocation().getRegionID() == 12948)
+					if(client.getLocalPlayer().getWorldLocation().getRegionID() == TearsOfGuthix_region)
 					{
 						hidewidget(client.getWidget(TearsOfGuthix_group, 0), config.TearsOfGuthix());
+					}
+					break;
+				case "RaidsLobbyBright":
+					if(client.getLocalPlayer().getWorldLocation().getRegionID() == Raids_Lobby_region)
+					{
+						hidewidget(Raids_Widget(), config.RaidsLobby());
 					}
 					break;
 				default:
@@ -82,14 +88,7 @@ public class NoAreaEffectsPlugin extends Plugin {
 		if (client.getGameState() != GameState.LOGGED_IN) {
 			return;
 		}
-		log.info("RE:" + client.getLocalPlayer().getWorldLocation().getRegionID());
-		if(client.getLocalPlayer().getWorldLocation().getRegionID() == 12948)
-		{
-			if(config.TearsOfGuthix())
-			{
-				hidewidget(client.getWidget(TearsOfGuthix_group, 0), true);
-			}
-		}
+		swap_states(true);
 	}
 
 	@Override
@@ -97,26 +96,60 @@ public class NoAreaEffectsPlugin extends Plugin {
 		if (client.getGameState() != GameState.LOGGED_IN) {
 			return;
 		}
-		if(client.getLocalPlayer().getWorldLocation().getRegionID() == 12948)
+		swap_states(false);
+	}
+
+	public void swap_states(boolean state)
+	{
+		if(client.getLocalPlayer().getWorldLocation().getRegionID() == TearsOfGuthix_region)
 		{
 			if(config.TearsOfGuthix())
 			{
-				hidewidget(client.getWidget(TearsOfGuthix_group, 0), false);
+				hidewidget(client.getWidget(TearsOfGuthix_group, 0), state);
+			}
+		}
+		else if(client.getLocalPlayer().getWorldLocation().getRegionID() == Raids_Lobby_region)
+		{
+			if(config.RaidsLobby()) {
+				hidewidget(Raids_Widget(), state);
 			}
 		}
 	}
 
-	int TearsOfGuthix_group = 98;
+	public final int TearsOfGuthix_region = 12948;
+	public final int TearsOfGuthix_group = 98;
+	public final int Raids_Lobby_region = 14642;
+	public final int Raids_Lobby_group = 28;
+	public final int Raids_Lobby_child = 1;
+	public final int Raids_Lobby_second_child = 1;
+
+	public Widget Raids_Widget()
+	{
+		Widget w = client.getWidget(Raids_Lobby_group, Raids_Lobby_child);
+		Widget[] widgets = w.getChildren();
+		if(widgets != null)
+		{
+			return widgets[Raids_Lobby_second_child];
+		}
+		return null;
+	}
 	@Subscribe
 	private void onWidgetLoaded(WidgetLoaded event)
 	{
 		int group = event.getGroupId();
 		switch(group)
 		{
-			case 98:
+			case TearsOfGuthix_group:
 				if(config.TearsOfGuthix()) {
-					if(client.getLocalPlayer().getWorldLocation().getRegionID() == 12948) {
+					if(client.getLocalPlayer().getWorldLocation().getRegionID() == TearsOfGuthix_region) {
 						hidewidget(client.getWidget(TearsOfGuthix_group, 0), true);
+					}
+				}
+				break;
+			case Raids_Lobby_group:
+				if(config.RaidsLobby()) {
+					if(client.getLocalPlayer().getWorldLocation().getRegionID() == Raids_Lobby_region) {
+						hidewidget(Raids_Widget(), true);
 					}
 				}
 				break;

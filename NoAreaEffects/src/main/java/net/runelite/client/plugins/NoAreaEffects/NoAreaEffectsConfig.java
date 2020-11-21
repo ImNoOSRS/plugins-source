@@ -40,5 +40,16 @@ public interface NoAreaEffectsConfig extends Config {
 	{
 		return true;
 	}
+
+	@ConfigItem(
+			name = "Raids Lobby",
+			description = "",
+			position = 2,
+			keyName = "RaidsLobbyBright"
+	)
+	default boolean RaidsLobby()
+	{
+		return true;
+	}
 	
 }
