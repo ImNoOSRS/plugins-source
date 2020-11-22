@@ -83,6 +83,16 @@ public class NoAreaEffectsPlugin extends Plugin {
 		}
 	}
 
+	@Subscribe
+	private void onGameStateChanged(final GameStateChanged event) {
+		final GameState gameState = event.getGameState();
+		;
+		switch (gameState) {
+			case LOGGED_IN:
+				swap_states(true);
+				break;
+		}
+	}
 	@Override
 	protected void startUp() {
 		if (client.getGameState() != GameState.LOGGED_IN) {
