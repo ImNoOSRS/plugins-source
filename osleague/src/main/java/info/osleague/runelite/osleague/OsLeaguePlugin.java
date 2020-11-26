@@ -44,8 +44,6 @@ import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 )
 public class OsLeaguePlugin extends Plugin
 {
-	public static final int MAX_TASK_COUNT = 961;
-
 	private static final Pattern POINTS_PATTERN = Pattern.compile("Reward: <col=ffffff>(\\d*) points<\\/col>");
 
 	@Inject
@@ -102,11 +100,11 @@ public class OsLeaguePlugin extends Plugin
 		final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "osleague.png");
 
 		titleBarButton = NavigationButton.builder()
-			.tab(false)
-			.tooltip("Copy Tasks to Clipboard")
-			.icon(icon)
-			.onClick(this::copyJsonToClipboard)
-			.build();
+				.tab(false)
+				.tooltip("Copy Tasks to Clipboard")
+				.icon(icon)
+				.onClick(this::copyJsonToClipboard)
+				.build();
 
 		clientToolbar.addNavigation(titleBarButton);
 	}
@@ -148,7 +146,7 @@ public class OsLeaguePlugin extends Plugin
 
 	private void sendTasksUpdatedMessage()
 	{
-		String chatMessage = this.tasks.size() + "/" + MAX_TASK_COUNT +	" tasks saved for export to OS League Tools";
+		String chatMessage = "All tasks saved for export to OS League Tools";
 		sendChatMessage(chatMessage, Color.BLUE);
 	}
 
@@ -177,8 +175,8 @@ public class OsLeaguePlugin extends Plugin
 		if (this.tasks == null || this.areas == null || this.relics == null)
 		{
 			showMessageBox(
-				"Cannot Export Data",
-				"You must open the tasks UI, areas UI, and relics UI before exporting.");
+					"Cannot Export Data",
+					"You must open the tasks UI, areas UI, and relics UI before exporting.");
 			return;
 		}
 
@@ -194,8 +192,8 @@ public class OsLeaguePlugin extends Plugin
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
 
 		showMessageBox(
-			"OS League Tools Data Exported!",
-			"Exported data copied to clipboard! Go to osleague.tools, click Manage Data > Import from Runelite, and paste into the box."
+				"OS League Tools Data Exported!",
+				"Exported data copied to clipboard! Go to osleague.tools, click Manage Data > Import from Runelite, and paste into the box."
 		);
 	}
 
@@ -280,7 +278,7 @@ public class OsLeaguePlugin extends Plugin
 		{
 			return null;
 		}
-		if (taskLabels.length != MAX_TASK_COUNT)
+		if (!getAllFiltersSetToAll())
 		{
 			sendChatMessage("Could not gather tasks for OS League Tools export. All filters must be set to 'All'.", Color.RED);
 			return null;
@@ -291,10 +289,10 @@ public class OsLeaguePlugin extends Plugin
 		{
 			String name = taskLabels[i].getText();
 			Task task = new Task(
-				i, name,
-				getTaskPoints(taskPoints[i]),
-				isTaskCompleted(taskLabels[i]),
-				taskDifficulties[i].getSpriteId());
+					i, name,
+					getTaskPoints(taskPoints[i]),
+					isTaskCompleted(taskLabels[i]),
+					taskDifficulties[i].getSpriteId());
 
 			tasks.add(task);
 		}
@@ -320,10 +318,10 @@ public class OsLeaguePlugin extends Plugin
 	private static void showMessageBox(final String title, final String message)
 	{
 		SwingUtilities.invokeLater(() ->
-			JOptionPane.showMessageDialog(
-				null,
-				message, title,
-				INFORMATION_MESSAGE));
+				JOptionPane.showMessageDialog(
+						null,
+						message, title,
+						INFORMATION_MESSAGE));
 	}
 
 	private void sendChatMessage(String chatMessage, Color color)
@@ -339,3 +337,4 @@ public class OsLeaguePlugin extends Plugin
 						.build());
 	}
 }
+

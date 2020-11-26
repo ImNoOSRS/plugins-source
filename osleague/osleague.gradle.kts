@@ -23,10 +23,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.2"
+version = "0.1.1"
 
 project.extra["PluginName"] = "osleague"
-project.extra["PluginDescription"] = "osleague"
+project.extra["PluginDescription"] = "Exports osleague data for www.osleague.tools"
 project.extra["PluginProvider"] = "ImNo"
 
 tasks {

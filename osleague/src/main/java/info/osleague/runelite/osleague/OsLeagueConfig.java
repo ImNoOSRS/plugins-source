@@ -33,8 +33,8 @@ public interface OsLeagueConfig extends Config {
 	@ConfigItem(
 			keyName = "copyData",
 			name = "Copy Data",
-			description = "Copies data.",
-			position = 5
+			description = "Export osleague data.",
+			position = 1
 	)
 	default Button copyData()
 	{
