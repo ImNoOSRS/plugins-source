@@ -576,6 +576,42 @@ public class DeveloperHelperPlugin extends Plugin {
         }
     }
 
+    @Subscribe
+    private void onGameObjectSpawned(GameObjectSpawned event)
+    {
+        if(panel.LogGameObjectSpawned.isSelected())
+        {
+            LogGameObject("GameObjectSpawned", event.getGameObject());
+        }
+    }
+
+    @Subscribe
+    private void onGameObjectDepawned(GameObjectDespawned event)
+    {
+        if(panel.LogGameObjectDespawned.isSelected())
+        {
+            LogGameObject("GameObjectDespawned", event.getGameObject());
+        }
+    }
+
+    @Subscribe
+    private void onGameObjectChanged(GameObjectChanged event)
+    {
+        if(panel.LogGameObjectChanged.isSelected())
+        {
+            LogGameObject("GameObjectChanged", event.getGameObject());
+        }
+    }
+
+    public void LogGameObject(String text, GameObject g)
+    {
+        ObjectDefinition def = client.getObjectDefinition(g.getId());
+        if (def.getImpostorIds() != null) {
+            def = def.getImpostor();
+        }
+        log(text + ": {" + g.getId() + "(" + def.getName() + ")");
+    }
+
     @Nullable
     private ObjectDefinition getObjectDefinition(int id)
     {

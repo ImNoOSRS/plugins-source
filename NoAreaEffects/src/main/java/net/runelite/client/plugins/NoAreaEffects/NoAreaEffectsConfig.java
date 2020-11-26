@@ -51,5 +51,16 @@ public interface NoAreaEffectsConfig extends Config {
 	{
 		return true;
 	}
+
+	@ConfigItem(
+			name = "Daeyalt Essence Mine",
+			description = "",
+			position = 2,
+			keyName = "DaeyaltMineBright"
+	)
+	default boolean DaeyaltMine()
+	{
+		return true;
+	}
 	
 }

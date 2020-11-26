@@ -66,30 +66,36 @@ public class NoAreaEffectsPlugin extends Plugin {
 			switch(event.getKey())
 			{
 				case "TearsOfGuthixBright":
-					if(client.getLocalPlayer().getWorldLocation().getRegionID() == TearsOfGuthix_region)
+					if(currentregion() == TearsOfGuthix_region)
 					{
-						hidewidget(client.getWidget(TearsOfGuthix_group, 0), config.TearsOfGuthix());
+						hidewidget(TearsOfGuthix_group, config.TearsOfGuthix());
 					}
 					break;
 				case "RaidsLobbyBright":
-					if(client.getLocalPlayer().getWorldLocation().getRegionID() == Raids_Lobby_region)
+					if(currentregion() == Raids_Lobby_region)
 					{
 						hidewidget(Raids_Widget(), config.RaidsLobby());
 					}
 					break;
-				default:
+				case "DaeyaltMineBright":
+					if(currentregion() == TearsOfGuthix_region)
+					{
+						hidewidget(Daeyalt_Mine_group, config.DaeyaltMine());
+					}
 					break;
 			}
 		}
 	}
 
+	public boolean needs_swap = false;
+
 	@Subscribe
 	private void onGameStateChanged(final GameStateChanged event) {
 		final GameState gameState = event.getGameState();
-		;
 		switch (gameState) {
 			case LOGGED_IN:
-				swap_states(true);
+				//HOTFIX this shouldnt really be needed.
+				needs_swap = true;
 				break;
 		}
 	}
@@ -109,26 +115,42 @@ public class NoAreaEffectsPlugin extends Plugin {
 		swap_states(false);
 	}
 
+	@Subscribe
+	private void onGameTick(final GameTick event) {
+		if(needs_swap)
+		{
+			swap_states(true);
+		}
+	}
+
 	public void swap_states(boolean state)
 	{
-		if(client.getLocalPlayer().getWorldLocation().getRegionID() == TearsOfGuthix_region)
+		switch(currentregion())
 		{
-			if(config.TearsOfGuthix())
-			{
-				hidewidget(client.getWidget(TearsOfGuthix_group, 0), state);
-			}
-		}
-		else if(client.getLocalPlayer().getWorldLocation().getRegionID() == Raids_Lobby_region)
-		{
-			if(config.RaidsLobby()) {
-				hidewidget(Raids_Widget(), state);
-			}
+			case TearsOfGuthix_region:
+				if(config.TearsOfGuthix())
+				{
+					hidewidget(TearsOfGuthix_group, state);
+				}
+				break;
+			case Raids_Lobby_region:
+				if(config.RaidsLobby()) {
+					hidewidget(Raids_Widget(), state);
+				}
+				break;
+			case Daeyalt_Mine_region:
+				if(config.DaeyaltMine()) {
+					hidewidget(Daeyalt_Mine_group, state);
+				}
+				break;
 		}
 	}
 
 	public final int TearsOfGuthix_region = 12948;
 	public final int TearsOfGuthix_group = 98;
 	public final int Raids_Lobby_region = 14642;
+	public final int Daeyalt_Mine_region = 14744;
+	public final int Daeyalt_Mine_group = 97;
 	public final int Raids_Lobby_group = 28;
 	public final int Raids_Lobby_child = 1;
 	public final int Raids_Lobby_second_child = 1;
@@ -143,6 +165,12 @@ public class NoAreaEffectsPlugin extends Plugin {
 		}
 		return null;
 	}
+
+	public int currentregion()
+	{
+		return client.getLocalPlayer().getWorldLocation().getRegionID();
+	}
+
 	@Subscribe
 	private void onWidgetLoaded(WidgetLoaded event)
 	{
@@ -151,15 +179,21 @@ public class NoAreaEffectsPlugin extends Plugin {
 		{
 			case TearsOfGuthix_group:
 				if(config.TearsOfGuthix()) {
-					if(client.getLocalPlayer().getWorldLocation().getRegionID() == TearsOfGuthix_region) {
-						hidewidget(client.getWidget(TearsOfGuthix_group, 0), true);
+					if(currentregion() == TearsOfGuthix_region) {
+						hidewidget(TearsOfGuthix_group, true);
 					}
 				}
 				break;
 			case Raids_Lobby_group:
 				if(config.RaidsLobby()) {
-					if(client.getLocalPlayer().getWorldLocation().getRegionID() == Raids_Lobby_region) {
+					if(currentregion() == Raids_Lobby_region) {
 						hidewidget(Raids_Widget(), true);
+					}
+				}
+			case Daeyalt_Mine_group:
+				if(config.DaeyaltMine()) {
+					if(currentregion() == Daeyalt_Mine_region) {
+						hidewidget(Daeyalt_Mine_group, true);
 					}
 				}
 				break;
@@ -168,6 +202,12 @@ public class NoAreaEffectsPlugin extends Plugin {
 
 	public void hidewidget(Widget w, boolean hide)
 	{
+		w.setHidden(hide);
+	}
+
+	public void hidewidget(int group, boolean hide)
+	{
+		Widget w = client.getWidget(group, 0);
 		w.setHidden(hide);
 	}
 }

@@ -26,3 +26,4 @@ replay_pid*
 build.gradle.kts
 buildSrc/src/main/kotlin/Dependencies.kt
 settings.gradle.kts
+HideObjects/*

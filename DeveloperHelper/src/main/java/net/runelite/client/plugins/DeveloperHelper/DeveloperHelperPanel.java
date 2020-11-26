@@ -112,6 +112,9 @@ class DeveloperHelperPanel extends PluginPanel
     public JCheckBox LogChatbox = new JCheckBox();
     public JCheckBox LogMenuEntryAdded = new JCheckBox();
     public JCheckBox LogOnWidgetLoaded = new JCheckBox();
+    public JCheckBox LogGameObjectSpawned = new JCheckBox();
+    public JCheckBox LogGameObjectDespawned = new JCheckBox();
+    public JCheckBox LogGameObjectChanged = new JCheckBox();
     String[] HandleTypes = { "Log in console", "Log in chat", "Copy" };
     public JComboBox ActionHandleType = new JComboBox(HandleTypes);
 
@@ -207,9 +210,10 @@ class DeveloperHelperPanel extends PluginPanel
 
         }));
 
-        container.add(new JLabel("Handle MenuClicked"));
-        container.add(LogMenuActions);
+        container.add(new JLabel("Logging"));
         container.add(ActionHandleType);
+        container.add(new JLabel("Log MenuClicked"));
+        container.add(LogMenuActions);
 
         container.add(new JLabel("Log Chatbox"));
         container.add(LogChatbox);
@@ -219,6 +223,15 @@ class DeveloperHelperPanel extends PluginPanel
 
         container.add(new JLabel("Log WidgetCreated"));
         container.add(LogOnWidgetLoaded);
+
+        container.add(new JLabel("Log GameObjectSpawned"));
+        container.add(LogGameObjectSpawned);
+
+        container.add(new JLabel("Log GameObjectDespawned"));
+        container.add(LogGameObjectDespawned);
+
+        container.add(new JLabel("Log GameObjectChanged"));
+        container.add(LogGameObjectChanged);
 
         /*JButton loadplugin = new JButton("Hotswap a plugin");
         container.add(loadplugin);

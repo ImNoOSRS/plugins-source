@@ -23,10 +23,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.4"
+version = "0.0.5"
 
-project.extra["PluginName"] = "No Area Effects"
-project.extra["PluginDescription"] = "Disable area effects such as tears of guthix dark layers."
+project.extra["PluginName"] = "Daeyalt Essence Helper"
+project.extra["PluginDescription"] = "Overlays where to mine Daeyalt."
 project.extra["PluginProvider"] = "ImNo"
 
 tasks {

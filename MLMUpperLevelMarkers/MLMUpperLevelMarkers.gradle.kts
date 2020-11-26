@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "1.1"
+version = "0.1.1"
 
 project.extra["PluginName"] = "MLMUpperLevelMarkers"
 project.extra["PluginDescription"] = "Extra info for motherlode mine upper levels."

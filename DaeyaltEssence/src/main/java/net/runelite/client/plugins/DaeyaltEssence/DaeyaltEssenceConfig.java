@@ -22,23 +22,49 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package net.runelite.client.plugins.DaeyaltEssence;
 
-version = "0.0.4"
+import net.runelite.client.config.*;
 
-project.extra["PluginName"] = "No Area Effects"
-project.extra["PluginDescription"] = "Disable area effects such as tears of guthix dark layers."
-project.extra["PluginProvider"] = "ImNo"
+import java.awt.*;
 
-tasks {
-	jar {
-		manifest {
-			attributes(mapOf(
-					"Plugin-Version" to project.version,
-					"Plugin-Id" to nameToId(project.extra["PluginName"] as String),
-					"Plugin-Provider" to project.extra["PluginProvider"],
-					"Plugin-Description" to project.extra["PluginDescription"],
-					"Plugin-License" to project.extra["PluginLicense"]
-			))
-		}
+@ConfigGroup("DaeyaltEssence")
+
+public interface DaeyaltEssenceConfig extends Config {
+
+	@Alpha
+	@ConfigItem(
+			name = "Overlay Color",
+			description = "",
+			position = 1,
+			keyName = "DaeyaltEssenceOverlayColor"
+	)
+	default Color DaeyaltEssenceColor()
+	{
+		return Color.GREEN;
 	}
+
+	@Alpha
+	@ConfigItem(
+			name = "Overlay Color (Interacting)",
+			description = "",
+			position = 2,
+			keyName = "DaeyaltEssenceOverlayColorInteracting"
+	)
+	default Color DaeyaltEssenceColorInteracting()
+	{
+		return Color.MAGENTA;
+	}
+
+	@ConfigItem(
+			name = "Time till change",
+			description = "",
+			position = 3,
+			keyName = "DaeyaltEssenceOverlayTimeTillChange"
+	)
+	default boolean DaeyaltEssenceTimeTillChange()
+	{
+		return true;
+	}
+	
 }
