@@ -259,4 +259,39 @@ public interface ZalcanoHelperConfig extends Config {
 		return Color.CYAN;
 	}
 
+	@ConfigTitleSection(
+			keyName = "other",
+			position = 3,
+			name = "Other",
+			description = ""
+	)
+	default Title other()
+	{
+		return new Title();
+	}
+
+	@ConfigItem(
+			position = 1,
+			keyName = "DontAttackWhenNoImbuedOres",
+			name = "Walk trough",
+			description = "Makes you able to walk trough zalcano when you have no imbued ores.",
+			titleSection = "other"
+	)
+	default boolean OnlyAttackWhenNoImbuedOres()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+			position = 1,
+			keyName = "DontAttackWhenNoImbuedOres",
+			name = "Prioritize Tele",
+			description = "Makes the Zalcano entrance prioritized over the tree.",
+			titleSection = "other"
+	)
+	default boolean TeleportChannelPriority()
+	{
+		return true;
+	}
+
 }

@@ -159,16 +159,17 @@ class HouseOverlayOverlay extends Overlay {
                 case 29156://Jewelery Box
                     lastaction = def.getActions()[2];
                     break;
-                case 33414://Xerics
+                case 33412://Xerics
                 case 33416://DigSite
                 case 13523://Glory
                 case 33375://PortalNexus
                     lastaction = def.getActions()[0];
                     break;
                 case 29228://Fairy Ring
+                case 29229://Fairy Ring Tree
                     for(String getter : def.getActions())
                     {
-                        if(getter.contains("Last"))
+                        if(getter.toLowerCase().contains("last"))
                         {
                             lastaction = getter.replace(")", "").replace("(", "!");
                             lastaction = lastaction = "Last: " + plugin.get_fairy_ring_name(lastaction.split("!")[1]);

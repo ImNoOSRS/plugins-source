@@ -94,6 +94,10 @@ public class ZalcanoHelperPlugin extends Plugin {
 			11869, 11870
 	);
 
+	private static final Set<Integer> ENTRANCE_IDS = Set.of(
+			12893, 12894
+	);
+
 	@Provides
 	ZalcanoHelperConfig provideConfig(ConfigManager configManager) {
 		return configManager.getConfig(ZalcanoHelperConfig.class);
@@ -126,6 +130,11 @@ public class ZalcanoHelperPlugin extends Plugin {
 	public boolean isAtZalcano()
 	{
 		return REGION_IDS.contains(client.getMapRegions()[0]);
+	}
+
+	public boolean isAtZalcanoEntrance()
+	{
+		return ENTRANCE_IDS.contains(client.getMapRegions()[0]);
 	}
 
 	public enum zalcanostate
@@ -349,5 +358,43 @@ public class ZalcanoHelperPlugin extends Plugin {
 				.idEquals(itemID)
 				.result(client)
 				.size() >= 1;
+	}
+
+	@Subscribe
+	public void onMenuEntryAdded(MenuEntryAdded event) {
+		if (client.getGameState() != GameState.LOGGED_IN) {
+			return;
+		}
+
+		if (!isAtZalcano()) {
+			if(isAtZalcanoEntrance())
+			{
+				if(config.TeleportChannelPriority()) {
+					//log.info("Loaded: " + event.getOption());
+					if (event.getOption().contains("Chop down")) {
+						MenuEntry[] menuEntries = client.getMenuEntries();
+						for(MenuEntry m : menuEntries)
+						{
+							if(m.getOption().equals("Channel"))
+							{
+								MenuEntry menuEntry = menuEntries[menuEntries.length - 1];
+								menuEntry.setOpcode(menuEntry.getOpcode() + MenuOpcode.MENU_ACTION_DEPRIORITIZE_OFFSET);
+							}
+						}
+						client.setMenuEntries(menuEntries);
+					}
+				}
+			}
+			return;
+		}
+
+		if(!has_imbued_ore) {
+			if (config.OnlyAttackWhenNoImbuedOres() && event.getOption().contains("Attack")) {
+				MenuEntry[] menuEntries = client.getMenuEntries();
+				MenuEntry menuEntry = menuEntries[menuEntries.length - 1];
+				menuEntry.setOpcode(menuEntry.getOpcode() + MenuOpcode.MENU_ACTION_DEPRIORITIZE_OFFSET);
+				client.setMenuEntries(menuEntries);
+			}
+		}
 	}
 }
