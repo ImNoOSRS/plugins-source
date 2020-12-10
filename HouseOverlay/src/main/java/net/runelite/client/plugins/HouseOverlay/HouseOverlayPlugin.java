@@ -185,7 +185,7 @@ public class HouseOverlayPlugin extends Plugin {
 
     @Subscribe
     public void onGameTick(GameTick event) {
-        inhouse = client.getMapRegions()[0] == 7769 || client.getMapRegions()[0] == 7513;
+        inhouse = client.getMapRegions()[0] == 7769 || client.getMapRegions()[0] == 7513 || client.getMapRegions()[0] == 8025;
         int currentweapon = client.getLocalPlayer().getPlayerAppearance().getEquipmentIds()[KitType.WEAPON.getIndex()];
         fairy_ring_has_staff = currentweapon == 1284 || currentweapon == 9596;
     }

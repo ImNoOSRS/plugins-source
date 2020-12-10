@@ -26,6 +26,8 @@ package net.runelite.client.plugins.HouseOverlay;
 
 import net.runelite.client.config.*;
 
+import java.awt.*;
+
 @ConfigGroup("HouseOverlay")
 
 public interface HouseOverlayConfig extends Config {
@@ -38,6 +40,42 @@ public interface HouseOverlayConfig extends Config {
     default boolean fairyStaff()
     {
         return true;
+    }
+
+    @Alpha
+    @ConfigItem(
+            name = "Default Color",
+            description = "Choose the color of teleport objects",
+            position = 2,
+            keyName = "HouseObjectsDefaultColor"
+    )
+    default Color HouseObjectsDefaultColor()
+    {
+        return Color.GREEN;
+    }
+
+    @Alpha
+    @ConfigItem(
+            name = "Decorative Color",
+            description = "Choose the color of decorative objects",
+            position = 3,
+            keyName = "HouseDecorativeColors"
+    )
+    default Color DecorativeColors()
+    {
+        return Color.ORANGE;
+    }
+
+    @Alpha
+    @ConfigItem(
+            name = "Text Color",
+            description = "Choose the color of text on objects",
+            position = 3,
+            keyName = "TelportObjectsTextColor"
+    )
+    default Color TelportObjectsTextColor()
+    {
+        return Color.CYAN;
     }
 
 }

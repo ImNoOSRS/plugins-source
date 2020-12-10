@@ -120,7 +120,7 @@ class HouseOverlayOverlay extends Overlay {
                         break;
                 }
 
-                ProcessObject(graphics, id, name, gameObject.getClickbox(), modelheight, gameObject.getCanvasTextLocation(graphics, name, modelheight), Color.GREEN);
+                ProcessObject(graphics, id, name, gameObject.getClickbox(), modelheight, gameObject.getCanvasTextLocation(graphics, name, modelheight), config.HouseObjectsDefaultColor());
             }
 
             final LocatableQueryResults<DecorativeObject> DecorativeQueryResults = new DecorativeObjectQuery().result(client);
@@ -139,7 +139,7 @@ class HouseOverlayOverlay extends Overlay {
                         continue;
                     }
                 }
-                ProcessObject(graphics, id, name, dob.getClickbox(), dob.getModel1().getModelHeight(), dob.getCanvasTextLocation(graphics, name, dob.getModel1().getModelHeight()), Color.ORANGE);
+                ProcessObject(graphics, id, name, dob.getClickbox(), dob.getModel1().getModelHeight(), dob.getCanvasTextLocation(graphics, name, dob.getModel1().getModelHeight()), config.DecorativeColors());
             }
         }
         return null;
@@ -168,6 +168,7 @@ class HouseOverlayOverlay extends Overlay {
                     break;
                 case 29228://Fairy Ring
                 case 29229://Fairy Ring Tree
+                case 40779://Frozen Fariy Ring Tree
                     for(String getter : def.getActions())
                     {
                         if(getter.toLowerCase().contains("last"))
@@ -224,7 +225,7 @@ class HouseOverlayOverlay extends Overlay {
         {
             return;
         }
-        OverlayUtil.renderTextLocation(graphics, getCanvasTextLocation, name, Color.CYAN);
+        OverlayUtil.renderTextLocation(graphics, getCanvasTextLocation, name, config.TelportObjectsTextColor());
         if(!lastaction.isEmpty())
             OverlayUtil.renderTextLocation(graphics, new Point(getCanvasTextLocation.getX(), getCanvasTextLocation.getY() - 15), "(" + lastaction + ")", Color.RED);
 
