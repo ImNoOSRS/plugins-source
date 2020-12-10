@@ -113,6 +113,7 @@ class HouseOverlayOverlay extends Overlay {
                 switch(id)
                 {
                     case 29241://Rejuvenate Pool
+                    case 40848://Frozen reju Pool
                     case 33375://Portal Nexus
                     case 4525://Exit Portal
                         modelheight = 65;
@@ -197,7 +198,7 @@ class HouseOverlayOverlay extends Overlay {
                 }
             }
 
-            return def.getName().replace("Ornate ", "").replace(" Portal", "");
+            return def.getName().replace(" Portal", "");
         }
         return "";
     }
@@ -238,6 +239,7 @@ class HouseOverlayOverlay extends Overlay {
             case 4525:
                 return "Exit";
             case 29241:
+            case 40848://Frozen
                 return "Rejuvenation Pool";
         }
 
@@ -246,7 +248,7 @@ class HouseOverlayOverlay extends Overlay {
 
     public Color getcolor(int id, Color defaultcolor)
     {
-        if(id == 29241)//Ornate rej.
+        if(id == 29241 || id == 40848)//Ornate rej.
         {
             if(plugin.currentanimation == 7305)
             {

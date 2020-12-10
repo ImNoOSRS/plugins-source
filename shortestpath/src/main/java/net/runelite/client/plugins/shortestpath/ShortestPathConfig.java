@@ -48,4 +48,9 @@ public interface ShortestPathConfig extends Config {
     default boolean avoidWilderness() {
         return true;
     }
+
+    @ConfigItem(keyName = "showClearedPath", name = "Show cleared path", description = "Choose wether you will see the cleared path.")
+    default boolean showClearedPath() {
+        return true;
+    }
 }

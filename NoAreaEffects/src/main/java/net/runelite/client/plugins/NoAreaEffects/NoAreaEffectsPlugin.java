@@ -120,6 +120,7 @@ public class NoAreaEffectsPlugin extends Plugin {
 		if(needs_swap)
 		{
 			swap_states(true);
+			needs_swap = false;
 		}
 	}
 

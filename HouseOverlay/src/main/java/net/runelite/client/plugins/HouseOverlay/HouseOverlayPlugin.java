@@ -39,7 +39,7 @@ import java.util.List;
 @PluginDescriptor(
         name = "House Overlay",
         description = "Overlays for your house.",
-        type = PluginType.SYSTEM
+        type = PluginType.MISCELLANEOUS
 )
 @Slf4j
 public class HouseOverlayPlugin extends Plugin {
@@ -53,9 +53,10 @@ public class HouseOverlayPlugin extends Plugin {
     @Inject
     private ClientThread clientThread;
     @Inject
-        private OverlayManager overlayManager;
-@Inject
-        private HouseOverlayOverlay overlay;
+    private OverlayManager overlayManager;
+    @Inject
+    private HouseOverlayOverlay overlay;
+
     @Provides
     HouseOverlayConfig provideConfig(ConfigManager configManager) {
         return configManager.getConfig(HouseOverlayConfig.class);

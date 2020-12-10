@@ -72,8 +72,10 @@ public class PathMapOverlay extends Overlay {
             List<WorldPoint> bestPath = plugin.pathfinder.currentBest();
 
             if (bestPath != null) {
-                for (WorldPoint point : bestPath) {
-                    drawOnMap(graphics, point, new Color(0, 0, 255, 255));
+                if(config.showClearedPath()) {
+                    for (WorldPoint point : bestPath) {
+                        drawOnMap(graphics, point, new Color(0, 0, 255, 255));
+                    }
                 }
             }
         }

@@ -37,7 +37,7 @@ public interface HouseOverlayConfig extends Config {
     )
     default boolean fairyStaff()
     {
-        return false;
+        return true;
     }
 
 }
