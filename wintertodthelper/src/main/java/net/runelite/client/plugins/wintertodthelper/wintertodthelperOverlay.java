@@ -66,6 +66,12 @@ class wintertodthelperOverlay extends Overlay {
 
     @Override
     public Dimension render(Graphics2D graphics) {
+        if(config.ignorewait()) {
+            if(plugin.timer > 0)
+            {
+                return null;
+            }
+        }
         render_brumaroot(graphics);
         render_brazier(graphics);
         return null;
@@ -94,7 +100,13 @@ class wintertodthelperOverlay extends Overlay {
                                 c = config.notChopping();
                             }
                         }
-                        OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
+                        if(config.filled())
+                        {
+                            OverlayUtil.renderFilledPolygon(graphics, clickbox, c);
+                        }
+                        else {
+                            OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
+                        }
                     }
                 }
             }
@@ -120,7 +132,13 @@ class wintertodthelperOverlay extends Overlay {
             for (GameObject g : plugin.getBrazierObjects()) {
                 Shape clickbox = g.getClickbox();
                 if (clickbox != null) {
-                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, brazier_color());
+                    if(config.filled())
+                    {
+                        OverlayUtil.renderFilledPolygon(graphics, clickbox, brazier_color());
+                    }
+                    else {
+                        OverlayUtil.renderClickBox(graphics, mouse(), clickbox, brazier_color());
+                    }
                 }
             }
 
@@ -158,14 +176,26 @@ class wintertodthelperOverlay extends Overlay {
         for (GameObject g : plugin.getBrokenBrazierObjects()) {
             Shape clickbox = g.getClickbox();
             if (clickbox != null) {
-                OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.broken());
+                if(config.filled())
+                {
+                    OverlayUtil.renderFilledPolygon(graphics, clickbox, config.broken());
+                }
+                else {
+                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.broken());
+                }
             }
         }
 
         for (GameObject g : plugin.getUnlitBrazierObjects()) {
             Shape clickbox = g.getClickbox();
             if (clickbox != null) {
-                OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.unlit());
+                if(config.filled())
+                {
+                    OverlayUtil.renderFilledPolygon(graphics, clickbox, config.unlit());
+                }
+                else {
+                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.unlit());
+                }
             }
         }
     }

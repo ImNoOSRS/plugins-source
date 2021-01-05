@@ -399,7 +399,6 @@ public interface hallowedhelperConfig extends Config {
         return true;
     }
 
-    @Alpha
     @ConfigItem(
             position = 9,
             keyName = "HHShowReversedFireTickCounter",
@@ -412,7 +411,6 @@ public interface hallowedhelperConfig extends Config {
         return true;
     }
 
-    @Alpha
     @ConfigItem(
             position = 10,
             keyName = "HHShowArrowTiles",
@@ -439,10 +437,58 @@ public interface hallowedhelperConfig extends Config {
         return Color.BLUE;
     }
 
+
+    @ConfigItem(
+            position = 12,
+            keyName = "HHFillTileOverlay",
+            name = "Fill Tile Overlay",
+            description = "Fill in the tile overlay.",
+            section = "FireStatueSection"
+    )
+    default boolean FillTileOverlay()
+    {
+        return true;
+    }
+
+    @ConfigSection(
+            name = "Lightning Spawns",
+            description = "",
+            position = 7,
+            keyName = "Lightningsection"
+    )
+    default boolean Lightningsection()
+    {
+        return false;
+    }
+
+    @ConfigItem(
+            position = 1,
+            keyName = "HHLightningTiles",
+            name = "Lightning tiles",
+            description = "Show Arrow Danger",
+            section = "Lightningsection"
+    )
+    default boolean ShowLightningTiles()
+    {
+        return true;
+    }
+
+    @ConfigItem(
+            position = 2,
+            keyName = "HHLightningCountdown",
+            name = "Show Arrow Danger [BETA]",
+            description = "Lightning countdown",
+            section = "Lightningsection"
+    )
+    default boolean ShowLightningCountdown()
+    {
+        return true;
+    }
+
     @ConfigSection(
             name = "Server Tile",
             description = "",
-            position = 7,
+            position = 8,
             keyName = "ServerTileSection"
     )
     default boolean ServerTileSection()
@@ -492,7 +538,7 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Other",
             description = "",
-            position = 8,
+            position = 9,
             keyName = "otherSection"
     )
     default boolean otherSection()

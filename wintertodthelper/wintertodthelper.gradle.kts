@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.1.1"
+version = "0.1.5"
 
 project.extra["PluginName"] = "Wintertodt Overlay"
 project.extra["PluginDescription"] = "This is a plugin that makes Wintertodt a little bit easier"

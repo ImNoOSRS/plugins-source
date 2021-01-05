@@ -148,11 +148,18 @@ public class wintertodthelperPlugin extends Plugin
         return client.getMapRegions()[0] == wintertodtregion;
     }
 
+    public int timer = 0;
+
     @Subscribe
     public void onGameTick(GameTick event) {
         if(!isInWintertodt())
         {
             cleanup();
+        }
+
+        if(config.ignorewait())
+        {
+            timer = client.getVar(Varbits.WINTERTODT_TIMER);
         }
 
         if(config.blinkPointInInv()) {

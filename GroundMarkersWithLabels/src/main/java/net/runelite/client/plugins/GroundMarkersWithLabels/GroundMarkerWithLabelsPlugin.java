@@ -62,14 +62,14 @@ import org.pf4j.Extension;
 @Slf4j
 @Extension
 @PluginDescriptor(
-	name = "Ground Markers With Labels",
+	name = "Ground Markers Label Addon",
 	description = "Enable marking of tiles with labels using the Shift key",
 	tags = {"overlay", "tiles"},
 	type = PluginType.SYSTEM
 )
 public class GroundMarkerWithLabelsPlugin extends Plugin
 {
-	private static final String CONFIG_GROUP = "groundMarkerWithLabels";
+	private static final String CONFIG_GROUP = "groundMarkerWithLabelsNew";
 	private static final String MARK = "Mark tile";
 	private static final String UNMARK = "Unmark tile";
 	private static final String WALK_HERE = "Walk here";
@@ -217,6 +217,10 @@ public class GroundMarkerWithLabelsPlugin extends Plugin
 	@Subscribe
 	public void onMenuEntryAdded(MenuEntryAdded event)
 	{
+		if(0 == 0)
+		{
+			return;
+		}
 		if (hotKeyPressed && event.getOption().equals(WALK_HERE))
 		{
 			final Tile selectedSceneTile = client.getSelectedSceneTile();
@@ -274,7 +278,7 @@ public class GroundMarkerWithLabelsPlugin extends Plugin
 	protected void startUp()
 	{
 		overlayManager.add(overlay);
-		overlayManager.add(minimapOverlay);
+		//overlayManager.add(minimapOverlay);
 		keyManager.registerKeyListener(inputListener);
 		loadPoints();
 	}
@@ -283,7 +287,7 @@ public class GroundMarkerWithLabelsPlugin extends Plugin
 	protected void shutDown()
 	{
 		overlayManager.remove(overlay);
-		overlayManager.remove(minimapOverlay);
+		//overlayManager.remove(minimapOverlay);
 		keyManager.unregisterKeyListener(inputListener);
 		points.clear();
 	}
@@ -323,19 +327,16 @@ public class GroundMarkerWithLabelsPlugin extends Plugin
 	}
 	private void setLabel(GroundMarkerPoint gmp)
 	{
-		if(config.drawTextLabel())
-		{
-			chatboxPanelManager.openTextInput("Enter Text Label:")
-					.onDone((content) ->
+		chatboxPanelManager.openTextInput("Enter Text Label:")
+				.onDone((content) ->
+				{
+					if (content == null)
 					{
-						if (content == null)
-						{
-							return;
-						}
+						return;
+					}
 
-						setTileLabel(new GroundMarkerPoint(gmp.getRegionId(), gmp.getRegionX(), gmp.getRegionY(), gmp.getZ(), gmp.getColor(), content));
-					}).build();
-		}
+					setTileLabel(new GroundMarkerPoint(gmp.getRegionId(), gmp.getRegionX(), gmp.getRegionY(), gmp.getZ(), gmp.getColor(), content));
+				}).build();
 	}
 
 	private void setTileLabel(GroundMarkerPoint gmp)

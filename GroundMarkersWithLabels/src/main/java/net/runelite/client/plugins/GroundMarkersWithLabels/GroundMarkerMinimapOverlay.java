@@ -64,7 +64,7 @@ class GroundMarkerMinimapOverlay extends Overlay
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		if (!config.drawTileOnMinimmap())
+		if(0 == 0)
 		{
 			return null;
 		}

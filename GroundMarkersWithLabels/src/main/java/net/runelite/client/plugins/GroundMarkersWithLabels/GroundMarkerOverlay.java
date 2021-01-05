@@ -109,7 +109,7 @@ public class GroundMarkerOverlay extends Overlay
 			return;
 		}
 
-		OverlayUtil.renderPolygon(graphics, poly, color);
+		//OverlayUtil.renderPolygon(graphics, poly, color);
 
 		if (label.isEmpty())
 		{

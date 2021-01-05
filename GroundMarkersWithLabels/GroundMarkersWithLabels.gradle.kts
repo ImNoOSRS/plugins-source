@@ -23,9 +23,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.1.1"
+version = "0.1.3"
 
-project.extra["PluginName"] = "GroundMarkersWithLabels"
+project.extra["PluginName"] = "Ground Markers Label Addon"
 project.extra["PluginDescription"] = "GroundMarkersWithLabels"
 project.extra["PluginProvider"] = "ImNo"
 

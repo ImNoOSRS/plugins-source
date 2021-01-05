@@ -1244,8 +1244,14 @@ class hallowedhelperOverlay extends Overlay
             {
                 c = Color.GREEN;
             }
-            render_object_server_tile(graphics, WorldPoint.fromLocal(client, l), c, 0 , 0);
-            OverlayText(graphics, l, "" + countdown, c, 0, 0);
+
+            if(config.ShowLightningTiles()) {
+                render_object_server_tile(graphics, WorldPoint.fromLocal(client, l), c, 0, 0);
+            }
+            if(config.ShowLightningCountdown())
+            {
+                OverlayText(graphics, l, "" + countdown, c, 0, 0);
+            }
             //OverlayUtil.renderTileOverlay(graphics);
         }
     }
@@ -1333,19 +1339,19 @@ class hallowedhelperOverlay extends Overlay
             {
                 return;
             }
-            OverlayUtil.renderPolygonThin(graphics, pl, color1);
+            renderFireTile(graphics, pl, color1);
             pl  = TileOffsetter(lp, (base * 2) + offset, offset2);
             if(pl == null)
             {
                 return;
             }
-            OverlayUtil.renderPolygonThin(graphics, pl, color2);
+            renderFireTile(graphics, pl, color2);
             pl  = TileOffsetter(lp, (base * 3) + offset, offset2);
             if(pl == null)
             {
                 return;
             }
-            OverlayUtil.renderPolygonThin(graphics, pl, color3);
+            renderFireTile(graphics, pl, color3);
         }
         else//0&2
         {
@@ -1412,6 +1418,18 @@ class hallowedhelperOverlay extends Overlay
                 return;
             }
             OverlayUtil.renderPolygonThin(graphics, pl, color3);
+        }
+    }
+
+    public void renderFireTile(Graphics2D graphics, Polygon poly, Color color)
+    {
+        if(config.FillTileOverlay())
+        {
+            OverlayUtil.renderFilledPolygon(graphics, poly, color);
+        }
+        else
+        {
+            OverlayUtil.renderPolygonThin(graphics, poly, color);
         }
     }
 

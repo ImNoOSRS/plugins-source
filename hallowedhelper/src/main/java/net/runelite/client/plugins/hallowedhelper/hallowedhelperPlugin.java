@@ -25,11 +25,13 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+//        name = "<html>Hallowed <font size=\"\" color=\"red\"<b>BETA</font></b></html>",
 @Extension
 @PluginDescriptor(
-        name = "<html>Hallowed <font size=\"\" color=\"red\"<b>BETA</font></b></html>",
+        name = "Sepulcre Deluxe",
         description = "Helps with hallowed.",
-        type = PluginType.MISCELLANEOUS
+        type = PluginType.SKILLING,
+        tags = {"grace", "marks", "overlay", "skilling", "traps", "sepulchre", "hallowed"}
 )
 @Slf4j
 public class hallowedhelperPlugin extends Plugin {

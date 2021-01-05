@@ -289,5 +289,30 @@ public interface wintertodthelperConfig extends Config {
         return Color.BLACK;
     }
 
+    @ConfigItem(
+            name = "Fill up indicaters",
+            description = "",
+            position = 2,
+            keyName = "wtfillindicators",
+            section = "miscSection"
+    )
+    default boolean filled()
+    {
+        return false;
+    }
+
+
+    @ConfigItem(
+            name = "Ignore while waiting",
+            description = "",
+            position = 3,
+            keyName = "wtfignorewait",
+            section = "miscSection"
+    )
+    default boolean ignorewait()
+    {
+        return false;
+    }
+
 
 }
