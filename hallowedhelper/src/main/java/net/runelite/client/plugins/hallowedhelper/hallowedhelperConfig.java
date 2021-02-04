@@ -447,7 +447,7 @@ public interface hallowedhelperConfig extends Config {
     )
     default boolean FillTileOverlay()
     {
-        return true;
+        return false;
     }
 
     @ConfigSection(
@@ -465,7 +465,7 @@ public interface hallowedhelperConfig extends Config {
             position = 1,
             keyName = "HHLightningTiles",
             name = "Lightning tiles",
-            description = "Show Arrow Danger",
+            description = "",
             section = "Lightningsection"
     )
     default boolean ShowLightningTiles()
@@ -476,8 +476,8 @@ public interface hallowedhelperConfig extends Config {
     @ConfigItem(
             position = 2,
             keyName = "HHLightningCountdown",
-            name = "Show Arrow Danger [BETA]",
-            description = "Lightning countdown",
+            name = "Lightning countdown",
+            description = "",
             section = "Lightningsection"
     )
     default boolean ShowLightningCountdown()

@@ -1405,19 +1405,19 @@ class hallowedhelperOverlay extends Overlay
             {
                 return;
             }
-            OverlayUtil.renderPolygonThin(graphics, pl, color1);
+            renderFireTile(graphics, pl, color1);
             pl  = TileOffsetter(lp, offset2, (base * 2) + offset);
             if(pl == null)
             {
                 return;
             }
-            OverlayUtil.renderPolygonThin(graphics, pl, color2);
+            renderFireTile(graphics, pl, color2);
             pl  = TileOffsetter(lp, offset2, (base * 3) + offset);
             if(pl == null)
             {
                 return;
             }
-            OverlayUtil.renderPolygonThin(graphics, pl, color3);
+            renderFireTile(graphics, pl, color3);
         }
     }
 
