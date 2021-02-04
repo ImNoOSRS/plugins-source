@@ -124,10 +124,6 @@ public class DenseEssenceOverlayPlugin extends Plugin
         }
         //Checks full inventory
         CountItems();
-        if(mining)
-        {
-            mining = false;
-        }
     }
 
     
@@ -156,9 +152,12 @@ public class DenseEssenceOverlayPlugin extends Plugin
         }
 
         int animId = local.getAnimation();
-        if(animId == 7139 || animId == 7201)
+        if(animId == 8347 ||animId == 7139 || animId == 4482 || animId == 7201)
         {
             mining = true;
+        }
+        else {
+            mining = false;
         }
 
         if(animId == 791)
@@ -209,7 +208,6 @@ public class DenseEssenceOverlayPlugin extends Plugin
     @Subscribe
     private void onGameStateChanged(final GameStateChanged event)
     {
-        log.info("Gamestate has changed to: " + event.getGameState().toString());
         denseObjects.clear();
 
         if(event.getGameState() == GameState.LOGGED_IN)

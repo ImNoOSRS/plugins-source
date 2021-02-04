@@ -77,9 +77,20 @@ public interface DenseEssenceOverlayConfig extends Config {
         return true;
     }
     @ConfigItem(
+            name = "Minig Overlay",
+            description = "Toggles Dense Overlay",
+            position = 1,
+            keyName = "miningToggle",
+            section = "toggleSection"
+    )
+    default boolean miningToggle()
+    {
+        return true;
+    }
+    @ConfigItem(
             name = "Unavailable Overlay",
             description = "Toggles Depleted Overlay",
-            position = 1,
+            position = 2,
             keyName = "depletedToggle",
             section = "toggleSection"
     )
@@ -90,7 +101,7 @@ public interface DenseEssenceOverlayConfig extends Config {
     @ConfigItem(
             name = "Full Overlay",
             description = "Toggles Inventory is full Overlay",
-            position = 2,
+            position = 3,
             keyName = "fullToggle",
             section = "toggleSection"
     )
@@ -101,7 +112,7 @@ public interface DenseEssenceOverlayConfig extends Config {
     @ConfigItem(
             name = "Decimals",
             description = "Toggles Decimals in the lap tracker",
-            position = 3,
+            position = 4,
             keyName = "Decimals",
             section = "toggleSection"
     )
@@ -192,9 +203,23 @@ public interface DenseEssenceOverlayConfig extends Config {
     }
     @Alpha
     @ConfigItem(
+            name = "Mining",
+            description = "",
+            position = 10,
+            keyName = "mining",
+            section = "essenceColors",
+            hidden = true,
+            unhide = "denseToggle"
+    )
+    default Color mining()
+    {
+        return Color.CYAN;
+    }
+    @Alpha
+    @ConfigItem(
             name = "Unavailable",
             description = "",
-            position = 1,
+            position = 2,
             keyName = "depleted",
             section = "essenceColors",
             hidden = true,
@@ -208,7 +233,7 @@ public interface DenseEssenceOverlayConfig extends Config {
     @ConfigItem(
             name = "Inventory Full",
             description = "",
-            position = 2,
+            position = 3,
             keyName = "full",
             section = "essenceColors",
             hidden = true,

@@ -105,10 +105,16 @@ class DenseEssenceOverlayOverlay extends Overlay
                 if (plugin.isInventory_full() && config.fullToggle()) {
                     c = config.full();
                 } else if (dense) {
-                    if (!config.denseToggle()) {
-                        c = Color.BLACK;
-                    } else {
-                        c = config.dense();
+                    if(plugin.mining && config.miningToggle())
+                    {
+                        c = config.mining();
+                    }
+                    else {
+                        if (!config.denseToggle()) {
+                            c = Color.BLACK;
+                        } else {
+                            c = config.dense();
+                        }
                     }
                 } else {
                     if (!config.depletedToggle()) {
