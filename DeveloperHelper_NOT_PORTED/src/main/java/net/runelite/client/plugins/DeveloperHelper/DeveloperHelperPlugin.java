@@ -24,8 +24,10 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.Clipboard;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ObjectUtils;
@@ -44,7 +46,8 @@ import java.util.List;
 @Extension
 @PluginDescriptor(
         name = "Developer Helper",
-        description = "Developer Helper by ImNo https://github.com/ImNoOSRS "
+        description = "Developer Helper by ImNo https://github.com/ImNoOSRS ",
+        type = PluginType.SYSTEM
 )
 @Slf4j
 public class DeveloperHelperPlugin extends Plugin {
@@ -221,7 +224,7 @@ public class DeveloperHelperPlugin extends Plugin {
         MenuEntry base = new MenuEntry();
         base.setOption(newname);
         base.setTarget(current.getTarget());
-        base.setOpcode(MenuAction.RUNELITE.getId());
+        base.setOpcode(MenuOpcode.RUNELITE.getId());
         counter++;
         base.setParam0(counter);
         base.setParam1(current.getParam1());
@@ -234,7 +237,7 @@ public class DeveloperHelperPlugin extends Plugin {
         MenuEntry base = new MenuEntry();
         base.setOption(newname);
         base.setTarget(current.getTarget());
-        base.setOpcode(MenuAction.RUNELITE.getId());
+        base.setOpcode(MenuOpcode.RUNELITE.getId());
         counter++;
         base.setParam0(counter);
         base.setParam1(current.getParam1());
@@ -309,7 +312,7 @@ public class DeveloperHelperPlugin extends Plugin {
             case "Destroy":
                 MenuEntry copy_id = base_entry(event, "Copy item ID");
                 insert_menu_entry(copy_id);
-                ItemComposition def = client.getItemDefinition(event.getIdentifier());
+                ItemDefinition def = client.getItemDefinition(event.getIdentifier());
                 if(def.getNote() != -1)
                 {
                     MenuEntry copy_id_unnoted = base_entry(event, "Copy item ID (Unnoted)");
@@ -320,7 +323,7 @@ public class DeveloperHelperPlugin extends Plugin {
                 insert_menu_entry(copy_name);
                 break;
         }
-        if (event.getOpcode() != MenuAction.EXAMINE_OBJECT.getId())
+        if (event.getOpcode() != MenuOpcode.EXAMINE_OBJECT.getId())
         {
             if(!config.copyTileData())
             {
@@ -335,7 +338,7 @@ public class DeveloperHelperPlugin extends Plugin {
                 menuEntry.setParam0(menuEntry.getParam0());
                 menuEntry.setParam1(event.getParam1());
                 menuEntry.setIdentifier(event.getIdentifier());
-                menuEntry.setOpcode(MenuAction.RUNELITE.getId());
+                menuEntry.setOpcode(MenuOpcode.RUNELITE.getId());
 
                 insert_menu_entry(menuEntry);
                 MenuEntry menuEntry3 = new MenuEntry();
@@ -345,7 +348,7 @@ public class DeveloperHelperPlugin extends Plugin {
                 menuEntry3.setParam0(menuEntry3.getParam0());
                 menuEntry3.setParam1(event.getParam1());
                 menuEntry3.setIdentifier(event.getIdentifier());
-                menuEntry3.setOpcode(MenuAction.RUNELITE.getId());
+                menuEntry3.setOpcode(MenuOpcode.RUNELITE.getId());
                 insert_menu_entry(menuEntry3);
             }
             return;
@@ -373,7 +376,7 @@ public class DeveloperHelperPlugin extends Plugin {
         menuEntry.setParam0(event.getParam0());
         menuEntry.setParam1(event.getParam1());
         menuEntry.setIdentifier(event.getIdentifier());
-        menuEntry.setOpcode(MenuAction.RUNELITE.getId());
+        menuEntry.setOpcode(MenuOpcode.RUNELITE.getId());
 
         MenuEntry menuEntry2 = menuEntries[menuEntries.length - 2] = new MenuEntry();
 
@@ -382,7 +385,7 @@ public class DeveloperHelperPlugin extends Plugin {
         menuEntry2.setParam0(event.getParam0() + 1);
         menuEntry2.setParam1(event.getParam1());
         menuEntry2.setIdentifier(event.getIdentifier());
-        menuEntry2.setOpcode(MenuAction.RUNELITE.getId());
+        menuEntry2.setOpcode(MenuOpcode.RUNELITE.getId());
 
         MenuEntry menuEntry3 = menuEntries[menuEntries.length - 3] = new MenuEntry();
 
@@ -391,7 +394,7 @@ public class DeveloperHelperPlugin extends Plugin {
         menuEntry3.setParam0(event.getParam0() + 2);
         menuEntry3.setParam1(event.getParam1());
         menuEntry3.setIdentifier(event.getIdentifier());
-        menuEntry3.setOpcode(MenuAction.RUNELITE.getId());
+        menuEntry3.setOpcode(MenuOpcode.RUNELITE.getId());
         client.setMenuEntries(menuEntries);
     }
 
@@ -422,7 +425,7 @@ public class DeveloperHelperPlugin extends Plugin {
     @Subscribe
     private void onMenuOptionClicked(MenuOptionClicked event)
     {
-        if(event.getMenuOption().equals(copychat))
+        if(event.getOption().equals(copychat))
         {
             if(config.IgnoreChatColor())
             {
@@ -431,17 +434,17 @@ public class DeveloperHelperPlugin extends Plugin {
             Clipboard.store(selected_chat_text);
             return;
         }
-        if(event.getMenuOption() == "Copy item ID" || event.getMenuOption() == "Copy item ID (Unnoted)") {
-            Integer idf = event.getId();
+        if(event.getOption() == "Copy item ID" || event.getOption() == "Copy item ID (Unnoted)") {
+            Integer idf = event.getIdentifier();
             String itemname = "Failed grabbing name.";
-            ItemComposition i = client.getItemDefinition(event.getId());
+            ItemDefinition i = client.getItemDefinition(event.getIdentifier());
             if(i != null)
             {
                 itemname = i.getName();
             }
             Clipboard.store(idf.toString());
         }
-        if(event.getMenuOption() == "Copy item NAME") {
+        if(event.getOption() == "Copy item NAME") {
             /*
             String itemname = "Failed grabbing name.";
             ItemDefinition i = client.getItemDefinition(event.getIdentifier());
@@ -449,17 +452,17 @@ public class DeveloperHelperPlugin extends Plugin {
             {
                 itemname = i.getName();
             }*/
-            Clipboard.store(event.getMenuTarget().replace("<", ">").split(">")[2]);
+            Clipboard.store(event.getTarget().replace("<", ">").split(">")[2]);
         }
 
-        if (event.getMenuAction() != MenuAction.RUNELITE || !(event.getMenuOption().equals(copyid) || event.getMenuOption().equals(copyworldpoint)|| event.getMenuOption().equals(copytileworldpoint) || event.getMenuOption().equals(copylocalpoint)|| event.getMenuOption().equals(copytilelocalpoint)))
+        if (event.getMenuOpcode() != MenuOpcode.RUNELITE || !(event.getOption().equals(copyid) || event.getOption().equals(copyworldpoint)|| event.getOption().equals(copytileworldpoint) || event.getOption().equals(copylocalpoint)|| event.getOption().equals(copytilelocalpoint)))
         {
-            String storing = "" + event.getMenuOption() + " > [";
-            storing += "Identifier:" + event.getId();
-            storing += " Target:" + event.getMenuTarget();
-            storing += " MenuOpcode:" + event.getMenuAction();
-            storing += " Param0:" + event.getActionParam();
-            storing += " Param1:" + event.getWidgetId();
+            String storing = "" + event.getOption() + " > [";
+            storing += "Identifier:" + event.getIdentifier();
+            storing += " Target:" + event.getTarget();
+            storing += " MenuOpcode:" + event.getOpcode();
+            storing += " Param0:" + event.getParam0();
+            storing += " Param1:" + event.getParam1();
             storing += "]";
             if(panel.LogMenuActions.isSelected())
             {
@@ -479,7 +482,7 @@ public class DeveloperHelperPlugin extends Plugin {
         }
 
 
-        if(event.getMenuOption().equals(copytileworldpoint))
+        if(event.getOption().equals(copytileworldpoint))
         {
             Tile t = client.getSelectedSceneTile();
             if(t != null) {
@@ -491,7 +494,7 @@ public class DeveloperHelperPlugin extends Plugin {
             }
             return;
         }
-        else if(event.getMenuOption().equals(copytilelocalpoint))
+        else if(event.getOption().equals(copytilelocalpoint))
         {
             Tile t = client.getSelectedSceneTile();
             if(t != null) {
@@ -506,12 +509,12 @@ public class DeveloperHelperPlugin extends Plugin {
 
         Scene scene = client.getScene();
         Tile[][][] tiles = scene.getTiles();
-        final int x = event.getActionParam();
-        final int y = event.getWidgetId();
+        final int x = event.getParam0();
+        final int y = event.getParam1();
         final int z = client.getPlane();
         final Tile tile = tiles[z][x][y];
 
-        TileObject object = findTileObject(tile, event.getId());
+        TileObject object = findTileObject(tile, event.getIdentifier());
         if (object == null)
         {
             return;
@@ -519,7 +522,7 @@ public class DeveloperHelperPlugin extends Plugin {
 
         // object.getId() is always the base object id, getObjectDefinition transforms it to
         // the correct object we see
-        ObjectComposition objectDefinition = getObjectDefinition(object.getId());
+        ObjectDefinition objectDefinition = getObjectDefinition(object.getId());
         String name = objectDefinition.getName();
         // Name is probably never "null" - however prevent adding it if it is, as it will
         // become ambiguous as objects with no name are assigned name "null"
@@ -528,13 +531,13 @@ public class DeveloperHelperPlugin extends Plugin {
             return;
         }
 
-        if(event.getMenuOption().equals(copyid)) {
+        if(event.getOption().equals(copyid)) {
             Clipboard.store("" + object.getId());
         }
-        else if(event.getMenuOption().equals(copyworldpoint)) {
+        else if(event.getOption().equals(copyworldpoint)) {
             Clipboard.store("new WorldPoint(" + object.getWorldLocation().getX() + ", " + object.getWorldLocation().getY() + ", " + object.getWorldLocation().getPlane() +")");
         }
-        else if(event.getMenuOption().equals(copylocalpoint)) {
+        else if(event.getOption().equals(copylocalpoint)) {
             Clipboard.store("new LocalPoint(" + object.getLocalLocation().getX() + ", " + object.getLocalLocation().getY() + ")");
         }
     }
@@ -602,7 +605,7 @@ public class DeveloperHelperPlugin extends Plugin {
 
     public void LogGameObject(String text, GameObject g)
     {
-        ObjectComposition def = client.getObjectDefinition(g.getId());
+        ObjectDefinition def = client.getObjectDefinition(g.getId());
         if (def.getImpostorIds() != null) {
             def = def.getImpostor();
         }
@@ -610,9 +613,9 @@ public class DeveloperHelperPlugin extends Plugin {
     }
 
     @Nullable
-    private ObjectComposition getObjectDefinition(int id)
+    private ObjectDefinition getObjectDefinition(int id)
     {
-        ObjectComposition objectComposition = client.getObjectDefinition(id);
+        ObjectDefinition objectComposition = client.getObjectDefinition(id);
         return objectComposition.getImpostorIds() == null ? objectComposition : objectComposition.getImpostor();
     }
 
@@ -667,7 +670,7 @@ public class DeveloperHelperPlugin extends Plugin {
 
         // Menu action EXAMINE_OBJECT sends the transformed object id, not the base id, unlike
         // all of the GAME_OBJECT_OPTION actions, so check the id against the impostor ids
-        final ObjectComposition comp = client.getObjectDefinition(tileObject.getId());
+        final ObjectDefinition comp = client.getObjectDefinition(tileObject.getId());
 
         if (comp.getImpostorIds() != null)
         {

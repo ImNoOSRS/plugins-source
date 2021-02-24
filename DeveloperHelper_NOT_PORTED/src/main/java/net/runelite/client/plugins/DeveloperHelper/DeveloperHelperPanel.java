@@ -45,11 +45,13 @@ import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.Notifier;
 import net.runelite.client.RuneLite;
 import net.runelite.client.callback.ClientThread;
+import net.runelite.client.plugins.ExternalPluginManager;
 import net.runelite.client.plugins.PluginManager;
 import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
+import net.runelite.client.util.Clipboard;
 
 @Slf4j
 class DeveloperHelperPanel extends PluginPanel
@@ -62,6 +64,9 @@ class DeveloperHelperPanel extends PluginPanel
 
     @Inject
     private Client client;
+
+    @Inject
+    private ExternalPluginManager externalPluginManager;
 
 
     private final Notifier notifier;
@@ -189,7 +194,7 @@ class DeveloperHelperPanel extends PluginPanel
 
             for (final WallObject wallObject : wallQueryResults) {
                 //for(Field i : ObjectID.class.getFields())
-                ObjectComposition od = client.getObjectDefinition(wallObject.getId());
+                ObjectDefinition od = client.getObjectDefinition(wallObject.getId());
                 if (od == null) {
                     continue;
                 }
@@ -266,7 +271,7 @@ class DeveloperHelperPanel extends PluginPanel
         return container;
     }
 
-    /*public void TestJFilePicker() {
+    public void TestJFilePicker() {
         JFilePicker filePicker = new JFilePicker("Pick a file", "Browse...");
         filePicker.setMode(JFilePicker.MODE_OPEN);
         filePicker.addFileTypeFilter(".jar", "JAVA Files");
@@ -284,5 +289,5 @@ class DeveloperHelperPanel extends PluginPanel
         externalPluginManager.uninstall(plugin);
         JOptionPane.showMessageDialog(ClientUI.getFrame(), "Hotswapping: " + plugin + ", place a new .jar and then click OK.", "HOTSWAP", JOptionPane.INFORMATION_MESSAGE);
         externalPluginManager.reloadStart(plugin);
-    }*/
+    }
 }
