@@ -31,15 +31,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.inject.Inject;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
-import net.runelite.api.ItemDefinition;
+import net.runelite.api.ItemComposition;
 import net.runelite.api.ItemID;
-import net.runelite.api.MenuOpcode;
+import net.runelite.api.MenuAction;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.MenuOptionClicked;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.chat.QueuedMessage;
-import net.runelite.client.config.OpenOSRSConfig;
 import net.runelite.client.game.ItemManager;
 import net.runelite.http.api.examine.ExamineClient;
 import static org.junit.Assert.*;
@@ -82,9 +81,6 @@ public class ExaminePluginTest
 	@Bind
 	ScheduledExecutorService scheduledExecutorService;
 
-	@Mock
-	@Bind
-	private OpenOSRSConfig openOSRSConfig;
 
 	@Before
 	public void before()
@@ -96,13 +92,13 @@ public class ExaminePluginTest
 	public void testItem()
 	{
 		when(client.getWidget(anyInt(), anyInt())).thenReturn(mock(Widget.class));
-		when(itemManager.getItemDefinition(anyInt())).thenReturn(mock(ItemDefinition.class));
+		when(itemManager.getItemComposition(anyInt())).thenReturn(mock(ItemComposition.class));
 
 		MenuOptionClicked menuOptionClicked = new MenuOptionClicked(
 			"Examine",
 			"Something",
 			ItemID.ABYSSAL_WHIP,
-			MenuOpcode.EXAMINE_ITEM.getId(),
+			MenuAction.EXAMINE_ITEM.getId(),
 			123,
 			456,
 			false
@@ -112,7 +108,7 @@ public class ExaminePluginTest
 		ChatMessage chatMessage = new ChatMessage(null, ChatMessageType.ITEM_EXAMINE, "", "A weapon from the abyss.", "", 0);
 		examinePlugin.onChatMessage(chatMessage);
 
-		// This passes due to not mocking the ItemDefinition for the whip
+		// This passes due to not mocking the ItemComposition for the whip
 		verify(examineClient).submitItem(anyInt(), anyString());
 	}
 
@@ -120,13 +116,13 @@ public class ExaminePluginTest
 	public void testLargeStacks()
 	{
 		when(client.getWidget(anyInt(), anyInt())).thenReturn(mock(Widget.class));
-		when(itemManager.getItemDefinition(anyInt())).thenReturn(mock(ItemDefinition.class));
+		when(itemManager.getItemComposition(anyInt())).thenReturn(mock(ItemComposition.class));
 
 		MenuOptionClicked menuOptionClicked = new MenuOptionClicked(
 			"Examine",
 			"Something",
 			ItemID.ABYSSAL_WHIP,
-			MenuOpcode.EXAMINE_ITEM.getId(),
+			MenuAction.EXAMINE_ITEM.getId(),
 			123,
 			456,
 			false
@@ -143,7 +139,7 @@ public class ExaminePluginTest
 	@Test
 	public void testGetItemPrice()
 	{
-		ItemDefinition itemDefinition = mock(ItemDefinition.class);
+		ItemComposition itemDefinition = mock(ItemComposition.class);
 		when(itemDefinition.getName()).thenReturn("Abyssal whip");
 		when(itemDefinition.getHaPrice()).thenReturn(2);
 		when(itemManager.getItemPrice(ItemID.ABYSSAL_WHIP)).thenReturn(3);

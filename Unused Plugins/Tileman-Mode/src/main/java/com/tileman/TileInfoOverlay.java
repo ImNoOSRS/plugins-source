@@ -36,7 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.inject.Inject;
 import java.awt.*;
 
-import static net.runelite.api.MenuOpcode.RUNELITE_OVERLAY_CONFIG;
+import static net.runelite.api.MenuAction.RUNELITE_OVERLAY_CONFIG;
 import static net.runelite.client.ui.overlay.OverlayManager.OPTION_CONFIGURE;
 
 class TileInfoOverlay extends OverlayPanel {
@@ -70,7 +70,6 @@ class TileInfoOverlay extends OverlayPanel {
         String unlockedTiles = String.valueOf(plugin.getTotalTiles());
         String xpUntilNextTile = String.valueOf(plugin.getXpUntilNextTile());
 
-        panelComponent.getChildren().add(LineComponent.builder()
                 .left(UNSPENT_TILES_STRING)
                 .leftColor(getTextColor())
                 .right(unspentTiles)
@@ -78,13 +77,11 @@ class TileInfoOverlay extends OverlayPanel {
                 .build());
 
         if(!(config.enableCustomGameMode() && config.excludeExp())) {
-            panelComponent.getChildren().add(LineComponent.builder()
                     .left(XP_UNTIL_NEXT_TILE)
                     .right(xpUntilNextTile)
                     .build());
         }
 
-        panelComponent.getChildren().add(LineComponent.builder()
                 .left(UNLOCKED_TILES)
                 .right(unlockedTiles)
                 .build());

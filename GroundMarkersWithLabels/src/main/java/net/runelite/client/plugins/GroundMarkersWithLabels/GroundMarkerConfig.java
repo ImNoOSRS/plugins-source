@@ -24,13 +24,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package net.runelite.client.plugins.GroundMarkersWithLabels;
-
 import java.awt.Color;
 import net.runelite.client.config.Alpha;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
-
 @ConfigGroup("groundMarkerWithLabels")
 public interface GroundMarkerConfig extends Config
 {
@@ -44,7 +42,6 @@ public interface GroundMarkerConfig extends Config
 	{
 		return Color.YELLOW;
 	}
-
 	@ConfigItem(
 		keyName = "rememberTileColors",
 		name = "Remember color per tile",

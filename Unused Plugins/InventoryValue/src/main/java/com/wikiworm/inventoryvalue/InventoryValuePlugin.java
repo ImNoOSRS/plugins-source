@@ -109,7 +109,7 @@ public class InventoryValuePlugin extends Plugin
 
     public long calculateItemValue(Item item) {
         int itemId = item.getId();
-        ItemDefinition itemComposition = itemManager.getItemDefinition(itemId);
+        ItemComposition itemComposition = itemManager.getItemComposition(itemId);
         String itemName = itemComposition.getName();
         int itemValue;
         // if ignore coins is set, calculate item value as 0

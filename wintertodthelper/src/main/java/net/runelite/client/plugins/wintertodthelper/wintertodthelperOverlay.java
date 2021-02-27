@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.Point;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -64,6 +64,22 @@ class wintertodthelperOverlay extends Overlay {
         return client.getMouseCanvasPosition();
     }
 
+    public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+    {
+        if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+        {
+            graphics.setColor(configColor.darker());
+        }
+        else
+        {
+            graphics.setColor(configColor);
+        }
+
+        graphics.draw(objectClickbox);
+        graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+        graphics.fill(objectClickbox);
+    }
+
     @Override
     public Dimension render(Graphics2D graphics) {
         if(config.ignorewait()) {
@@ -83,7 +99,7 @@ class wintertodthelperOverlay extends Overlay {
                 if (g.getPlane() == client.getPlane()) {
                     Shape clickbox = g.getClickbox();
                     if (clickbox != null) {
-                        OverlayUtil.renderClickBox(graphics, mouse(), clickbox, bruma_root_color());
+                        renderClickBox(graphics, mouse(), clickbox, bruma_root_color());
                         Color c;
                         if(plugin.isInventory_full())
                         {
@@ -102,10 +118,10 @@ class wintertodthelperOverlay extends Overlay {
                         }
                         if(config.filled())
                         {
-                            OverlayUtil.renderFilledPolygon(graphics, clickbox, c);
+                            OverlayUtil.renderPolygon(graphics, clickbox, c);
                         }
                         else {
-                            OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
+                            renderClickBox(graphics, mouse(), clickbox, c);
                         }
                     }
                 }
@@ -134,10 +150,10 @@ class wintertodthelperOverlay extends Overlay {
                 if (clickbox != null) {
                     if(config.filled())
                     {
-                        OverlayUtil.renderFilledPolygon(graphics, clickbox, brazier_color());
+                        OverlayUtil.renderPolygon(graphics, clickbox, brazier_color());
                     }
                     else {
-                        OverlayUtil.renderClickBox(graphics, mouse(), clickbox, brazier_color());
+                        renderClickBox(graphics, mouse(), clickbox, brazier_color());
                     }
                 }
             }
@@ -178,10 +194,10 @@ class wintertodthelperOverlay extends Overlay {
             if (clickbox != null) {
                 if(config.filled())
                 {
-                    OverlayUtil.renderFilledPolygon(graphics, clickbox, config.broken());
+                    OverlayUtil.renderPolygon(graphics, clickbox, config.broken());
                 }
                 else {
-                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.broken());
+                    renderClickBox(graphics, mouse(), clickbox, config.broken());
                 }
             }
         }
@@ -191,10 +207,10 @@ class wintertodthelperOverlay extends Overlay {
             if (clickbox != null) {
                 if(config.filled())
                 {
-                    OverlayUtil.renderFilledPolygon(graphics, clickbox, config.unlit());
+                    OverlayUtil.renderPolygon(graphics, clickbox, config.unlit());
                 }
                 else {
-                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.unlit());
+                    renderClickBox(graphics, mouse(), clickbox, config.unlit());
                 }
             }
         }

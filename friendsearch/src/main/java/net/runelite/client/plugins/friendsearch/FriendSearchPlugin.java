@@ -53,7 +53,6 @@ import net.runelite.client.game.chatbox.ChatboxPanelManager;
 import net.runelite.client.game.chatbox.ChatboxTextInput;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import org.pf4j.Extension;
 
 @Slf4j
@@ -61,7 +60,7 @@ import org.pf4j.Extension;
 @PluginDescriptor(
 		name = "Friend Searcher",
 		description = "Adds searching and filtering to the quest list",
-		type = PluginType.UTILITY
+		tags = {"imno"}
 )
 public class FriendSearchPlugin extends Plugin
 {
@@ -196,7 +195,7 @@ public class FriendSearchPlugin extends Plugin
 	@Subscribe
 	private void onVarClientIntChanged(VarClientIntChanged varClientIntChanged)
 	{
-		if (varClientIntChanged.getIndex() == VarClientInt.INTERFACE_TAB.getIndex() && isChatboxOpen() && isNotOnFriendsTab())
+		if (varClientIntChanged.getIndex() == VarClientInt.INVENTORY_TAB.getIndex() && isChatboxOpen() && isNotOnFriendsTab())
 		{
 			chatboxPanelManager.close();
 		}
@@ -204,7 +203,7 @@ public class FriendSearchPlugin extends Plugin
 
 	private boolean isNotOnFriendsTab()
 	{
-		return client.getVar(VarClientInt.INTERFACE_TAB) != 9 || client.getVar(VarClientInt.INTERFACE_TAB) != InterfaceTab.FRIENDS.getId();
+		return client.getVar(VarClientInt.INVENTORY_TAB) != 9 || client.getVar(VarClientInt.INVENTORY_TAB) != InterfaceTab.FRIENDS.getId();
 	}
 
 	private boolean isChatboxOpen()

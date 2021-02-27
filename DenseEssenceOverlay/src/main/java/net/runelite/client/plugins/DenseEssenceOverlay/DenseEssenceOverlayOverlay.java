@@ -31,7 +31,7 @@ import net.runelite.api.*;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.game.SpriteManager;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -87,13 +87,29 @@ class DenseEssenceOverlayOverlay extends Overlay
 
     public BufferedImage checkmark_image = ImageUtil.getResourceStreamFromClass(getClass(), "checkmark.png");
 
+    public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+    {
+        if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+        {
+            graphics.setColor(configColor.darker());
+        }
+        else
+        {
+            graphics.setColor(configColor);
+        }
+
+        graphics.draw(objectClickbox);
+        graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+        graphics.fill(objectClickbox);
+    }
+
     @Override
     public Dimension render(Graphics2D graphics) {
         if (!plugin.inarea) {
             return null;
         }
         for (GameObject g: plugin.getDenseObjects()) {
-            ObjectDefinition definition = client.getObjectDefinition(g.getId());
+            ObjectComposition definition = client.getObjectDefinition(g.getId());
             if (definition != null) {
                 if (definition.getImpostorIds() != null) {
                     definition = definition.getImpostor();
@@ -129,7 +145,7 @@ class DenseEssenceOverlayOverlay extends Overlay
                 {
                     if (c != Color.BLACK)
                     {
-                        OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
+                        renderClickBox(graphics, mouse(), clickbox, c);
                     }
                 }
                 if (config.showDenseRunestoneIndicator() && config.denseIndicator() && dense && !plugin.isInventory_full()) {

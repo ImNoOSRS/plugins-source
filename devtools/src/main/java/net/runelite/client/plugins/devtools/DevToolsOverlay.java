@@ -47,7 +47,7 @@ import net.runelite.api.GameObject;
 import net.runelite.api.GraphicsObject;
 import net.runelite.api.GroundObject;
 import net.runelite.api.NPC;
-import net.runelite.api.NPCDefinition;
+import net.runelite.api.NPCComposition;
 import net.runelite.api.Node;
 import net.runelite.api.Perspective;
 import net.runelite.api.Player;
@@ -199,11 +199,11 @@ class DevToolsOverlay extends Overlay
 		List<NPC> npcs = client.getNpcs();
 		for (NPC npc : npcs)
 		{
-			NPCDefinition composition = npc.getDefinition();
+			NPCComposition composition = npc.getComposition();
 			Color color = composition.getCombatLevel() > 1 ? YELLOW : ORANGE;
 			if (composition.getConfigs() != null)
 			{
-				NPCDefinition transformedComposition = composition.transform();
+				NPCComposition transformedComposition = composition.transform();
 				if (transformedComposition == null)
 				{
 					color = GRAY;

@@ -53,7 +53,6 @@ import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.ItemStack;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
@@ -64,8 +63,7 @@ import org.pf4j.Extension;
 @PluginDescriptor(
 	name = "Runecrafting Tracker",
 	description = "Track your total profit and the amount of runes you have crafted",
-	tags = {"rc", "rune", "craft", "runecraft", "runecrafting", "track", "tracker", "zmi", "ourania", "altar"},
-	type = PluginType.SKILLING
+	tags = {"rc", "rune", "craft", "runecraft", "runecrafting", "track", "tracker", "zmi", "ourania", "altar", "imno"}
 )
 @Getter(AccessLevel.PACKAGE)
 public class RunecraftingTrackerPlugin extends Plugin

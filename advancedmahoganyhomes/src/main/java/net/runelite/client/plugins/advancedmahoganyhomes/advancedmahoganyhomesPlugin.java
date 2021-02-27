@@ -22,9 +22,7 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
-import net.runelite.client.util.Clipboard;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.pf4j.Extension;
@@ -39,8 +37,7 @@ import java.util.List;
 @Extension
 @PluginDescriptor(
         name = "Advanced Mahogany Homes",
-        description = "Mahogany Homes Assistant.",
-        type = PluginType.SYSTEM
+        description = "Mahogany Homes Assistant."
 )
 @Slf4j
 public class advancedmahoganyhomesPlugin extends Plugin {

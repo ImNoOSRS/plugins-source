@@ -45,8 +45,8 @@ import net.runelite.api.queries.DecorativeObjectQuery;
 import net.runelite.api.queries.GameObjectQuery;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.HouseOverlay.HouseOverlayConfig;
 import net.runelite.client.plugins.HouseOverlay.HouseOverlayPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -54,7 +54,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.ImageUtil;
 
@@ -85,6 +84,22 @@ class HouseOverlayOverlay extends Overlay {
     public Point mouse()
     {
         return client.getMouseCanvasPosition();
+    }
+
+    public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+    {
+        if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+        {
+            graphics.setColor(configColor.darker());
+        }
+        else
+        {
+            graphics.setColor(configColor);
+        }
+
+        graphics.draw(objectClickbox);
+        graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+        graphics.fill(objectClickbox);
     }
 
     @Override
@@ -149,7 +164,7 @@ class HouseOverlayOverlay extends Overlay {
     String extrainfo = "";
     public String getname(int id)
     {
-        ObjectDefinition def = client.getObjectDefinition(id);
+        ObjectComposition def = client.getObjectDefinition(id);
         if (def != null) {
             if (def.getImpostorIds() != null) {
                 def = def.getImpostor();
@@ -218,13 +233,14 @@ class HouseOverlayOverlay extends Overlay {
         }
         c = getcolor(id, c);
         if(clickbox != null) {
-            OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
+            renderClickBox(graphics, mouse(), clickbox, c);
         }
 
         if(getCanvasTextLocation == null)
         {
             return;
         }
+
         OverlayUtil.renderTextLocation(graphics, getCanvasTextLocation, name, config.TelportObjectsTextColor());
         if(!lastaction.isEmpty())
             OverlayUtil.renderTextLocation(graphics, new Point(getCanvasTextLocation.getX(), getCanvasTextLocation.getY() - 15), "(" + lastaction + ")", Color.RED);

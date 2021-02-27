@@ -30,8 +30,7 @@ import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.components.table.TableAlignment;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
+import net.runelite.client.ui.overlay.components.LineComponent;
 
 public class CameraOverlay extends OverlayPanel
 {
@@ -54,17 +53,38 @@ public class CameraOverlay extends OverlayPanel
 			return null;
 		}
 
-		TableComponent tableComponent = new TableComponent();
-		tableComponent.setColumnAlignments(TableAlignment.LEFT, TableAlignment.RIGHT);
 
-		tableComponent.addRow("X", "" + client.getCameraX());
-		tableComponent.addRow("Y", "" + client.getCameraY());
-		tableComponent.addRow("Z", "" + client.getCameraZ());
-		tableComponent.addRow("Pitch", "" + client.getCameraPitch());
-		tableComponent.addRow("Yaw", "" + client.getCameraYaw());
-		tableComponent.addRow("Scale", "" + client.getScale());
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("X")
+		.right("" + client.getCameraX())
+		.build());
 
-		panelComponent.getChildren().add(tableComponent);
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Y")
+		.right("" + client.getCameraY())
+		.build());
+
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Z")
+		.right("" + client.getCameraZ())
+		.build());
+
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Pitch")
+		.right("" + client.getCameraPitch())
+		.build());
+
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Yaw")
+		.right("" + client.getCameraYaw())
+		.build());
+
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Scale")
+		.right("" + client.getScale())
+		.build());
+
+
 
 		return super.render(graphics);
 	}

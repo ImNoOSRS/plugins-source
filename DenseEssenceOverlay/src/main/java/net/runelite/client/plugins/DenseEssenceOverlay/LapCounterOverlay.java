@@ -20,12 +20,11 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.*;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableAlignment;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
+import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.ImageUtil;
 
@@ -76,9 +75,11 @@ class LapCounterOverlay extends OverlayPanel {
         {
             return null;
         }
-        TableComponent tableComponent = new TableComponent();
-        tableComponent.setColumnAlignments(TableAlignment.LEFT, TableAlignment.RIGHT);
-        tableComponent.addRow("Runecrafting:");
+									panelComponent.getChildren().add(LineComponent.builder()
+										.left("Runecrafting:")
+										.right("")
+										.build());
+
         int currentlvl = client.getRealSkillLevel(Skill.RUNECRAFT);
         float currentexp = client.getSkillExperience(Skill.RUNECRAFT);
         float startexp = plugin.start_exp_runecrafting;
@@ -89,21 +90,30 @@ class LapCounterOverlay extends OverlayPanel {
             exp_devider = 1233;
         }
         //Naming shit (tables) idk
-        tableComponent.addRow("Total Laps:", "" + Math.round(Math.abs(currentexp - startexp) / exp_devider));
-        tableComponent.addRow("Laps until level:", "" + format(Math.abs(currentexp - exp_for_next_level) / exp_devider));
+									panelComponent.getChildren().add(LineComponent.builder()
+										.left("Total Laps:")
+										.right("" + Math.round(Math.abs(currentexp - startexp)))
+										.build());
+
+									panelComponent.getChildren().add(LineComponent.builder()
+										.left("Laps until level:")
+										.right("" + format(Math.abs(currentexp - exp_for_next_level)))
+										.build());
+
         int goal_end = client.getVar(VarPlayer.RUNECRAFT_GOAL_END);
         if (goal_end != exp_for_next_level) ;
         if (config.lapstogoal()) {
-            tableComponent.addRow("Laps until goal:", "" + format(Math.abs(currentexp - client.getVar(VarPlayer.RUNECRAFT_GOAL_END)) / exp_devider));
+									panelComponent.getChildren().add(LineComponent.builder()
+										.left("Laps until goal:")
+										.right("" + format(Math.abs(currentexp - client.getVar(VarPlayer.RUNECRAFT_GOAL_END))))
+										.build());
+
         }
         //This make shit do Size n' shit
-        panelComponent.getChildren().add(tableComponent);
         panelComponent.setPreferredSize(new Dimension(150, 0));
-        panelComponent.setOverrideResize(true);
         return super.render(graphics);
 
 
 
     }
 }
-

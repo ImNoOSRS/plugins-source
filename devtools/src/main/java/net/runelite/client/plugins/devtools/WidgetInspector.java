@@ -58,7 +58,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.MenuEntry;
-import net.runelite.api.MenuOpcode;
+import net.runelite.api.MenuAction;
 import net.runelite.api.SpriteID;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.MenuOptionClicked;
@@ -499,7 +499,7 @@ class WidgetInspector extends JFrame
 		client.setSpellSelected(false);
 		ev.consume();
 
-		Object target = getWidgetOrWidgetItemForMenuOption(ev.getMenuOpcode().getId(), ev.getParam0(), ev.getParam1());
+		Object target = getWidgetOrWidgetItemForMenuOption(ev.getMenuAction().getId(), ev.getParam0(), ev.getParam1());
 		if (target == null)
 		{
 			return;
@@ -528,8 +528,8 @@ class WidgetInspector extends JFrame
 		for (int i = 0; i < menuEntries.length; i++)
 		{
 			MenuEntry entry = menuEntries[i];
-			if (entry.getOpcode() != MenuOpcode.ITEM_USE_ON_WIDGET.getId()
-				&& entry.getOpcode() != MenuOpcode.SPELL_CAST_ON_WIDGET.getId())
+			if (entry.getMenuAction() != MenuAction.ITEM_USE_ON_WIDGET.getId()
+				&& entry.getMenuAction() != MenuAction.SPELL_CAST_ON_WIDGET.getId())
 			{
 				continue;
 			}
@@ -557,7 +557,7 @@ class WidgetInspector extends JFrame
 
 	Object getWidgetOrWidgetItemForMenuOption(int type, int param0, int param1)
 	{
-		if (type == MenuOpcode.SPELL_CAST_ON_WIDGET.getId())
+		if (type == MenuAction.SPELL_CAST_ON_WIDGET.getId())
 		{
 			Widget w = client.getWidget(WidgetInfo.TO_GROUP(param1), WidgetInfo.TO_CHILD(param1));
 			if (param0 != -1)
@@ -567,7 +567,7 @@ class WidgetInspector extends JFrame
 
 			return w;
 		}
-		else if (type == MenuOpcode.ITEM_USE_ON_WIDGET.getId())
+		else if (type == MenuAction.ITEM_USE_ON_WIDGET.getId())
 		{
 			Widget w = client.getWidget(WidgetInfo.TO_GROUP(param1), WidgetInfo.TO_CHILD(param1));
 			return w.getWidgetItem(param0);

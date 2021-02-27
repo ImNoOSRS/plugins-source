@@ -41,18 +41,13 @@ import net.runelite.api.*;
 import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
@@ -86,6 +81,21 @@ class hallowedhelperOverlay extends Overlay
         this.modelOutlineRenderer = modelOutlineRenderer;
     }
 
+    public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+    {
+        if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+        {
+            graphics.setColor(configColor.darker());
+        }
+        else
+        {
+            graphics.setColor(configColor);
+        }
+
+        graphics.draw(objectClickbox);
+        graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+        graphics.fill(objectClickbox);
+    }
 
     @Override
     public Dimension render(Graphics2D graphics)
@@ -342,7 +352,7 @@ class hallowedhelperOverlay extends Overlay
                     {
                         return;
                     }
-                    OverlayUtil.renderPolygonThin(graphics, poly, Color.CYAN);
+                    OverlayUtil.renderPolygon(graphics, poly, Color.CYAN);
                     OverlayText(graphics, lp, "SAFESPOT", Color.GREEN, 0, 0);
                 }
             }
@@ -517,7 +527,7 @@ class hallowedhelperOverlay extends Overlay
             {
                 movementpertick = 3;
                 if(offset > 0) {
-                     offset_text += "/4";
+                    offset_text += "/4";
                 }
             }
             else if(sword.getId() == 9671)//rune sword
@@ -651,7 +661,7 @@ class hallowedhelperOverlay extends Overlay
             {
                 continue;
             }
-            ObjectDefinition definition = client.getObjectDefinition(bridge.getId());
+            ObjectComposition definition = client.getObjectDefinition(bridge.getId());
             if (definition != null) {
                 if (definition.getImpostorIds() != null) {
                     definition = definition.getImpostor();
@@ -663,12 +673,12 @@ class hallowedhelperOverlay extends Overlay
                 }
                 int varbit = definition.getId();
                 if (varbit == bridge_build) {
-                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.GREEN);
+                    renderClickBox(graphics, mouse(), clickbox, Color.GREEN);
                     //modelOutlineRenderer.drawOutline(bridge, 2, Color.GREEN);
                 }
                 else
                 {
-                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.YELLOW);
+                    renderClickBox(graphics, mouse(), clickbox, Color.YELLOW);
                     //modelOutlineRenderer.drawOutline(bridge, 2, Color.YELLOW);
                 }
             }
@@ -693,7 +703,7 @@ class hallowedhelperOverlay extends Overlay
             {
                 continue;
             }
-            ObjectDefinition definition = client.getObjectDefinition(portal.getId());
+            ObjectComposition definition = client.getObjectDefinition(portal.getId());
             if (definition != null) {
                 if (definition.getImpostorIds() != null) {
                     definition = definition.getImpostor();
@@ -707,12 +717,12 @@ class hallowedhelperOverlay extends Overlay
                 int varBit = definition.getId();
                 if (varBit == portal_build) {
                     //modelOutlineRenderer.drawOutline(portal, 2, config.portalOpenColor());
-                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.portalOpenColor());
+                    renderClickBox(graphics, mouse(), clickbox, config.portalOpenColor());
                 }
                 else
                 {
                     //modelOutlineRenderer.drawOutline(portal, 2, config.portalColor());
-                    OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.portalColor());
+                    renderClickBox(graphics, mouse(), clickbox, config.portalColor());
                 }
             }
         }
@@ -743,7 +753,7 @@ class hallowedhelperOverlay extends Overlay
             {
                 continue;
             }
-            ObjectDefinition definition = client.getObjectDefinition(chest.getId());
+            ObjectComposition definition = client.getObjectDefinition(chest.getId());
             if (definition != null) {
                 if (definition.getImpostorIds() != null) {
                     definition = definition.getImpostor();
@@ -754,26 +764,26 @@ class hallowedhelperOverlay extends Overlay
                     //OverlayUtil.renderTileOverlay(graphics, chest, "CHEST[1]", Color.GREEN);
                     if(plugin.getGraphic() == 267)
                     {
-                        OverlayUtil.renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningFail());
+                        renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningFail());
                         continue;
                     }
                     if(CHEST_ANIMATIONS.contains(plugin.getAnimation()))
                     {
                         switch(plugin.getAnimation()) {
                             case 3692:
-                                OverlayUtil.renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningColor());
+                                renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningColor());
                                 break;
                             case 4344:
-                                OverlayUtil.renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningColor2());
+                                renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningColor2());
                                 break;
                             case 8691:
-                                OverlayUtil.renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningColor3());
+                                renderClickBox(graphics, mouse(), chest_clickbox, config.chestOpeningColor3());
                                 break;
                         }
                     }
                     else
                     {
-                        OverlayUtil.renderClickBox(graphics, mouse(), chest_clickbox, config.chestColor());
+                        renderClickBox(graphics, mouse(), chest_clickbox, config.chestColor());
                     }
                 }
             }
@@ -799,7 +809,7 @@ class hallowedhelperOverlay extends Overlay
         {
             return;
         }
-        OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.floorgateColor());
+        renderClickBox(graphics, mouse(), clickbox, config.floorgateColor());
     }
 
     public static Color hex2Rgb(String colorStr) {
@@ -887,7 +897,7 @@ class hallowedhelperOverlay extends Overlay
             {
                 continue;
             }
-            OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.floorgateColor());
+            renderClickBox(graphics, mouse(), clickbox, config.floorgateColor());
             //return;
         }
     }
@@ -916,7 +926,7 @@ class hallowedhelperOverlay extends Overlay
             {
                 continue;
             }
-            OverlayUtil.renderClickBox(graphics, mouse(), Clickbox, config.stairsColor());
+            renderClickBox(graphics, mouse(), Clickbox, config.stairsColor());
             //modelOutlineRenderer.drawOutline(stairs, 1, config.stairsColor());
         }
     }
@@ -1017,7 +1027,7 @@ class hallowedhelperOverlay extends Overlay
                 continue;
             }
 
-            final DynamicObject dynamicObject = (DynamicObject) gameObject.getEntity();
+            final DynamicObject dynamicObject = (DynamicObject) gameObject.getRenderable();
 
             if (dynamicObject.getAnimationID() == CROSSBOW_STATUE_ANIM_DEFAULT || dynamicObject.getAnimationID() == CROSSBOW_STATUE_ANIM_FINAL)
             {
@@ -1049,7 +1059,7 @@ class hallowedhelperOverlay extends Overlay
                 continue;
             }
 
-            final DynamicObject dynamicObject = (DynamicObject) gameObject.getEntity();
+            final DynamicObject dynamicObject = (DynamicObject) gameObject.getRenderable();
 
             if (dynamicObject.getAnimationID() == SWORD_THROW_START)
             {
@@ -1425,11 +1435,11 @@ class hallowedhelperOverlay extends Overlay
     {
         if(config.FillTileOverlay())
         {
-            OverlayUtil.renderFilledPolygon(graphics, poly, color);
+            OverlayUtil.renderPolygon(graphics, poly, color);
         }
         else
         {
-            OverlayUtil.renderPolygonThin(graphics, poly, color);
+            OverlayUtil.renderPolygon(graphics, poly, color);
         }
     }
 

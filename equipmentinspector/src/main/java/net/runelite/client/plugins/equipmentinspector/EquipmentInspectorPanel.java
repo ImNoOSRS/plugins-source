@@ -38,7 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import net.runelite.api.ItemDefinition;
+import net.runelite.api.ItemComposition;
 import net.runelite.api.kit.KitType;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
@@ -91,7 +91,7 @@ class EquipmentInspectorPanel extends PluginPanel
 		update(new HashMap<>(), "");
 	}
 
-	public void update(Map<KitType, ItemDefinition> playerEquipment, String playerName)
+	public void update(Map<KitType, ItemComposition> playerEquipment, String playerName)
 	{
 		if (playerName.isEmpty())
 		{

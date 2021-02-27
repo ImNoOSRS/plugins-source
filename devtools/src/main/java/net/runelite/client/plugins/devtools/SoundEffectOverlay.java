@@ -52,7 +52,6 @@ class SoundEffectOverlay extends OverlayPanel
 	{
 		this.client = client;
 		this.plugin = plugin;
-		panelComponent.getChildren().add(LineComponent.builder()
 			.left("Sound Effects")
 			.leftColor(Color.CYAN)
 			.build());
@@ -77,7 +76,6 @@ class SoundEffectOverlay extends OverlayPanel
 			"Id: " + event.getSoundId() +
 				" - D: " + event.getDelay();
 
-		panelComponent.getChildren().add(LineComponent.builder()
 			.left(text)
 			.leftColor(COLOR_SOUND_EFFECT)
 			.build());
@@ -113,7 +111,6 @@ class SoundEffectOverlay extends OverlayPanel
 				" - R: " + event.getRange() +
 				" - D: " + event.getDelay();
 
-		panelComponent.getChildren().add(LineComponent.builder()
 			.left(text)
 			.leftColor(textColor)
 			.build());

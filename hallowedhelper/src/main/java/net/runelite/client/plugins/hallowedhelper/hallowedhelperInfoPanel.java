@@ -1,7 +1,6 @@
 package net.runelite.client.plugins.hallowedhelper;
 
 import java.awt.*;
-import java.util.Map;
 import javax.inject.Inject;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +9,7 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.components.table.TableAlignment;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
+import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.util.ColorUtil;
 
 @Slf4j
@@ -31,73 +29,198 @@ public class hallowedhelperInfoPanel extends OverlayPanel
         }
 
         private int maxfloor = 1;
-        private int userX = 0;
 
         @Override
         public Dimension render(Graphics2D graphics)
         {
+            /*
             Player local = client.getLocalPlayer();
             WorldPoint WorldPoint = local.getWorldLocation();
             LocalPoint LocalLocation = local.getLocalLocation();
             maxfloor = getMaxFloor();
-            TableComponent tableComponent = new TableComponent();
-            tableComponent.setColumnAlignments(TableAlignment.LEFT, TableAlignment.RIGHT);
 
-            tableComponent.addRow("Hallowed-Info", "");
+            panelComponent.getChildren().add(LineComponent.builder()
+                .left("Hallowed-Info")
+                .right("")
+                .build());
+
             if(config.ShowValues()) {
-                tableComponent.addRow("FLOOR4_ROTATION", "" + plugin.floor4_fire_rotation);
-                tableComponent.addRow("TICKS_SINCE:", "" + plugin.floor_4_ticks_since_statue);
-                tableComponent.addRow("FLOOR5_ROTATION", "" + plugin.floor5_fire_rotation);
-                tableComponent.addRow("TICKS5_SINCE:", "" + plugin.floor_5_ticks_since_statue);
-                tableComponent.addRow("FLOOR5[2]_ROTATION", "" + plugin.floor5_2A_fire_rotation);
-                tableComponent.addRow("TICKS5[2]_SINCE:", "" + plugin.floor5_2A_ticks_since_statue);
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("FLOOR4_ROTATION")
+                    .right("" + plugin.floor4_fire_rotation)
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("TICKS_SINCE:")
+                    .right("" + plugin.floor_4_ticks_since_statue)
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("FLOOR5_ROTATION")
+                    .right("" + plugin.floor5_fire_rotation)
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("TICKS5_SINCE:")
+                    .right("" + plugin.floor_5_ticks_since_statue)
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("FLOOR5[2]_ROTATION")
+                    .right("" + plugin.floor5_2A_fire_rotation)
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("TICKS5[2]_SINCE:")
+                    .right("" + plugin.floor5_2A_ticks_since_statue)
+                    .build());
+
             }
-            tableComponent.addRow("Location: ", getLocation());
-            //tableComponent.addRow("Region ID: ", "" + client.getLocalPlayer().getWorldLocation().getRegionID());
-            //its shit /\
-            tableComponent.addRow("TicksLeft: ", "" + (plugin.isDoorOpen() ? plugin.getTicksleft() : 0));
-            tableComponent.addRow("DoorOpen: ", "" + (plugin.isDoorOpen() ? ColorUtil.prependColorTag("Yes", Color.GREEN) : ColorUtil.prependColorTag("No", Color.RED)));
-            tableComponent.addRow("Level: ", "" + client.getRealSkillLevel(Skill.AGILITY));
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("Location: ")
+                        .right("" + getLocation())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("Region ID: ")
+                        .right("" + client.getLocalPlayer())
+                        .build());
+
+//its shit /\
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("TicksLeft: ")
+                        .right("" + (plugin.isDoorOpen()))
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("DoorOpen: ")
+                        .right("" + (plugin.isDoorOpen()))
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("Level: ")
+                        .right("" + client.getRealSkillLevel(Skill.AGILITY))
+                        .build());
+
             if(config.ShowValues()) {
-                tableComponent.addRow("Plane: ", "" + client.getPlane());
-                tableComponent.addRow("WorldX: ", "" + WorldPoint.getX());
-                tableComponent.addRow("WorldX (Reg): ", "" + WorldPoint.getRegionX());
-                tableComponent.addRow("WorldY (Reg): ", "" + WorldPoint.getRegionY());
-                tableComponent.addRow("WorldY: ", "" + WorldPoint.getX());
-                tableComponent.addRow("LocalX: ", "" + LocalLocation.getX());
-                tableComponent.addRow("LocalY: ", "" + LocalLocation.getY());
-                tableComponent.addRow("SceneX: ", "" + LocalLocation.getSceneX());
-                tableComponent.addRow("SceneY: ", "" + LocalLocation.getSceneY());
-                //tableComponent.addRow("LH: ", "" + client.getLocalPlayer().getLogicalHeight());
-                tableComponent.addRow("Region", "" + client.getMapRegions()[0]);
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("Plane: ")
+                        .right("" + client.getPlane())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("WorldX: ")
+                        .right("" + WorldPoint.getX())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("WorldX ")
+                        .right("")
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("WorldY ")
+                        .right("")
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("WorldY: ")
+                        .right("" + WorldPoint.getX())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("LocalX: ")
+                        .right("" + LocalLocation.getX())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("LocalY: ")
+                        .right("" + LocalLocation.getY())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("SceneX: ")
+                        .right("" + LocalLocation.getSceneX())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("SceneY: ")
+                        .right("" + LocalLocation.getSceneY())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("LH: ")
+                        .right("" + client.getLocalPlayer())
+                        .build());
+
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("Region")
+                        .right("" + client.getMapRegions())
+                        .build());
+
                 Integer swordcount = plugin.getSwords().size();
                 Integer arrowcount = plugin.getArrows().size();
                 Integer chestcount = plugin.getChests().size();
-                tableComponent.addRow("Swords", swordcount.toString());
-                tableComponent.addRow("Swordsman", "" + plugin.getSwordStatues().size());
-                tableComponent.addRow("Arrows", arrowcount.toString());
-                tableComponent.addRow("Floor-Stairs", "" + plugin.getFloor_gates().size());
-                tableComponent.addRow("Stairs", "" + plugin.getStairs().size());
-                tableComponent.addRow("Chests", "" + chestcount);
-                tableComponent.addRow("Lightningbolts: ", ""  + plugin.getLightningboltlocations().size());
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Swords")
+                    .right("" + swordcount.toString())
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Swordsman")
+                    .right("" + plugin.getSwordStatues())
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Arrows")
+                    .right("" + arrowcount.toString())
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Floor-Stairs")
+                    .right("" + plugin.getFloor_gates())
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Stairs")
+                    .right("" + plugin.getStairs())
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Chests")
+                    .right("" + chestcount)
+                    .build());
+
+                panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Lightningbolts: ")
+                    .right(""  + plugin.getLightningboltlocations())
+                    .build());
+
             }
+
+            */
+
+
             //client.getVarbitValue(24717); Hallowed Floor? -42 : 10 = FLOOR?
             //Varbit 10392 is de Afteller tijd
 
             /*
             for(GameObject chest : plugin.getChests())
             {
-                ObjectDefinition definition = client.getObjectDefinition(chest.getId());
+                ObjectComposition definition = client.getObjectComposition(chest.getId());
                 if (definition != null) {
                     if (definition.getImpostorIds() != null) {
                         definition = definition.getImpostor();
                     }
                     int varbit = definition.getId();
-                    tableComponent.addRow("Chest " + chest.getId() + ": ", "" + varbit);
+                    panelComponent.getChildren().add(LineComponent.builder()
+                        .left("Chest ")
+                        .right("" + chest.getId())
+                        .build());
+
                 }
             }*/
 
-            panelComponent.getChildren().add(tableComponent);
 
             return super.render(graphics);
         }

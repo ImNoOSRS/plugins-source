@@ -31,7 +31,6 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.SpriteManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
@@ -46,7 +45,6 @@ import java.util.Map;
 @PluginDescriptor(
 	name = "Quick Prayer Preview",
 	description = "Preview your quick prayers by hovering over the orb",
-	type = PluginType.SYSTEM,
 	tags = {"prayer","quick prayer","preview"}
 )
 public class QuickPrayerPreviewPlugin extends Plugin

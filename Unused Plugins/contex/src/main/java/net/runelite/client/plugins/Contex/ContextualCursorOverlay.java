@@ -27,7 +27,7 @@ package net.runelite.client.plugins.Contex;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.MenuEntry;
-import net.runelite.api.MenuOpcode;
+import net.runelite.api.MenuAction;
 import net.runelite.api.Point;
 import net.runelite.client.game.SpriteManager;
 import net.runelite.client.ui.ClientUI;
@@ -104,17 +104,17 @@ public class ContextualCursorOverlay extends Overlay
 			return null;
 		}
 
-		if (menuEntry.getOpcode() == MenuOpcode.WALK.getId()
-			|| menuEntry.getOpcode() == MenuOpcode.CC_OP.getId()
-			|| menuEntry.getOpcode() == MenuOpcode.CANCEL.getId()
-			|| menuEntry.getOpcode() == MenuOpcode.WIDGET_TYPE_2.getId()
-			|| menuEntry.getOpcode() == MenuOpcode.WIDGET_TYPE_6.getId())
+		if (menuEntry.getMenuAction() == MenuAction.WALK.getId()
+			|| menuEntry.getMenuAction() == MenuAction.CC_OP.getId()
+			|| menuEntry.getMenuAction() == MenuAction.CANCEL.getId()
+			|| menuEntry.getMenuAction() == MenuAction.WIDGET_TYPE_2.getId()
+			|| menuEntry.getMenuAction() == MenuAction.WIDGET_TYPE_6.getId())
 		{
 			clientUI.resetCursor();
 			return null;
 		}
 
-		processEntry(graphics,  menuEntry.getOption(),  menuEntry.getTarget());
+		processEntry(graphics,  menuEntry.getMenuOption(),  menuEntry.getTarget());
 		return null;
 	}
 

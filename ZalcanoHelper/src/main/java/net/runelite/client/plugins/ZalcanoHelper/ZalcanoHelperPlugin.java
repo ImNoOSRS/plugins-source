@@ -25,10 +25,6 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
-import net.runelite.client.util.Clipboard;
-import net.runelite.client.util.QuantityFormatter;
-import org.apache.commons.lang3.ObjectUtils;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
@@ -42,7 +38,7 @@ import java.util.List;
 @PluginDescriptor(
 		name = "Zalcano Helper",
 		description = "Helps you with Zalcano",
-		type = PluginType.PVM
+		tags = {"imno"}
 )
 @Slf4j
 public class ZalcanoHelperPlugin extends Plugin {
@@ -370,7 +366,7 @@ public class ZalcanoHelperPlugin extends Plugin {
 			if(isAtZalcanoEntrance())
 			{
 				if(config.TeleportChannelPriority()) {
-					//log.info("Loaded: " + event.getOption());
+					//log.info("Loaded: " + event.getMenuOption());
 					if (event.getOption().contains("Chop down")) {
 						MenuEntry[] menuEntries = client.getMenuEntries();
 						for(MenuEntry m : menuEntries)
@@ -378,7 +374,7 @@ public class ZalcanoHelperPlugin extends Plugin {
 							if(m.getOption().equals("Channel"))
 							{
 								MenuEntry menuEntry = menuEntries[menuEntries.length - 1];
-								menuEntry.setOpcode(menuEntry.getOpcode() + MenuOpcode.MENU_ACTION_DEPRIORITIZE_OFFSET);
+								menuEntry.setOpcode(menuEntry.getMenuAction().getId() + MenuAction.MENU_ACTION_DEPRIORITIZE_OFFSET);
 							}
 						}
 						client.setMenuEntries(menuEntries);
@@ -392,7 +388,7 @@ public class ZalcanoHelperPlugin extends Plugin {
 			if (config.OnlyAttackWhenNoImbuedOres() && event.getOption().contains("Attack")) {
 				MenuEntry[] menuEntries = client.getMenuEntries();
 				MenuEntry menuEntry = menuEntries[menuEntries.length - 1];
-				menuEntry.setOpcode(menuEntry.getOpcode() + MenuOpcode.MENU_ACTION_DEPRIORITIZE_OFFSET);
+				menuEntry.setOpcode(menuEntry.getMenuAction().getId() + MenuAction.MENU_ACTION_DEPRIORITIZE_OFFSET);
 				client.setMenuEntries(menuEntries);
 			}
 		}

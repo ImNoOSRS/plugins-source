@@ -11,7 +11,6 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.worldmap.WorldMapOverlay;
 import net.runelite.client.ui.overlay.worldmap.WorldMapPoint;
@@ -34,8 +33,7 @@ import java.util.zip.ZipInputStream;
 @Extension
 @PluginDescriptor(
         name = "Shortest Path",
-        description = "Draws the shortest path to a chosen destination on the map (right click a spot on the world map to use)",
-        type = PluginType.SYSTEM
+        description = "Draws the shortest path to a chosen destination on the map (right click a spot on the world map to use)"
 )
 public class ShortestPathPlugin extends Plugin {
     private static final WorldArea WILDERNESS_ABOVE_GROUND = new WorldArea(2944, 3523, 448, 448, 0);
@@ -183,11 +181,11 @@ public class ShortestPathPlugin extends Plugin {
 
     @Subscribe
     public void onMenuOptionClicked(MenuOptionClicked event) {
-        if (event.getOption().equals("Set Target")) {
+        if (event.getMenuOption().equals("Set Target")) {
             setTarget(calculateMapPoint(client.isMenuOpen() ? lastMenuOpenedPoint : client.getMouseCanvasPosition()));
         }
 
-        if (event.getOption().equals("Clear Target")) {
+        if (event.getMenuOption().equals("Clear Target")) {
             setTarget(null);
         }
     }
@@ -231,7 +229,7 @@ public class ShortestPathPlugin extends Plugin {
         MenuEntry entry = new MenuEntry();
         entry.setOption(option);
         entry.setTarget(event.getTarget());
-        entry.setOpcode(MenuOpcode.RUNELITE.getId());
+        entry.setOpcode(MenuAction.RUNELITE.getId());
         entries.add(0, entry);
 
         client.setMenuEntries(entries.toArray(new MenuEntry[0]));

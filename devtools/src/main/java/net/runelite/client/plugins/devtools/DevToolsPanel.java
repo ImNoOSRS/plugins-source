@@ -33,7 +33,7 @@ import javax.inject.Inject;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import net.runelite.api.Client;
-import net.runelite.api.MenuOpcode;
+import net.runelite.api.MenuAction;
 import net.runelite.client.Notifier;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
@@ -186,7 +186,7 @@ class DevToolsPanel extends PluginPanel
 		newInfoboxBtn.addActionListener(e ->
 		{
 			Counter counter = new Counter(ImageUtil.getResourceStreamFromClass(getClass(), "devtools_icon.png"), plugin, 42);
-			counter.getMenuEntries().add(new OverlayMenuEntry(MenuOpcode.RUNELITE_INFOBOX, "Test", "DevTools"));
+			counter.getMenuEntries().add(new OverlayMenuEntry(MenuAction.RUNELITE_INFOBOX, "Test", "DevTools"));
 			infoBoxManager.addInfoBox(counter);
 		});
 		container.add(newInfoboxBtn);

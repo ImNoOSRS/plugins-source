@@ -57,4 +57,3 @@ public interface InventoryValueConfig extends Config
         return false;
     }
 }
-

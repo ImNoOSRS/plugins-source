@@ -24,14 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package net.runelite.client.plugins.MLMUpperLevelMarkers;
-
 import java.awt.Color;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.Range;
 import net.runelite.client.config.Units;
-
 @ConfigGroup("mlmupperlevelmarkers")
 public interface MLMUpperLevelMarkersConfig extends Config
 {
@@ -45,7 +43,6 @@ public interface MLMUpperLevelMarkersConfig extends Config
 	{
 		return Color.GREEN;
 	}
-
 	@ConfigItem(
 		keyName = "otherMarkerColor",
 		name = "Other Marker Color",
@@ -56,7 +53,6 @@ public interface MLMUpperLevelMarkersConfig extends Config
 	{
 		return Color.YELLOW;
 	}
-
 	@ConfigItem(
 		keyName = "showOtherMarkers",
 		name = "Show Other Players' Markers",
@@ -67,7 +63,6 @@ public interface MLMUpperLevelMarkersConfig extends Config
 	{
 		return true;
 	}
-
 	@ConfigItem(
 		keyName = "showOnlyWhenUpstairs",
 		name = "Show Only When Upstairs",
@@ -78,7 +73,6 @@ public interface MLMUpperLevelMarkersConfig extends Config
 	{
 		return true;
 	}
-
 	// 15 and 27 are values from the osrs wiki on approximate lifetime of upper level MLM veins
 	@ConfigItem(
 		keyName = "firstTimeout",
@@ -92,7 +86,6 @@ public interface MLMUpperLevelMarkersConfig extends Config
 	{
 		return 15;
 	}
-
 	@ConfigItem(
 		keyName = "secondTimeout",
 		name = "Second Timeout",

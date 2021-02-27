@@ -40,46 +40,30 @@ public interface wintertodthelperConfig extends Config {
     @ConfigSection(
             name = "Brumaroot Color",
             description = "",
-            position = 1,
-            keyName = "brumarootColors"
+            position = 1
     )
-    default boolean borderSection()
-    {
-        return false;
-    }
+	String brumarootColors = "brumarootColors";
 
     @ConfigSection(
             name = "Brazier Colors",
             description = "",
-            position = 2,
-            keyName = "brazierColors"
+            position = 2
     )
-    default boolean brazierColors()
-    {
-        return false;
-    }
+	String brazierColors = "brazierColors";
 
     @ConfigSection(
             name = "Enough Points Alerter",
             description = "",
-            position = 3,
-            keyName = "piiSection"
+            position = 3
     )
-    default boolean piiSection()
-    {
-        return false;
-    }
+	String piiSection = "piiSection";
 
     @ConfigSection(
             name = "Miscellaneous",
             description = "",
-            position = 4,
-            keyName = "miscSection"
+            position = 4
     )
-    default boolean misc()
-    {
-        return false;
-    }
+	String miscSection = "miscSection";
 
     //------------------------------------------------------------//
     //Brumaroot Colors
@@ -90,7 +74,7 @@ public interface wintertodthelperConfig extends Config {
             description = "Toggles Brumaroot overlay",
             position = 0,
             keyName = "brumarootToggle",
-            section = "brumarootColors"
+            section = brumarootColors
     )
     default boolean brumarootToggle()
     {
@@ -104,7 +88,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 1,
             keyName = "notChopping",
-            section = "brumarootColors",
+            section = brumarootColors,
             hidden = true,
             unhide = "brumarootToggle"
     )
@@ -119,7 +103,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 2,
             keyName = "chopping",
-            section = "brumarootColors",
+            section = brumarootColors,
             hidden = true,
             unhide = "brumarootToggle"
     )
@@ -137,7 +121,7 @@ public interface wintertodthelperConfig extends Config {
             description = "Toggles Brazier overlay",
             position = 0,
             keyName = "brazierToggle",
-            section = "brazierColors"
+            section = brazierColors
     )
     default boolean brazierToggle()
     {
@@ -150,7 +134,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 1,
             keyName = "notBurning",
-            section = "brazierColors",
+            section = brazierColors,
             hidden = true,
             unhide = "brazierToggle"
     )
@@ -165,7 +149,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 2,
             keyName = "burning",
-            section = "brazierColors",
+            section = brazierColors,
             hidden = true,
             unhide = "brazierToggle"
     )
@@ -180,7 +164,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 3,
             keyName = "unlit",
-            section = "brazierColors",
+            section = brazierColors,
             hidden = true,
             unhide = "brazierToggle"
     )
@@ -195,7 +179,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 4,
             keyName = "broken",
-            section = "brazierColors",
+            section = brazierColors,
             hidden = true,
             unhide = "brazierToggle"
     )
@@ -213,7 +197,7 @@ public interface wintertodthelperConfig extends Config {
             description = "Toggles toggles all below",
             position = 0,
             keyName = "piiToggle",
-            section = "piiSection"
+            section = piiSection
     )
     default boolean piiToggle()
     {
@@ -226,7 +210,7 @@ public interface wintertodthelperConfig extends Config {
             description = "Highlights brazier, when you have enough points in your inventory",
             position = 1,
             keyName = "pointInInv",
-            section = "piiSection"
+            section = piiSection
     )
     default Color pointInInv()
     {
@@ -238,7 +222,7 @@ public interface wintertodthelperConfig extends Config {
             description = "Toggles blinking brazier when you have enough logs in inventory",
             position = 2,
             keyName = "blinkPointInInv",
-            section = "piiSection"
+            section = piiSection
     )
     default boolean blinkPointInInv()
     {
@@ -251,7 +235,7 @@ public interface wintertodthelperConfig extends Config {
             description = "Choose the secondary color for when the brazier blinks",
             position = 3,
             keyName = "flashcolor",
-            section = "piiSection",
+            section = piiSection,
             hidden = true,
             unhide = "blinkPointInInv"
     )
@@ -269,7 +253,7 @@ public interface wintertodthelperConfig extends Config {
             description = "Toggles logs in inventory overlay",
             position = 0,
             keyName = "infoboxToggle",
-            section = "miscSection"
+            section = miscSection
     )
     default boolean infoboxToggle()
     {
@@ -282,7 +266,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 1,
             keyName = "taskdone",
-            section = "miscSection"
+            section = miscSection
     )
     default Color taskdone()
     {
@@ -294,7 +278,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 2,
             keyName = "wtfillindicators",
-            section = "miscSection"
+            section = miscSection
     )
     default boolean filled()
     {
@@ -307,7 +291,7 @@ public interface wintertodthelperConfig extends Config {
             description = "",
             position = 3,
             keyName = "wtfignorewait",
-            section = "miscSection"
+            section = miscSection
     )
     default boolean ignorewait()
     {

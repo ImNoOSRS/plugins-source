@@ -34,8 +34,7 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.components.table.TableAlignment;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
+import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.util.ColorUtil;
 
 public class LocationOverlay extends OverlayPanel
@@ -64,12 +63,14 @@ public class LocationOverlay extends OverlayPanel
 
 		int regionID = localWorld.getRegionID();
 
-		TableComponent tableComponent = new TableComponent();
-		tableComponent.setColumnAlignments(TableAlignment.LEFT, TableAlignment.RIGHT);
 
 		if (client.isInInstancedRegion())
 		{
-			tableComponent.addRow("Instance", "");
+			panelComponent.getChildren().add(LineComponent.builder()
+				.left("Instance")
+				.right("")
+				.build());
+
 
 			int[][][] instanceTemplateChunks = client.getInstanceTemplateChunks();
 			int z = client.getPlane();
@@ -79,13 +80,33 @@ public class LocationOverlay extends OverlayPanel
 			int chunkY = (chunkData >> 3 & 0x7FF) * CHUNK_SIZE;
 			int chunkX = (chunkData >> 14 & 0x3FF) * CHUNK_SIZE;
 
-			tableComponent.addRow("Chunk " + localPoint.getSceneX() / CHUNK_SIZE + "," + localPoint.getSceneY() / CHUNK_SIZE, rotation + " " + chunkX + " " + chunkY);
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Chunk ")
+		.right("" + localPoint.getSceneX())
+		.build());
+
 		}
 
-		tableComponent.addRow("Base", client.getBaseX() + ", " + client.getBaseY());
-		tableComponent.addRow("Local", localPoint.getX() + ", " + localPoint.getY());
-		tableComponent.addRow("Scene", localPoint.getSceneX() + ", " + localPoint.getSceneY());
-		tableComponent.addRow("Tile", localWorld.getX() + ", " + localWorld.getY() + ", " + client.getPlane());
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Base")
+		.right("" + client.getBaseX())
+		.build());
+
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Local")
+		.right("" + localPoint.getX())
+		.build());
+
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Scene")
+		.right("" + localPoint.getSceneX())
+		.build());
+
+	panelComponent.getChildren().add(LineComponent.builder()
+		.left("Tile")
+		.right("" + localWorld.getX())
+		.build());
+
 
 		for (int i = 0; i < client.getMapRegions().length; i++)
 		{
@@ -94,7 +115,6 @@ public class LocationOverlay extends OverlayPanel
 			tableComponent.addRow((i == 0) ? "Map regions" : " ", ColorUtil.prependColorTag(String.valueOf(region), (region == regionID) ? Color.GREEN : Color.WHITE));
 		}
 
-		panelComponent.getChildren().add(tableComponent);
 
 		return super.render(graphics);
 	}

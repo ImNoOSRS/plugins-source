@@ -38,7 +38,7 @@ public class ProfitTrackerInventoryValue {
 
         }
 
-        ItemDefinition itemComp = itemManager.getItemDefinition(itemId);
+        ItemComposition itemComp = itemManager.getItemComposition(itemId);
         String itemName = itemComp.getName();
         int itemValue;
         // multiply quantity  GE value

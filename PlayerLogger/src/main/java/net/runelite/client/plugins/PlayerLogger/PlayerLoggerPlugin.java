@@ -23,8 +23,6 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
-import net.runelite.client.util.Clipboard;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.pf4j.Extension;
@@ -40,7 +38,7 @@ import java.util.List;
 @PluginDescriptor(
 		name = "Player Logger",
 		description = "Logs players for you.",
-		type = PluginType.SYSTEM
+		tags = {"imno"}
 )
 @Slf4j
 public class PlayerLoggerPlugin extends Plugin {
@@ -167,12 +165,12 @@ public class PlayerLoggerPlugin extends Plugin {
 	@Subscribe
 	private void onChatMessage(final ChatMessage message)
 	{
-		for(Map.Entry<String, PlayerData> entry : players.entrySet())
-		{
-			if(entry.getKey().equals(Text.sanitize(message.getName())))
-			{
-				handlechat(entry.getValue().player);
-				return;
+		if(message.getType() == ChatMessageType.PUBLICCHAT) {
+			for (Map.Entry<String, PlayerData> entry : players.entrySet()) {
+				if (entry.getKey().equals(Text.sanitize(message.getName()))) {
+					handlechat(entry.getValue().player);
+					return;
+				}
 			}
 		}
 	}

@@ -41,8 +41,8 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.PlayerLogger.PlayerLoggerConfig;
 import net.runelite.client.plugins.PlayerLogger.PlayerLoggerPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -50,9 +50,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
@@ -77,6 +74,21 @@ class PlayerLoggerOverlay extends Overlay {
 		this.modelOutlineRenderer = modelOutlineRenderer;
 	}
 
+	public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+	{
+		if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+		{
+			graphics.setColor(configColor.darker());
+		}
+		else
+		{
+			graphics.setColor(configColor);
+		}
+
+		graphics.draw(objectClickbox);
+		graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+		graphics.fill(objectClickbox);
+	}
 
 	@Override
 	public Dimension render(Graphics2D graphics) {
@@ -98,7 +110,7 @@ class PlayerLoggerOverlay extends Overlay {
 		Shape clickbox = Perspective.getClickbox(client, player.getModel(), player.getOrientation(), player.getLocalLocation());
 		if(clickbox != null) {
 
-			OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
+			renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
 			Point p = player.getCanvasTextLocation(graphics, player.getName(), player.getModelHeight() + 40);
 			if (p == null) {
 				return;

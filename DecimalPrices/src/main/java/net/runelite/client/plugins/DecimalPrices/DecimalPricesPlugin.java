@@ -10,7 +10,6 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.input.KeyManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
@@ -21,8 +20,7 @@ import javax.inject.Inject;
 @PluginDescriptor(
         name = "Decimal Prices",
         description = "Allows the use of decimals when entering a custom price",
-        tags = {"decimal", "GE", "price"},
-        type = PluginType.UTILITY
+        tags = {"decimal", "GE", "price"}
 )
 public class DecimalPricesPlugin extends Plugin {
     @Inject

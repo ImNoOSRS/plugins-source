@@ -30,6 +30,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.inject.Provides;
 
 import java.awt.*;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.ArrayDeque;
@@ -42,7 +43,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
-import net.runelite.api.ItemDefinition;
+import net.runelite.api.ItemComposition;
 import net.runelite.api.ItemID;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
@@ -80,8 +81,7 @@ import org.pf4j.Extension;
 @PluginDescriptor(
 	name = "Examine with Osbuddy",
 	description = "Send examine information to the API",
-	tags = {"npcs", "items", "inventory", "objects"},
-	type = PluginType.UTILITY
+	tags = {"npcs", "items", "inventory", "objects"}
 )
 @Slf4j
 public class ExamineOSBPlugin extends Plugin
@@ -155,36 +155,36 @@ public class ExamineOSBPlugin extends Plugin
 	@Subscribe
 	void onMenuOptionClicked(MenuOptionClicked event)
 	{
-		if (!event.getOption().equals("Examine"))
+		if (!event.getMenuOption().equals("Examine"))
 		{
 			return;
 		}
 
 		ExamineOSBType type;
 		int id, quantity = -1;
-		switch (event.getMenuOpcode())
+		switch (event.getMenuAction())
 		{
 			case EXAMINE_ITEM:
 			{
 				type = ExamineOSBType.ITEM;
-				id = event.getIdentifier();
+				id = event.getId();
 
-				int widgetId = event.getParam1();
+				int widgetId = event.getWidgetId();
 				int widgetGroup = TO_GROUP(widgetId);
 				int widgetChild = TO_CHILD(widgetId);
 				Widget widget = client.getWidget(widgetGroup, widgetChild);
-				WidgetItem widgetItem = widget.getWidgetItem(event.getParam0());
+				WidgetItem widgetItem = widget.getWidgetItem(event.getActionParam());
 				quantity = widgetItem != null && widgetItem.getId() >= 0 ? widgetItem.getQuantity() : 1;
 				break;
 			}
 			case EXAMINE_ITEM_GROUND:
 				type = ExamineOSBType.ITEM;
-				id = event.getIdentifier();
+				id = event.getId();
 				break;
 			case CC_OP_LOW_PRIORITY:
 			{
 				type = ExamineOSBType.ITEM_BANK_EQ;
-				int[] qi = findItemFromWidget(event.getParam1(), event.getParam0());
+				int[] qi = findItemFromWidget(event.getWidgetId(), event.getActionParam());
 				if (qi == null)
 				{
 					log.debug("Examine for item with unknown widget: {}", event);
@@ -196,11 +196,11 @@ public class ExamineOSBPlugin extends Plugin
 			}
 			case EXAMINE_OBJECT:
 				type = ExamineOSBType.OBJECT;
-				id = event.getIdentifier();
+				id = event.getId();
 				break;
 			case EXAMINE_NPC:
 				type = ExamineOSBType.NPC;
-				id = event.getIdentifier();
+				id = event.getId();
 				break;
 			default:
 				return;
@@ -258,7 +258,7 @@ public class ExamineOSBPlugin extends Plugin
 		log.debug("Got examine for {} {}: {}", pendingExamine.getType(), pendingExamine.getId(), event.getMessage());
 
 		// If it is an item, show the price of it
-		final ItemDefinition itemDefinition;
+		final ItemComposition itemDefinition;
 		if (pendingExamine.getType() == ExamineOSBType.ITEM || pendingExamine.getType() == ExamineOSBType.ITEM_BANK_EQ)
 		{
 			final int itemId = pendingExamine.getId();
@@ -269,7 +269,7 @@ public class ExamineOSBPlugin extends Plugin
 				return;
 			}
 
-			itemDefinition = itemManager.getItemDefinition(itemId);
+			itemDefinition = itemManager.getItemComposition(itemId);
 			getItemPrice(itemDefinition.getId(), itemDefinition, itemQuantity);
 		}
 		else
@@ -405,129 +405,10 @@ public class ExamineOSBPlugin extends Plugin
 	}
 
 	@VisibleForTesting
-	void getItemPrice(int id, ItemDefinition itemComposition, int quantity)
+	void getItemPrice(int id, ItemComposition itemComposition, int quantity)
 	{
-		// quantity is at least 1
-		quantity = Math.max(1, quantity);
-		final ItemDefinition idf = itemManager.getItemDefinition(id);
 
-		if(methodExists(ItemDefinition.class, "getModelOverride")) {
-			if (idf.getModelOverride() != -1) {
-				id = idf.getModelOverride();
-			}
-		}
-		final int gePrice = itemManager.getItemPrice(id);
-		final int alchPrice = itemComposition.getHaPrice();
-
-		if (gePrice > 0 || alchPrice > 0)
-		{
-			if(gePrice > 0) {
-				final int fid = id;
-				executorService.submit(() ->
-				{
-					osbGrandExchangeClient.lookupItem(fid)
-							.subscribeOn(Schedulers.io())
-							.observeOn(Schedulers.single())
-							.subscribe(
-									(osbresult) ->
-									{
-										if (osbresult != null && osbresult.getOverall_average() > 0) {
-											osbGrandExchangeResult = osbresult;
-											String waarde1 = ColorUtil.prependColorTag(QuantityFormatter.formatNumber(osbresult.getOverall_average()), Color.BLUE);
-											String waarde2 = ColorUtil.prependColorTag(QuantityFormatter.formatNumber(osbresult.getBuy_average()), Color.RED);
-											String waarde3 = ColorUtil.prependColorTag(QuantityFormatter.formatNumber(osbresult.getSell_average()), Color.GREEN);
-											gamemessage("Overall: " + waarde1 + ColorUtil.prependColorTag("", Color.WHITE) + ", Buy: " + waarde2 + ColorUtil.prependColorTag("", Color.WHITE) + ", Sell: " + waarde3 + ColorUtil.prependColorTag("", Color.WHITE));
-											//clientThread.invoke(() -> gamemessage("Overall: " + waarde1 + ColorUtil.prependColorTag("", Color.WHITE) + ", Buy: " + waarde2 + ColorUtil.prependColorTag("", Color.WHITE) + ", Sell: " + waarde3 + ColorUtil.prependColorTag("", Color.WHITE)));
-										}
-									},
-									(e) -> log.debug("Error getting price of item {}", fid, e)
-							);
-				});
-			}
-			final ChatMessageBuilder message = new ChatMessageBuilder()
-				.append(ChatColorType.NORMAL)
-				.append("Price of ")
-				.append(ChatColorType.HIGHLIGHT);
-
-			if (quantity > 1)
-			{
-				message
-					.append(QuantityFormatter.formatNumber(quantity))
-					.append(" x ");
-			}
-
-			message
-				.append(itemComposition.getName())
-				.append(ChatColorType.NORMAL)
-				.append(":");
-
-			if (gePrice > 0)
-			{
-				int finalQuantity = quantity;
-				message
-					.append(ChatColorType.NORMAL)
-					.append(" GE ")
-					.append(ChatColorType.HIGHLIGHT)
-					.append(QuantityFormatter.formatNumber((long) gePrice * finalQuantity));
-
-				if (finalQuantity > 1)
-				{
-					message
-						.append(ChatColorType.NORMAL)
-						.append(" (")
-						.append(ChatColorType.HIGHLIGHT)
-						.append(QuantityFormatter.formatNumber(gePrice))
-						.append(ChatColorType.NORMAL)
-						.append("ea)");
-				}
-
-				message
-					.append(ChatColorType.NORMAL)
-					.append(" HA value ")
-					.append(ChatColorType.HIGHLIGHT)
-					.append(QuantityFormatter.formatNumber((long) alchPrice * finalQuantity));
-
-				if (finalQuantity > 1)
-				{
-					message
-						.append(ChatColorType.NORMAL)
-						.append(" (")
-						.append(ChatColorType.HIGHLIGHT)
-						.append(QuantityFormatter.formatNumber(alchPrice))
-						.append(ChatColorType.NORMAL)
-						.append("ea)");
-				}
-
-				chatMessageManager.queue(QueuedMessage.builder()
-					.type(ChatMessageType.ITEM_EXAMINE)
-					.runeLiteFormattedMessage(message.build())
-					.build());
-			}
-			else
-			{
-				message
-					.append(ChatColorType.NORMAL)
-					.append(" HA value ")
-					.append(ChatColorType.HIGHLIGHT)
-					.append(QuantityFormatter.formatNumber(alchPrice * quantity));
-
-				if (quantity > 1)
-				{
-					message
-						.append(ChatColorType.NORMAL)
-						.append(" (")
-						.append(ChatColorType.HIGHLIGHT)
-						.append(QuantityFormatter.formatNumber(alchPrice))
-						.append(ChatColorType.NORMAL)
-						.append("ea)");
-				}
-
-				chatMessageManager.queue(QueuedMessage.builder()
-					.type(ChatMessageType.ITEM_EXAMINE)
-					.runeLiteFormattedMessage(message.build())
-					.build());
-			}
-		}
+		//REMOVED FOR NOW BROKEN!!!!
 	}
 
 	private void submitExamine(ExamineOSBPending examine, String text)

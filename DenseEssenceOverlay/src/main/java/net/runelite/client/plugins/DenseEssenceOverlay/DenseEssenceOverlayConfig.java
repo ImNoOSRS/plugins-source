@@ -36,33 +36,21 @@ public interface DenseEssenceOverlayConfig extends Config {
     @ConfigSection(
             name = "Toggle Overlay",
             description = "",
-            position = 0,
-            keyName = "toggleSection"
+            position = 0
     )
-    default boolean toggleSection()
-    {
-        return false;
-    }
+    String toggleSection = "toggleSection";
     @ConfigSection(
             name = "Icon Indicators",
             description = "",
-            position = 1,
-            keyName = "indicatorSection"
+            position = 1
     )
-    default boolean indicatorSection()
-    {
-        return false;
-    }
+    String indicatorSection = "indicatorSection";
     @ConfigSection(
             name = "Essence Colors",
             description = "",
-            position = 2,
-            keyName = "essenceColors"
+            position = 2
     )
-    default boolean essenceColors()
-    {
-        return false;
-    }
+    String essenceColors = "essenceColors";
 
     //Overlay Toggles
     @ConfigItem(
@@ -70,7 +58,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "Toggles Dense Overlay",
             position = 0,
             keyName = "denseToggle",
-            section = "toggleSection"
+            section = toggleSection
     )
     default boolean denseToggle()
     {
@@ -81,7 +69,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "Toggles Dense Overlay",
             position = 1,
             keyName = "miningToggle",
-            section = "toggleSection"
+            section = toggleSection
     )
     default boolean miningToggle()
     {
@@ -92,7 +80,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "Toggles Depleted Overlay",
             position = 2,
             keyName = "depletedToggle",
-            section = "toggleSection"
+            section = toggleSection
     )
     default boolean depletedToggle()
     {
@@ -103,7 +91,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "Toggles Inventory is full Overlay",
             position = 3,
             keyName = "fullToggle",
-            section = "toggleSection"
+            section = toggleSection
     )
     default boolean fullToggle()
     {
@@ -114,7 +102,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "Toggles Decimals in the lap tracker",
             position = 4,
             keyName = "Decimals",
-            section = "toggleSection"
+            section = toggleSection
     )
     default int Decimals()
     {
@@ -125,7 +113,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "Toggles the lap tracker",
             position = 4,
             keyName = "lapstogoal",
-            section = "toggleSection"
+            section = toggleSection
     )
     default boolean lapstogoal()
     {
@@ -138,7 +126,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             name = "Show dense runestone indicator",
             description = "Configures whether to display an indicator when dense runestone is ready to be mined",
             position = 0,
-            section = "indicatorSection"
+            section = indicatorSection
     )
     default boolean showDenseRunestoneIndicator()
     {
@@ -149,7 +137,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             name = "Available indicator Toggle",
             description = "Toggles dense indicator",
             position = 1,
-            section = "indicatorSection",
+            section = indicatorSection,
             hidden = true,
             unhide = "showDenseRunestoneIndicator"
     )
@@ -162,7 +150,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             name = "Unavailable indicator Toggle",
             description = "Toggles dense indicator",
             position = 2,
-            section = "indicatorSection",
+            section = indicatorSection,
             hidden = true,
             unhide = "showDenseRunestoneIndicator"
     )
@@ -175,7 +163,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             name = "Full indicator Toggle",
             description = "Toggles dense indicator",
             position = 3,
-            section = "indicatorSection",
+            section = indicatorSection,
             hidden = true,
             unhide = "showDenseRunestoneIndicator"
 
@@ -193,7 +181,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "",
             position = 0,
             keyName = "dense",
-            section = "essenceColors",
+            section = essenceColors,
             hidden = true,
             unhide = "denseToggle"
     )
@@ -207,7 +195,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "",
             position = 10,
             keyName = "mining",
-            section = "essenceColors",
+            section = essenceColors,
             hidden = true,
             unhide = "denseToggle"
     )
@@ -221,7 +209,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "",
             position = 2,
             keyName = "depleted",
-            section = "essenceColors",
+            section = essenceColors,
             hidden = true,
             unhide = "depletedToggle"
     )
@@ -235,7 +223,7 @@ public interface DenseEssenceOverlayConfig extends Config {
             description = "",
             position = 3,
             keyName = "full",
-            section = "essenceColors",
+            section = essenceColors,
             hidden = true,
             unhide = "fullToggle"
     )

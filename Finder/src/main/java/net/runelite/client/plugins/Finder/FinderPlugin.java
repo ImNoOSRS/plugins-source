@@ -27,10 +27,8 @@ import net.runelite.client.input.KeyListener;
 import net.runelite.client.input.KeyManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.overlay.OverlayManager;
-import net.runelite.client.util.Clipboard;
 import net.runelite.client.util.LinkBrowser;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ObjectUtils;
@@ -52,7 +50,7 @@ import java.util.List;
 @PluginDescriptor(
         name = "Finder",
         description = "Find players, objects or npc's",
-        type = PluginType.UTILITY
+        tags = {"imno"}
 )
 @Slf4j
 public class FinderPlugin extends Plugin implements KeyListener {
@@ -323,7 +321,7 @@ public class FinderPlugin extends Plugin implements KeyListener {
                 for (final GameObject gameObject : locatableQueryResults) {
 
                     //for(Field i : ObjectID.class.getFields())
-                    ObjectDefinition od = client.getObjectDefinition(gameObject.getId());
+                    ObjectComposition od = client.getObjectDefinition(gameObject.getId());
                     if (od == null) {
                         continue;
                     }
@@ -343,7 +341,7 @@ public class FinderPlugin extends Plugin implements KeyListener {
                 final LocatableQueryResults<GroundObject> groundObjectResults = new GroundObjectQuery().result(client);
 
                 for (final GroundObject groundObject : groundObjectResults) {
-                    ObjectDefinition od = client.getObjectDefinition(groundObject.getId());
+                    ObjectComposition od = client.getObjectDefinition(groundObject.getId());
                     if (od == null) {
                         continue;
                     }
@@ -364,7 +362,7 @@ public class FinderPlugin extends Plugin implements KeyListener {
 
                 for (final WallObject wallObject : wallQueryResults) {
                     //for(Field i : ObjectID.class.getFields())
-                    ObjectDefinition od = client.getObjectDefinition(wallObject.getId());
+                    ObjectComposition od = client.getObjectDefinition(wallObject.getId());
                     if (od == null) {
                         continue;
                     }

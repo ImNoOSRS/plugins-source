@@ -41,8 +41,8 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.ZalcanoHelper.ZalcanoHelperConfig;
 import net.runelite.client.plugins.ZalcanoHelper.ZalcanoHelperPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -50,9 +50,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
@@ -77,6 +74,22 @@ class ZalcanoHelperOverlay extends Overlay {
 		this.modelOutlineRenderer = modelOutlineRenderer;
 	}
 
+
+	public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+	{
+		if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+		{
+			graphics.setColor(configColor.darker());
+		}
+		else
+		{
+			graphics.setColor(configColor);
+		}
+
+		graphics.draw(objectClickbox);
+		graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+		graphics.fill(objectClickbox);
+	}
 
 	@Override
 	public Dimension render(Graphics2D graphics) {
@@ -126,7 +139,7 @@ class ZalcanoHelperOverlay extends Overlay {
 				normal = Color.CYAN;
 			}
 			if(clickbox != null) {
-				OverlayUtil.renderClickBox(graphics, mouse(), clickbox, plugin.rock_danger ? Color.RED : normal);
+				renderClickBox(graphics, mouse(), clickbox, plugin.rock_danger ? Color.RED : normal);
 				if(plugin.rock_danger) {
 					OverlayText(graphics, plugin.glowingrock.getLocalLocation(), "" + plugin.rock_danger_counter, Color.WHITE, 0, 0);
 				}
@@ -137,7 +150,7 @@ class ZalcanoHelperOverlay extends Overlay {
 				if (plugin.has_raw_ore) {
 					Shape clickbox = plugin.furnace.getClickbox();
 					if (clickbox != null) {
-						OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.GREEN);
+						renderClickBox(graphics, mouse(), clickbox, Color.GREEN);
 					}
 				}
 			}
@@ -147,7 +160,7 @@ class ZalcanoHelperOverlay extends Overlay {
 				{
 					Shape clickbox = plugin.altar.getClickbox();
 					if (clickbox != null) {
-						OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.GREEN);
+						renderClickBox(graphics, mouse(), clickbox, Color.GREEN);
 					}
 				}
 			}
@@ -191,7 +204,7 @@ class ZalcanoHelperOverlay extends Overlay {
 					{
 						zalcano_color = Color.YELLOW;
 					}
-					OverlayUtil.renderClickBox(graphics, mouse(), clickbox, zalcano_color);
+					renderClickBox(graphics, mouse(), clickbox, zalcano_color);
 				}
 			}
 			else
@@ -225,8 +238,7 @@ class ZalcanoHelperOverlay extends Overlay {
 					c = Color.RED;
 				}
 				final Point canvasPoint = plugin.zalcano.getCanvasTextLocation(graphics, "" + count, plugin.zalcano.getLogicalHeight() - 400);
-				OverlayUtil.renderTextLocation(graphics, "" + count, config.TickFontSize(),
-						config.TickFontStyle().getFont(), c, canvasPoint, config.TickFontShadow(), 0);
+				OverlayUtil.renderTextLocation(graphics, canvasPoint, "" + count, c);
 			}
 		}
 

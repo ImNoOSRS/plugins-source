@@ -42,14 +42,13 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.PlayerLogger.PlayerLoggerConfig;
 import net.runelite.client.plugins.PlayerLogger.PlayerLoggerPlugin;
 import net.runelite.client.ui.overlay.*;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableAlignment;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
+import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.ImageUtil;
 
@@ -74,8 +73,6 @@ class PlayerLoggerOverlayPanel extends OverlayPanel {
 	@Override
 	public Dimension render(Graphics2D graphics) {
 		if(config.PlayerInfobox()) {
-			TableComponent tableComponent = new TableComponent();
-			tableComponent.setColumnAlignments(TableAlignment.LEFT, TableAlignment.RIGHT);
 			int players = 0;
 			int currentplayers = 0;
 			int players_who_chatted = 0;
@@ -98,15 +95,46 @@ class PlayerLoggerOverlayPanel extends OverlayPanel {
 						}
 					}
 				}
-				tableComponent.addRow("PlayerLogger 0.0.4");
-				tableComponent.addRow("Players found: ", "" + players);
-				tableComponent.addRow("Chatted: ", "" + players_who_chatted);
-				tableComponent.addRow("Chatted total: ", "" + players_who_chatted_total);
-				tableComponent.addRow("");
-				tableComponent.addRow("Current players: ", "" + currentplayers);
-				tableComponent.addRow("Current chatted: ", "" + current_players_who_chatted);
-				tableComponent.addRow("Current chat total: ", "" + current_players_who_chatted_total);
-				panelComponent.getChildren().add(tableComponent);
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("PlayerLogger 0.0.4")
+						.right("")
+						.build());
+
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("Players found: ")
+						.right("" + players)
+						.build());
+
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("Chatted: ")
+						.right("" + players_who_chatted)
+						.build());
+
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("Chatted total: ")
+						.right("" + players_who_chatted_total)
+						.build());
+
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("")
+						.right("")
+						.build());
+
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("Current players: ")
+						.right("" + currentplayers)
+						.build());
+
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("Current chatted: ")
+						.right("" + current_players_who_chatted)
+						.build());
+
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left("Current chat total: ")
+						.right("" + current_players_who_chatted_total)
+						.build());
+
 			}
 		}
 

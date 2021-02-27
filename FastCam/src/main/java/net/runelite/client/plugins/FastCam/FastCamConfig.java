@@ -39,8 +39,7 @@ public interface FastCamConfig extends Config {
 			name = "CamSpeed",
 			description = "CamSpeed.",
 			position = 1,
-			keyName = "tileOutlineWidth",
-			titleSection = "camspeed"
+			keyName = "tileOutlineWidth"
 	)
 	@Units(Units.POINTS)
 	default int camspeed()

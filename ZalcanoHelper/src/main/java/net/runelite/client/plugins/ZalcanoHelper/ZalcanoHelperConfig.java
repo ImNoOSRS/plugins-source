@@ -53,16 +53,12 @@ public interface ZalcanoHelperConfig extends Config {
 	}
 
 
-	@ConfigTitleSection(
-			keyName = "actioncountdown",
+	@ConfigSection(
 			position = 0,
 			name = "Zalcano Action Countdown",
 			description = ""
 	)
-	default Title overlay()
-	{
-		return new Title();
-	}
+	String actioncountdown = "actioncountdown";
 
 	@Range(
 			min = 1,
@@ -73,7 +69,7 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "ZalcanoTickFontSize",
 			name = "Font size",
 			description = "Adjust the font size of the wizard statue tick counter.",
-			titleSection = "actioncountdown"
+			section = actioncountdown
 	)
 	@Units(Units.POINTS)
 	default int TickFontSize()
@@ -86,7 +82,7 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "ZalcanoTickFontStyle",
 			name = "Font style",
 			description = "Bold/Italics/Plain",
-			titleSection = "actioncountdown"
+			section = actioncountdown
 
 	)
 	default FontStyle TickFontStyle()
@@ -99,30 +95,26 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "ZalcanoTickFontShadow",
 			name = "Font shadow",
 			description = "Toggle font shadow of the wizard statue tick counter.",
-			titleSection = "actioncountdown"
+			section = actioncountdown
 	)
 	default boolean TickFontShadow()
 	{
 		return false;
 	}
 
-	@ConfigTitleSection(
-			keyName = "servertile",
+	@ConfigSection(
 			position = 1,
 			name = "Server Tile",
 			description = ""
 	)
-	default Title servertiletitle()
-	{
-		return new Title();
-	}
+	String servertile = "servertile";
 
 	@ConfigItem(
 			keyName = "ZalcanoServerTile",
 			position = 1,
 			name = "Show Server Tile",
 			description = "",
-			titleSection = "servertile"
+			section = servertile
 	)
 	default boolean servertile()
 	{
@@ -136,7 +128,7 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "serverTileOutlineColor",
 			name = "Server tile outline",
 			description = "Change the overlay outline color of the player's server tile.",
-			titleSection = "servertile"
+			section = servertile
 	)
 	default Color serverTileOutlineColor()
 	{
@@ -149,7 +141,7 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "serverTileFillColor",
 			name = "Server tile  fill",
 			description = "Change the overlay fill color of the player's server tile.",
-			titleSection = "servertile"
+			section = servertile
 	)
 	default Color serverTileFillColor()
 	{
@@ -165,7 +157,7 @@ public interface ZalcanoHelperConfig extends Config {
 			description = "Change the width of the tile outline.",
 			position = 4,
 			keyName = "tileOutlineWidth",
-			titleSection = "servertile"
+			section = servertile
 	)
 	@Units(Units.POINTS)
 	default int serverTileOutlineWidth()
@@ -173,23 +165,19 @@ public interface ZalcanoHelperConfig extends Config {
 		return 1;
 	}
 
-	@ConfigTitleSection(
-			keyName = "circletiles",
+	@ConfigSection(
 			position = 2,
 			name = "Boost Circles",
 			description = ""
 	)
-	default Title circile()
-	{
-		return new Title();
-	}
+	String circletiles = "circletiles";
 
 	@ConfigItem(
 			keyName = "ZalcanoBlueTiles",
 			position = 1,
 			name = "Show Blue Circles",
 			description = "",
-			titleSection = "circletiles"
+			section = circletiles
 	)
 	default boolean showbluecircles()
 	{
@@ -202,7 +190,7 @@ public interface ZalcanoHelperConfig extends Config {
 			position = 1,
 			name = "Show Red Circles",
 			description = "",
-			titleSection = "circletiles"
+			section = circletiles
 	)
 	default boolean showredcircles()
 	{
@@ -214,7 +202,7 @@ public interface ZalcanoHelperConfig extends Config {
 			position = 2,
 			name = "Always show (blue)",
 			description = "",
-			titleSection = "circletiles"
+			section = circletiles
 	)
 	default boolean alwaysshowcircles()
 	{
@@ -226,7 +214,7 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "BlueOverlayTickCounter",
 			name = "Ticks till despawn",
 			description = "Shows the ticks till blue tiles despawn.",
-			titleSection = "circletiles"
+			section = circletiles
 	)
 	default boolean circleticks()
 	{
@@ -239,7 +227,7 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "BlueOverlayColor",
 			name = "Overlay color",
 			description = "Change the overlay fill color of the circle overlay.",
-			titleSection = "circletiles"
+			section = circletiles
 	)
 	default Color bluecirclecolor()
 	{
@@ -252,30 +240,26 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "BlueActiveOverlayColor",
 			name = "Interacting Overlay",
 			description = "Change the overlay fill color of the circle overlay.",
-			titleSection = "circletiles"
+			section = circletiles
 	)
 	default Color activebluecirclecolor()
 	{
 		return Color.CYAN;
 	}
 
-	@ConfigTitleSection(
-			keyName = "other",
+	@ConfigSection(
 			position = 3,
 			name = "Other",
 			description = ""
 	)
-	default Title other()
-	{
-		return new Title();
-	}
+	String other = "other";
 
 	@ConfigItem(
 			position = 1,
 			keyName = "DontAttackWhenNoImbuedOres",
 			name = "Walk trough",
 			description = "Makes you able to walk trough zalcano when you have no imbued ores.",
-			titleSection = "other"
+			section = other
 	)
 	default boolean OnlyAttackWhenNoImbuedOres()
 	{
@@ -287,7 +271,7 @@ public interface ZalcanoHelperConfig extends Config {
 			keyName = "DontAttackWhenNoImbuedOres",
 			name = "Prioritize Tele",
 			description = "Makes the Zalcano entrance prioritized over the tree.",
-			titleSection = "other"
+			section = other
 	)
 	default boolean TeleportChannelPriority()
 	{

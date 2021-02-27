@@ -55,7 +55,6 @@ import net.runelite.client.game.chatbox.ChatboxTextInput;
 import net.runelite.client.input.KeyManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
@@ -64,8 +63,7 @@ import org.pf4j.Extension;
 @PluginDescriptor(
 	name = "Ground Markers Label Addon",
 	description = "Enable marking of tiles with labels using the Shift key",
-	tags = {"overlay", "tiles"},
-	type = PluginType.SYSTEM
+	tags = {"overlay", "tiles"}
 )
 public class GroundMarkerWithLabelsPlugin extends Plugin
 {
@@ -251,7 +249,7 @@ public class GroundMarkerWithLabelsPlugin extends Plugin
 			//menuEntry.setOption(getPoints(regionId).contains(point) ? UNMARK : MARK);
 			menuEntry.setOption(tileExists ? UNMARK : MARK);
 			menuEntry.setTarget(event.getTarget());
-			menuEntry.setOpcode(MenuOpcode.RUNELITE.getId());
+			menuEntry.setOpcode(MenuAction.RUNELITE.getId());
 
 			client.setMenuEntries(menuEntries);
 		}
@@ -260,8 +258,8 @@ public class GroundMarkerWithLabelsPlugin extends Plugin
 	@Subscribe
 	public void onMenuOptionClicked(MenuOptionClicked event)
 	{
-		if (event.getOpcode() != MenuOpcode.RUNELITE.getId() ||
-			!(event.getOption().contains(MARK) || event.getOption().contains(UNMARK)))
+		if (event.getMenuAction() != MenuAction.RUNELITE ||
+			!(event.getMenuOption().contains(MARK) || event.getMenuOption().contains(UNMARK)))
 		{
 			return;
 		}

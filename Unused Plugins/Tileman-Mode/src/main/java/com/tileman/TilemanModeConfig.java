@@ -37,47 +37,33 @@ public interface TilemanModeConfig extends Config {
             name = "Game Mode",
             description = "Select your Tileman game mode'",
             position = 1,
-            keyName = "gameModeSection"
     )
-    default boolean gameModeSection()
-    {
-        return false;
-    }
+	String gameModeSection = "gameModeSection";
 
     @ConfigSection(
             name = "Settings",
             description = "Settings'",
             position = 2,
-            keyName = "settingsSection"
     )
-    default boolean settingsSection()
-    {
-        return false;
-    }
+	String settingsSection = "settingsSection";
 
     @ConfigSection(
             name = "Custom Game Mode",
             description = "Create a custom Tileman game mode. Be sure to 'Enable Custom Game Mode'",
             position = 99,
             hidden = true,
-            keyName = "customGameModeSection"
     )
-    default boolean customGameModeSection()
-    {
-        return false;
-    }
+	String customGameModeSection = "customGameModeSection";
 
-    public enum TilemanGameMode {
         COMMUNITY,
         STRICT,
         ACCELERATED
-    }
 
     @Alpha
     @ConfigItem(
             keyName = "gameMode",
             name = "Game Mode",
-            section = "gameModeSection",
+            section = gameModeSection,
             description = "Select your Tileman game mode",
             position = 1
     )
@@ -88,7 +74,7 @@ public interface TilemanModeConfig extends Config {
     @ConfigItem(
             keyName = "automarkTiles",
             name = "Auto-mark tiles",
-            section = "settingsSection",
+            section = settingsSection,
             description = "Automatically mark tiles as you walk.",
             position = 2
     )
@@ -99,7 +85,7 @@ public interface TilemanModeConfig extends Config {
     @ConfigItem(
             keyName = "warningLimit",
             name = "Unspent tiles warning",
-            section = "settingsSection",
+            section = settingsSection,
             description = "Highlights overlay when limit reached",
             position = 3
     )
@@ -110,7 +96,7 @@ public interface TilemanModeConfig extends Config {
     @ConfigItem(
             keyName = "drawOnMinimap",
             name = "Draw tiles on minimap",
-            section = "settingsSection",
+            section = settingsSection,
             description = "Configures whether marked tiles should be drawn on minimap",
             position = 4
     )
@@ -122,7 +108,7 @@ public interface TilemanModeConfig extends Config {
     @ConfigItem(
             keyName = "markerColor",
             name = "Tile Color",
-            section = "settingsSection",
+            section = settingsSection,
             description = "Configures the color of the tiles",
             position = 5
     )
@@ -135,7 +121,7 @@ public interface TilemanModeConfig extends Config {
             keyName = "enableCustomGameMode",
             name = "Enable Custom Game Mode",
             description = "Settings below will override Game Mode defaults",
-            section = "customGameModeSection",
+            section = customGameModeSection,
             position = 1
     )
     default boolean enableCustomGameMode() {
@@ -149,7 +135,7 @@ public interface TilemanModeConfig extends Config {
             keyName = "tilesOffset",
             name = "Bonus tiles",
             description = "Add more tiles to your limit, set to 0 for off",
-            section = "customGameModeSection",
+            section = customGameModeSection,
             position = 2
     )
     default int tilesOffset() {
@@ -160,7 +146,7 @@ public interface TilemanModeConfig extends Config {
             keyName = "includeTotalLevels",
             name = "Include total level",
             description = "Includes total level in usable tiles",
-            section = "customGameModeSection",
+            section = customGameModeSection,
             position = 3
     )
     default boolean includeTotalLevel() {
@@ -171,7 +157,7 @@ public interface TilemanModeConfig extends Config {
             keyName = "excludeExp",
             name = "Exclude Experience",
             description = "Includes experience / 1000 in usable tiles",
-            section = "customGameModeSection",
+            section = customGameModeSection,
             position = 4
     )
     default boolean excludeExp() {

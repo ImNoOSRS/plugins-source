@@ -25,7 +25,7 @@
 
 version = "0.1.3"
 
-project.extra["PluginName"] = "hallowedhelper"
+project.extra["PluginName"] = "Sepulcre Deluxe"
 project.extra["PluginDescription"] = "This is a HallowedHelper plugin by ImNo#0890."
 project.extra["PluginProvider"] = "ImNo"
 

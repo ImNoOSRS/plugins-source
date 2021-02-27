@@ -36,7 +36,7 @@ import lombok.Getter;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.Experience;
-import net.runelite.api.MenuOpcode;
+import net.runelite.api.MenuAction;
 import net.runelite.api.NPC;
 import net.runelite.api.Player;
 import net.runelite.api.Skill;
@@ -56,7 +56,6 @@ import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.JagexColors;
 import net.runelite.client.ui.NavigationButton;
@@ -72,13 +71,12 @@ import static java.lang.Math.min;
 @PluginDescriptor(
 	name = "Developer Tools",
 	tags = {"panel"},
-	type = PluginType.MISCELLANEOUS
 )
 @Getter(AccessLevel.PACKAGE)
 public class DevToolsPlugin extends Plugin
 {
-	private static final List<MenuOpcode> EXAMINE_MENU_ACTIONS = List.of(MenuOpcode.EXAMINE_ITEM,
-		MenuOpcode.EXAMINE_ITEM_GROUND, MenuOpcode.EXAMINE_NPC, MenuOpcode.EXAMINE_OBJECT);
+	private static final List<MenuAction> EXAMINE_MENU_ACTIONS = List.of(MenuAction.EXAMINE_ITEM,
+		MenuAction.EXAMINE_ITEM_GROUND, MenuAction.EXAMINE_NPC, MenuAction.EXAMINE_OBJECT);
 
 	@Inject
 	private Client client;
@@ -360,7 +358,7 @@ public class DevToolsPlugin extends Plugin
 			{
 				int id = Integer.parseInt(args[0]);
 				Player player = client.getLocalPlayer();
-				player.getPlayerAppearance().setTransformedNpcId(id);
+				player.getPlayerComposition().setTransformedNpcId(id);
 				player.setIdlePoseAnimation(-1);
 				player.setPoseAnimation(-1);
 				break;
@@ -369,8 +367,8 @@ public class DevToolsPlugin extends Plugin
 			{
 				int id = Integer.parseInt(args[0]);
 				Player player = client.getLocalPlayer();
-				player.getPlayerAppearance().getEquipmentIds()[KitType.CAPE.getIndex()] = id + 512;
-				player.getPlayerAppearance().setHash();
+				player.getPlayerComposition().getEquipmentIds()[KitType.CAPE.getIndex()] = id + 512;
+				player.getPlayerComposition().setHash();
 				break;
 			}
 			case "sound":
@@ -480,14 +478,14 @@ public class DevToolsPlugin extends Plugin
 			return;
 		}
 
-		MenuOpcode action = MenuOpcode.of(entry.getOpcode());
+		MenuAction action = MenuAction.of(entry.getMenuAction());
 
 		if (EXAMINE_MENU_ACTIONS.contains(action))
 		{
-			final int identifier = entry.getIdentifier();
+			final int identifier = entry.getId();
 			String info = "ID: ";
 
-			if (action == MenuOpcode.EXAMINE_NPC)
+			if (action == MenuAction.EXAMINE_NPC)
 			{
 				NPC npc = client.getCachedNPCs()[identifier];
 				info += npc.getId();
@@ -496,7 +494,7 @@ public class DevToolsPlugin extends Plugin
 			{
 				info += identifier;
 
-				if (action == MenuOpcode.EXAMINE_OBJECT)
+				if (action == MenuAction.EXAMINE_OBJECT)
 				{
 					WorldPoint point = WorldPoint.fromScene(client, entry.getParam0(), entry.getParam1(), client.getPlane());
 					info += " X: " + point.getX() + " Y: " + point.getY();

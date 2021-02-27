@@ -36,49 +36,33 @@ public interface SmokeDevilConfig extends Config
 
     //Sections
 
-    @ConfigTitleSection(
+    @ConfigSection(
             name = "General",
             description = "",
-            position = 0,
-            keyName = "generalSection"
+            position = 0
     )
-    default boolean generalSection()
-    {
-        return false;
-    }
+	String generalSection = "generalSection";
 
-    @ConfigTitleSection(
+    @ConfigSection(
             name = "Safe Border Settings",
             description = "",
-            position = 1,
-            keyName = "borderSection"
+            position = 1
     )
-    default boolean borderSection()
-    {
-        return false;
-    }
+	String borderSection = "borderSection";
 
-    @ConfigTitleSection(
+    @ConfigSection(
             name = "NPC Overlay",
             description = "",
-            position = 2,
-            keyName = "npcSection"
+            position = 2
     )
-    default boolean npcSection()
-    {
-        return false;
-    }
+	String npcSection = "npcSection";
 
-    @ConfigTitleSection(
+    @ConfigSection(
             name = "Debug Settings",
             description = "",
-            position = 3,
-            keyName = "debugSection"
+            position = 3
     )
-    default boolean debugSection()
-    {
-        return false;
-    }
+	String debugSection = "debugSection";
 
     //General Section
     @ConfigItem(
@@ -86,7 +70,7 @@ public interface SmokeDevilConfig extends Config
             description = "Does Nothing",
             position = 0,
             keyName = "AttackRangeSection",
-            titleSection = "generalSection"
+            section = generalSection
     )
     default boolean AttackRangeSection()
     {
@@ -100,7 +84,7 @@ public interface SmokeDevilConfig extends Config
             description = "Shows the tiles just out of range of the Smoke Devils Attacks",
             position = 1,
             keyName = "barragecolor",
-            titleSection = "borderSection"
+            section = borderSection
     )
     default Color barragecolor()
     {
@@ -115,7 +99,7 @@ public interface SmokeDevilConfig extends Config
             description = "Shows the tiles just out of range of the Smoke Devils Attacks",
             position = 0,
             keyName = "safeColor",
-            titleSection = "borderSection"
+            section = borderSection
     )
     default Color safeColor()
     {
@@ -128,7 +112,7 @@ public interface SmokeDevilConfig extends Config
             description = "Shows the tiles just out of range of the Smoke Devils Attacks",
             position = 1,
             keyName = "unsafeColor",
-            titleSection = "borderSection"
+            section = borderSection
     )
     default Color unsafeColor()
     {
@@ -141,7 +125,7 @@ public interface SmokeDevilConfig extends Config
             keyName = "highlightStyle",
             name = "Highlight Style",
             description = "Highlight setting",
-            titleSection = "npcSection"
+            section = npcSection
     )
     default RenderStyle renderStyle()
     {
@@ -154,7 +138,7 @@ public interface SmokeDevilConfig extends Config
             description = "Color that shows when NPC is Barraged",
             position = 1,
             keyName = "barragedColor",
-            titleSection = "npcSection"
+            section = npcSection
     )
     default Color barragedColor()
     {
@@ -166,7 +150,7 @@ public interface SmokeDevilConfig extends Config
             description = "Color that shows when NPC should be Barraged",
             position = 2,
             keyName = "barrageIn",
-            titleSection = "npcSection"
+            section = npcSection
     )
     default Color barrageIn()
     {
@@ -179,11 +163,10 @@ public interface SmokeDevilConfig extends Config
             description = "Shows the tiles just out of range of the Smoke Devils Attacks",
             position = 1,
             keyName = "debugInfo",
-            titleSection = "debugSection"
+            section = debugSection
     )
     default boolean showdebugInfo()
     {
         return false;
     }
 }
-

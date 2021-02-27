@@ -21,4 +21,3 @@ public interface ProfitTrackerConfig extends Config
         return true;
     }
 }
-

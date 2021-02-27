@@ -15,7 +15,6 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
 import org.pf4j.Extension;
@@ -30,8 +29,7 @@ import java.util.*;
 @PluginDescriptor(
         name = "Sepulcre Deluxe",
         description = "Helps with hallowed.",
-        type = PluginType.SKILLING,
-        tags = {"grace", "marks", "overlay", "skilling", "traps", "sepulchre", "hallowed"}
+        tags = {"grace", "marks", "overlay", "skilling", "traps", "sepulchre", "hallowed", "imno"}
 )
 @Slf4j
 public class hallowedhelperPlugin extends Plugin {
@@ -404,7 +402,8 @@ public class hallowedhelperPlugin extends Plugin {
             else if(animation == 836)
             {
                 event.getActor().setAnimation(653);
-                client.getLocalPlayer().setSpotAnimation(137);
+                //Might be the wrong one idk.
+                client.getLocalPlayer().setSpotAnimFrame(137);
             }
             //439 = RONDJE DRAAIE
         }
@@ -725,11 +724,11 @@ public class hallowedhelperPlugin extends Plugin {
         ticksleft = client.getVarbitValue(ticksleftvar);
         doorOpen = (ticksleft != 1);
 
-        graphic = client.getLocalPlayer().getSpotAnimation();
+        graphic = client.getLocalPlayer().getSpotAnimationFrame();
         if(waitforspot)
         {
-            if(client.getLocalPlayer().getSpotAnimation() == 1805) {
-                client.getLocalPlayer().setSpotAnimation(137);
+            if(client.getLocalPlayer().getSpotAnimationFrame() == 1805) {
+                client.getLocalPlayer().setSpotAnimFrame(137);
                 waitforspot = false;
             }
         }
@@ -934,7 +933,7 @@ public class hallowedhelperPlugin extends Plugin {
 
     public boolean isfiring(GameObject g)
     {
-        final DynamicObject dynamicObject = (DynamicObject) g.getEntity();
+        final DynamicObject dynamicObject = (DynamicObject) g.getRenderable();
         return dynamicObject.getAnimationID() == WIZARD_STATUE_ANIM_FIRE;
     }
 

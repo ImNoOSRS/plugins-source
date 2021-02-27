@@ -225,7 +225,7 @@ public class DeveloperHelperPlugin extends Plugin {
         counter++;
         base.setParam0(counter);
         base.setParam1(current.getParam1());
-        base.setIdentifier(current.getIdentifier());
+        base.setIdentifier(current.getId());
         return base;
     }
 
@@ -238,13 +238,13 @@ public class DeveloperHelperPlugin extends Plugin {
         counter++;
         base.setParam0(counter);
         base.setParam1(current.getParam1());
-        base.setIdentifier(current.getIdentifier());
+        base.setIdentifier(current.getId());
         return base;
     }
 
     public void insert_menu_entry(MenuEntry entry)
     {
-        client.insertMenuItem(entry.getOption(), entry.getTarget(), entry.getOpcode(), entry.getIdentifier(), entry.getParam0(), entry.getParam1(), false);
+        client.insertMenuItem(entry.getOption(), entry.getTarget(), entry.getMenuAction().getId(), entry.getId(), entry.getParam0(), entry.getParam1(), false);
     }
 
     public String selected_chat_text = "";
@@ -254,9 +254,9 @@ public class DeveloperHelperPlugin extends Plugin {
         if(panel.LogMenuEntryAdded.isSelected())
         {
             String storing = "MenuEntryAdded: " + event.getOption() + " > [";
-            storing += "Identifier:" + event.getIdentifier();
+            storing += "Identifier:" + event.getId();
             storing += " Target:" + event.getTarget();
-            storing += " MenuOpcode:" + event.getOpcode();
+            storing += " MenuAction:" + event.getMenuAction();
             storing += " Param0:" + event.getParam0();
             storing += " Param1:" + event.getParam1();
             storing += "]";
@@ -297,7 +297,7 @@ public class DeveloperHelperPlugin extends Plugin {
             }
         }
 
-        //int op = event.getOpcode();
+        //int op = event.getMenuAction();
         String option = event.getOption();
         switch(option)
         {
@@ -309,7 +309,7 @@ public class DeveloperHelperPlugin extends Plugin {
             case "Destroy":
                 MenuEntry copy_id = base_entry(event, "Copy item ID");
                 insert_menu_entry(copy_id);
-                ItemComposition def = client.getItemDefinition(event.getIdentifier());
+                ItemComposition def = client.getItemDefinition(event.getId());
                 if(def.getNote() != -1)
                 {
                     MenuEntry copy_id_unnoted = base_entry(event, "Copy item ID (Unnoted)");
@@ -320,7 +320,7 @@ public class DeveloperHelperPlugin extends Plugin {
                 insert_menu_entry(copy_name);
                 break;
         }
-        if (event.getOpcode() != MenuAction.EXAMINE_OBJECT.getId())
+        if (event.getMenuAction() != MenuAction.EXAMINE_OBJECT)
         {
             if(!config.copyTileData())
             {
@@ -334,7 +334,7 @@ public class DeveloperHelperPlugin extends Plugin {
                 menuEntry.setTarget(event.getTarget());
                 menuEntry.setParam0(menuEntry.getParam0());
                 menuEntry.setParam1(event.getParam1());
-                menuEntry.setIdentifier(event.getIdentifier());
+                menuEntry.setIdentifier(event.getId());
                 menuEntry.setOpcode(MenuAction.RUNELITE.getId());
 
                 insert_menu_entry(menuEntry);
@@ -344,7 +344,7 @@ public class DeveloperHelperPlugin extends Plugin {
                 menuEntry3.setTarget(event.getTarget());
                 menuEntry3.setParam0(menuEntry3.getParam0());
                 menuEntry3.setParam1(event.getParam1());
-                menuEntry3.setIdentifier(event.getIdentifier());
+                menuEntry3.setIdentifier(event.getId());
                 menuEntry3.setOpcode(MenuAction.RUNELITE.getId());
                 insert_menu_entry(menuEntry3);
             }
@@ -357,7 +357,7 @@ public class DeveloperHelperPlugin extends Plugin {
         }
 
         final Tile tile = client.getScene().getTiles()[client.getPlane()][event.getParam0()][event.getParam1()];
-        final TileObject tileObject = findTileObject(tile, event.getIdentifier());
+        final TileObject tileObject = findTileObject(tile, event.getId());
 
         if (tileObject == null)
         {
@@ -372,7 +372,7 @@ public class DeveloperHelperPlugin extends Plugin {
         menuEntry.setTarget(event.getTarget());
         menuEntry.setParam0(event.getParam0());
         menuEntry.setParam1(event.getParam1());
-        menuEntry.setIdentifier(event.getIdentifier());
+        menuEntry.setIdentifier(event.getId());
         menuEntry.setOpcode(MenuAction.RUNELITE.getId());
 
         MenuEntry menuEntry2 = menuEntries[menuEntries.length - 2] = new MenuEntry();
@@ -381,7 +381,7 @@ public class DeveloperHelperPlugin extends Plugin {
         menuEntry2.setTarget(event.getTarget());
         menuEntry2.setParam0(event.getParam0() + 1);
         menuEntry2.setParam1(event.getParam1());
-        menuEntry2.setIdentifier(event.getIdentifier());
+        menuEntry2.setIdentifier(event.getId());
         menuEntry2.setOpcode(MenuAction.RUNELITE.getId());
 
         MenuEntry menuEntry3 = menuEntries[menuEntries.length - 3] = new MenuEntry();
@@ -390,7 +390,7 @@ public class DeveloperHelperPlugin extends Plugin {
         menuEntry3.setTarget(event.getTarget());
         menuEntry3.setParam0(event.getParam0() + 2);
         menuEntry3.setParam1(event.getParam1());
-        menuEntry3.setIdentifier(event.getIdentifier());
+        menuEntry3.setIdentifier(event.getId());
         menuEntry3.setOpcode(MenuAction.RUNELITE.getId());
         client.setMenuEntries(menuEntries);
     }
@@ -444,7 +444,7 @@ public class DeveloperHelperPlugin extends Plugin {
         if(event.getMenuOption() == "Copy item NAME") {
             /*
             String itemname = "Failed grabbing name.";
-            ItemDefinition i = client.getItemDefinition(event.getIdentifier());
+            ItemComposition i = client.getItemComposition(event.getId());
             if(i != null)
             {
                 itemname = i.getName();
@@ -457,7 +457,7 @@ public class DeveloperHelperPlugin extends Plugin {
             String storing = "" + event.getMenuOption() + " > [";
             storing += "Identifier:" + event.getId();
             storing += " Target:" + event.getMenuTarget();
-            storing += " MenuOpcode:" + event.getMenuAction();
+            storing += " MenuAction:" + event.getMenuAction();
             storing += " Param0:" + event.getActionParam();
             storing += " Param1:" + event.getWidgetId();
             storing += "]";
@@ -517,9 +517,9 @@ public class DeveloperHelperPlugin extends Plugin {
             return;
         }
 
-        // object.getId() is always the base object id, getObjectDefinition transforms it to
+        // object.getId() is always the base object id, getObjectComposition transforms it to
         // the correct object we see
-        ObjectComposition objectDefinition = getObjectDefinition(object.getId());
+        ObjectComposition objectDefinition = getObjectComposition(object.getId());
         String name = objectDefinition.getName();
         // Name is probably never "null" - however prevent adding it if it is, as it will
         // become ambiguous as objects with no name are assigned name "null"
@@ -610,7 +610,7 @@ public class DeveloperHelperPlugin extends Plugin {
     }
 
     @Nullable
-    private ObjectComposition getObjectDefinition(int id)
+    private ObjectComposition getObjectComposition(int id)
     {
         ObjectComposition objectComposition = client.getObjectDefinition(id);
         return objectComposition.getImpostorIds() == null ? objectComposition : objectComposition.getImpostor();

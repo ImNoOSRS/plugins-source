@@ -22,8 +22,6 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
-import net.runelite.client.util.Clipboard;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.pf4j.Extension;
@@ -39,7 +37,7 @@ import java.util.List;
 @PluginDescriptor(
         name = "House Overlay",
         description = "Overlays for your house.",
-        type = PluginType.MISCELLANEOUS
+        tags = {"imno"}
 )
 @Slf4j
 public class HouseOverlayPlugin extends Plugin {
@@ -80,6 +78,7 @@ public class HouseOverlayPlugin extends Plugin {
 
     public void init_fairy_rings()
     {
+
         // "A" Combinations
         cached_fairy_ring_names.put("AIQ", "Mudskipper Point");
         cached_fairy_ring_names.put("AIR", "South-east of Ardougne");
@@ -186,7 +185,7 @@ public class HouseOverlayPlugin extends Plugin {
     @Subscribe
     public void onGameTick(GameTick event) {
         inhouse = client.getMapRegions()[0] == 7769 || client.getMapRegions()[0] == 7513 || client.getMapRegions()[0] == 8025;
-        int currentweapon = client.getLocalPlayer().getPlayerAppearance().getEquipmentIds()[KitType.WEAPON.getIndex()];
+        int currentweapon = client.getLocalPlayer().getPlayerComposition().getEquipmentIds()[KitType.WEAPON.getIndex()];
         fairy_ring_has_staff = currentweapon == 1284 || currentweapon == 9596;
     }
 }

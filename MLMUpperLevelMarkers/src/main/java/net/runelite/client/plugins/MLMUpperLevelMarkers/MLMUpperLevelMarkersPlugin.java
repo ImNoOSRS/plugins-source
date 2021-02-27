@@ -62,7 +62,6 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
@@ -71,8 +70,7 @@ import org.pf4j.Extension;
 @PluginDescriptor(
 		name = "MLMUpperLevelMarkers",
 		description = "Extra info for motherlode mine upper levels.",
-		tags = {"motherlode", "mine", "marker", "mlm", "mining"},
-		type = PluginType.SKILLING
+		tags = {"motherlode", "mine", "marker", "mlm", "mining"}
 )
 
 public class MLMUpperLevelMarkersPlugin extends Plugin

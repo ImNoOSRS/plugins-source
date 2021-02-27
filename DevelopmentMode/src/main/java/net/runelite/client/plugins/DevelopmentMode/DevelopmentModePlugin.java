@@ -22,7 +22,6 @@ import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginManager;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.util.Clipboard;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ObjectUtils;
@@ -39,7 +38,6 @@ import java.util.List;
 @PluginDescriptor(
 		name = "Development Mode",
 		description = "Always sets the client to development mode.",
-		type = PluginType.SYSTEM
 )
 @Slf4j
 public class DevelopmentModePlugin extends Plugin {

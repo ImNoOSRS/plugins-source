@@ -194,7 +194,7 @@ class DeveloperHelperPanel extends PluginPanel
 
             for (final WallObject wallObject : wallQueryResults) {
                 //for(Field i : ObjectID.class.getFields())
-                ObjectDefinition od = client.getObjectDefinition(wallObject.getId());
+                ObjectComposition od = client.getObjectComposition(wallObject.getId());
                 if (od == null) {
                     continue;
                 }

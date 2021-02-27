@@ -23,12 +23,9 @@ import net.runelite.client.input.KeyManager;
 import net.runelite.client.input.MouseListener;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.infobox.Counter;
 import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
-import net.runelite.client.util.Clipboard;
-import net.runelite.client.util.MiscUtils;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.pf4j.Extension;
@@ -45,7 +42,7 @@ import java.util.*;
 @PluginDescriptor(
         name = "Wintertoder Helper",
         description = "Helps with wintertodt, duh",
-        type = PluginType.SKILLING
+        tags = {"imno"}
 )
 @Slf4j
 public class wintertodthelperPlugin extends Plugin

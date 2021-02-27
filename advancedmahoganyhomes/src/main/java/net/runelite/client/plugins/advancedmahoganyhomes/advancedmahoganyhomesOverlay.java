@@ -42,8 +42,8 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.advancedmahoganyhomes.advancedmahoganyhomesConfig;
 import net.runelite.client.plugins.advancedmahoganyhomes.advancedmahoganyhomesPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -51,9 +51,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
@@ -83,6 +80,22 @@ class advancedmahoganyhomesOverlay extends Overlay {
         return client.getMouseCanvasPosition();
     }
 
+    public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+    {
+        if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+        {
+            graphics.setColor(configColor.darker());
+        }
+        else
+        {
+            graphics.setColor(configColor);
+        }
+
+        graphics.draw(objectClickbox);
+        graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+        graphics.fill(objectClickbox);
+    }
+
     @Override
     public Dimension render(Graphics2D graphics) {
         if(plugin.amy != null)
@@ -90,11 +103,11 @@ class advancedmahoganyhomesOverlay extends Overlay {
             Shape clickbox = Perspective.getClickbox(client, plugin.amy.getModel(), plugin.amy.getOrientation(), plugin.amy.getLocalLocation());
             if(clickbox != null) {
 
-                OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
+                renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
             }
             else
             {
-                OverlayUtil.renderNpcOverlay(graphics, plugin.amy, Color.CYAN, 1, 100, 80, client);
+                OverlayUtil.renderActorOverlay(graphics, plugin.amy, plugin.amy.getName(), Color.MAGENTA);
             }
         }
 
@@ -103,11 +116,11 @@ class advancedmahoganyhomesOverlay extends Overlay {
             Shape clickbox = Perspective.getClickbox(client, plugin.overlaynpc.getModel(), plugin.overlaynpc.getOrientation(), plugin.overlaynpc.getLocalLocation());
             if(clickbox != null) {
 
-                OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
+                renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
             }
             else
             {
-                OverlayUtil.renderNpcOverlay(graphics, plugin.overlaynpc, Color.MAGENTA, 1, 100, 80, client);
+                OverlayUtil.renderActorOverlay(graphics, plugin.overlaynpc, plugin.overlaynpc.getName(), Color.MAGENTA);
             }
         }
 
@@ -155,7 +168,7 @@ class advancedmahoganyhomesOverlay extends Overlay {
                     }
                     Shape clickbox = current.getClickbox();
                     if (clickbox != null) {
-                        OverlayUtil.renderClickBox(graphics, mouse(), clickbox, c);
+                        renderClickBox(graphics, mouse(), clickbox, c);
                     }
                 }
             }

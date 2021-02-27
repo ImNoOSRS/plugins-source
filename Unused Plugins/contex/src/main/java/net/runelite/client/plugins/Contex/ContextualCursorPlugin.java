@@ -30,7 +30,6 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
@@ -41,7 +40,6 @@ import javax.swing.JOptionPane;
 @PluginDescriptor(
 		name = "Contextual Cursor",
 		description = "Helps with hallowed.",
-		type = PluginType.MISCELLANEOUS
 )
 @Slf4j
 public class ContextualCursorPlugin extends Plugin

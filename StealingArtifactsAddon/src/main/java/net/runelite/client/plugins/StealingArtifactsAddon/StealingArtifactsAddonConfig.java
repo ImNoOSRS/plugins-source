@@ -30,15 +30,5 @@ import net.runelite.client.config.*;
 
 public interface StealingArtifactsAddonConfig extends Config {
 
-    @ConfigSection(
-            name = "Example Checkbox",
-            description = "",
-            position = 1,
-            keyName = "examplecheckbox"
-    )
-    default boolean examplecheckbox()
-    {
-        return false;
-    }
-
 }
+

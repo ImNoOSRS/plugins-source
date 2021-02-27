@@ -33,35 +33,27 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Main",
             description = "",
-            position = 1,
-            keyName = "MainSection"
+            position = 1
     )
-    default boolean MainSection()
-    {
-        return false;
-    }
+	String MainSection = "MainSection";
 
-    @ConfigTitleSection(
-            keyName = "copy",
-            name = "<html><center>Hallowed Helper [BETA]." +
+    @ConfigSection(
+            name = "<html><center>Sepulcre Deluxe [BETA]." +
                     "<br>Created by ImNo" +
-                    "<br>https://discord.gg/GQx4grf" +
+                    "<br>ImNoPlugins.com" +
                     "<br></center></html>",
             description = "",
             position = 1,
-            section = "MainSection"
+            section = MainSection
     )
-    default Title copy()
-    {
-        return new Title();
-    }
+	String copy = "copy";
 
     @ConfigItem(
             position = 2,
             keyName = "HelperRenderDistance",
             name = "Render distance",
             description = "How far to render overlays from your player's position.",
-            section = "MainSection"
+            section = MainSection
     )
     default RenderDistance renderDistance()
     {
@@ -71,13 +63,9 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Floor Gate's",
             description = "",
-            position = 2,
-            keyName = "floorgateSection"
+            position = 2
     )
-    default boolean floorgateSection()
-    {
-        return false;
-    }
+	String floorgateSection = "floorgateSection";
 
     @Alpha
     @ConfigItem(
@@ -85,7 +73,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "ShowFloorGate",
             name = "Render floor gates [Little buggy]",
             description = "Shows the floor gates at the end.",
-            section = "floorgateSection"
+            section = floorgateSection
     )
     default boolean ShowFloorGate()
     {
@@ -98,7 +86,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "floorGateColor",
             name = "Floor Stairs Color",
             description = "Change the overlay fill color of floor stairs.",
-            section = "floorgateSection"
+            section = floorgateSection
     )
     default Color floorgateColor()
     {
@@ -108,13 +96,9 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Stairs",
             description = "",
-            position = 3,
-            keyName = "stairsSection"
+            position = 3
     )
-    default boolean stairsSection()
-    {
-        return false;
-    }
+	String stairsSection = "stairsSection";
 
     @Alpha
     @ConfigItem(
@@ -122,7 +106,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "ShowStairs",
             name = "Render Stairs",
             description = "Shows stairs down/up.",
-            section = "stairsSection"
+            section = stairsSection
     )
     default boolean ShowStairs()
     {
@@ -135,7 +119,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "StairsColor",
             name = "Stairs Color",
             description = "Change the overlay fill color of stairs.",
-            section = "stairsSection"
+            section = stairsSection
     )
     default Color stairsColor()
     {
@@ -146,13 +130,9 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Chests",
             description = "",
-            position = 4,
-            keyName = "chestsSection"
+            position = 4
     )
-    default boolean chestsSection()
-    {
-        return false;
-    }
+	String chestsSection = "chestsSection";
 
     @Alpha
     @ConfigItem(
@@ -160,7 +140,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "ShowChests",
             name = "Render Chests",
             description = "Shows chest overlay.",
-            section = "chestsSection"
+            section = chestsSection
     )
     default boolean ShowChests()
     {
@@ -173,7 +153,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "chestColor",
             name = "Chest Color",
             description = "Change the overlay fill color of chests.",
-            section = "chestsSection"
+            section = chestsSection
     )
     default Color chestColor()
     {
@@ -187,7 +167,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "USEchestColor",
             name = "Chest Animation: 1",
             description = "Change the overlay fill color of opening chests.",
-            section = "chestsSection"
+            section = chestsSection
     )
     default Color chestOpeningColor()
     {
@@ -200,7 +180,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "USEchestColor2",
             name = "Chest Animation: 2",
             description = "Change the overlay fill color of opening chests [1].",
-            section = "chestsSection"
+            section = chestsSection
     )
     default Color chestOpeningColor2()
     {
@@ -213,7 +193,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "USEchestColor3",
             name = "Chest Animation: 3",
             description = "Change the overlay fill color of opening chests [2].",
-            section = "chestsSection"
+            section = chestsSection
     )
     default Color chestOpeningColor3()
     {
@@ -226,7 +206,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "USEchestColor4",
             name = "Chest Failed (Poison)",
             description = "Change the overlay fill color of failing the opening of a chest.",
-            section = "chestsSection"
+            section = chestsSection
     )
     default Color chestOpeningFail()
     {
@@ -236,13 +216,9 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Portal (Magic)",
             description = "",
-            position = 5,
-            keyName = "magicportalSection"
+            position = 5
     )
-    default boolean magicportalSection()
-    {
-        return false;
-    }
+	String magicportalSection = "magicportalSection";
 
     @Alpha
     @ConfigItem(
@@ -250,7 +226,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "ShowPortals",
             name = "Render Portals",
             description = "Shows portal overlay.",
-            section = "magicportalSection"
+            section = magicportalSection
     )
     default boolean ShowPortals()
     {
@@ -263,7 +239,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "portalColor",
             name = "Portal Color",
             description = "Change the overlay fill color of portals.",
-            section = "magicportalSection"
+            section = magicportalSection
     )
     default Color portalColor()
     {
@@ -277,7 +253,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "OPENportalColor",
             name = "Portal Color (Opening)",
             description = "Change the overlay fill color of opening portals.",
-            section = "magicportalSection"
+            section = magicportalSection
     )
     default Color portalOpenColor()
     {
@@ -287,13 +263,9 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Fire Statues",
             description = "",
-            position = 6,
-            keyName = "FireStatueSection"
+            position = 6
     )
-    default boolean FireStatueSection()
-    {
-        return false;
-    }
+	String FireStatueSection = "FireStatueSection";
 
     @Alpha
     @ConfigItem(
@@ -301,7 +273,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowSafeTiles",
             name = "Show SAFE tiles",
             description = "Safe Tiles",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean ShowSafeTiles()
     {
@@ -314,7 +286,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHSafeTileColor",
             name = "SAFE tile color",
             description = "Change the overlay fill color of safe tiles.",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default Color SafeTileColor()
     {
@@ -327,7 +299,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowRiskyTiles",
             name = "Show Risky tiles",
             description = "Risky Tiles",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean ShowRiskyTiles()
     {
@@ -340,7 +312,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHRiskyTileColor",
             name = "RISKY tile color",
             description = "Change the overlay fill color of risky tiles.",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default Color RiskyTileColor()
     {
@@ -353,7 +325,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowUnsafeTiles",
             name = "Show Unsafe tiles",
             description = "Unsafe Tiles",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean ShowUnsafeTiles()
     {
@@ -366,7 +338,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHUnsafeTileColor",
             name = "UNSAFE tile color",
             description = "Change the overlay fill color of safe tiles.",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default Color UnsafeTileColor()
     {
@@ -379,7 +351,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowFireUnreachable",
             name = "Check Unreachable Tiles",
             description = "Check Unreachable Tiles",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean ShowFireUnreachable()
     {
@@ -392,7 +364,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowFireTickCounter",
             name = "Show Tick Counter (From Fire)",
             description = "Show Tick Counter (From Fire)",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean ShowFireTickCounter()
     {
@@ -404,7 +376,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowReversedFireTickCounter",
             name = "Show Tick Counter (Untill fire)",
             description = "Show Tick Counter (Untill fire)",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean ShowReversedFireTickCounter()
     {
@@ -416,7 +388,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowArrowTiles",
             name = "Show Arrow Danger [BETA]",
             description = "Show Arrow Danger",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean ShowArrowDanger()
     {
@@ -430,7 +402,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowArrowDangerColor",
             name = "Arrow Danger Color",
             description = "ShowArrowDangerColor",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default Color ShowArrowDangerColor()
     {
@@ -443,7 +415,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHFillTileOverlay",
             name = "Fill Tile Overlay",
             description = "Fill in the tile overlay.",
-            section = "FireStatueSection"
+            section = FireStatueSection
     )
     default boolean FillTileOverlay()
     {
@@ -453,20 +425,16 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Lightning Spawns",
             description = "",
-            position = 7,
-            keyName = "Lightningsection"
+            position = 7
     )
-    default boolean Lightningsection()
-    {
-        return false;
-    }
+	String Lightningsection = "Lightningsection";
 
     @ConfigItem(
             position = 1,
             keyName = "HHLightningTiles",
             name = "Lightning tiles",
             description = "",
-            section = "Lightningsection"
+            section = Lightningsection
     )
     default boolean ShowLightningTiles()
     {
@@ -478,7 +446,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHLightningCountdown",
             name = "Lightning countdown",
             description = "",
-            section = "Lightningsection"
+            section = Lightningsection
     )
     default boolean ShowLightningCountdown()
     {
@@ -488,13 +456,9 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Server Tile",
             description = "",
-            position = 8,
-            keyName = "ServerTileSection"
+            position = 8
     )
-    default boolean ServerTileSection()
-    {
-        return false;
-    }
+	String ServerTileSection = "ServerTileSection";
 
     @Alpha
     @ConfigItem(
@@ -502,7 +466,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowServerTile",
             name = "Show Server Tile",
             description = "Show Server Tile",
-            section = "ServerTileSection"
+            section = ServerTileSection
     )
     default boolean ShowServerTile()
     {
@@ -515,7 +479,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHServerTileOutLine",
             name = "Outline",
             description = "Server Tile Outline",
-            section = "ServerTileSection"
+            section = ServerTileSection
     )
     default Color ServerTileOutline()
     {
@@ -528,7 +492,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHServerTileFill",
             name = "Fill",
             description = "Server Tile Fill",
-            section = "ServerTileSection"
+            section = ServerTileSection
     )
     default Color ServerTileFill()
     {
@@ -538,13 +502,9 @@ public interface hallowedhelperConfig extends Config {
     @ConfigSection(
             name = "Other",
             description = "",
-            position = 9,
-            keyName = "otherSection"
+            position = 9
     )
-    default boolean otherSection()
-    {
-        return false;
-    }
+	String otherSection = "otherSection";
 
 
     @ConfigItem(
@@ -552,7 +512,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "GlitchyHit",
             name = "Explode on hit (fun)",
             description = "Only works with the ring equipped.",
-            section = "otherSection"
+            section = otherSection
     )
     default boolean GlitchyHit()
     {
@@ -564,7 +524,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "GlitchyGrapple",
             name = "Glitchy Grapple",
             description = "Only works with the ring equipped.",
-            section = "otherSection"
+            section = otherSection
     )
     default boolean GlitchyGrapple()
     {
@@ -576,7 +536,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "ShowDebugInfoHH",
             name = "ShowDebugInfo [LAGGY]",
             description = "Dont use this...",
-            section = "otherSection"
+            section = otherSection
     )
     default boolean ShowDebugInfo()
     {
@@ -589,7 +549,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "HHShowValues",
             name = "Show Values (alot)",
             description = "Show Values (alot)",
-            section = "otherSection"
+            section = otherSection
     )
     default boolean ShowValues()
     {
@@ -602,7 +562,7 @@ public interface hallowedhelperConfig extends Config {
             keyName = "IgnoreFloor5Implentation",
             name = "Disable the floor 5 implentation.",
             description = "Disables the special implentation.",
-            section = "otherSection"
+            section = otherSection
     )
     default boolean DisableFloor5Implentation()
     {

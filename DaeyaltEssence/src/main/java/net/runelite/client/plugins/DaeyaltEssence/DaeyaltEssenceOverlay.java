@@ -41,8 +41,8 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.DaeyaltEssence.DaeyaltEssenceConfig;
 import net.runelite.client.plugins.DaeyaltEssence.DaeyaltEssencePlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -50,7 +50,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.ImageUtil;
 
@@ -82,6 +81,21 @@ class DaeyaltEssenceOverlay extends Overlay {
 		return client.getMouseCanvasPosition();
 	}
 
+	public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+	{
+		if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+		{
+			graphics.setColor(configColor.darker());
+		}
+		else
+		{
+			graphics.setColor(configColor);
+		}
+
+		graphics.draw(objectClickbox);
+		graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+		graphics.fill(objectClickbox);
+	}
 
 	@Override
 	public Dimension render(Graphics2D graphics) {
@@ -89,7 +103,7 @@ class DaeyaltEssenceOverlay extends Overlay {
 		{
 			Shape clickbox = plugin.current_deayalt_essence.getClickbox();
 			if(clickbox != null) {
-				OverlayUtil.renderClickBox(graphics, mouse(), clickbox, plugin.animating ? config.DaeyaltEssenceColorInteracting() : config.DaeyaltEssenceColor());
+				renderClickBox(graphics, mouse(), clickbox, plugin.animating ? config.DaeyaltEssenceColorInteracting() : config.DaeyaltEssenceColor());
 				if(config.DaeyaltEssenceTimeTillChange()) {
 					if (plugin.count != -1) {
 						String count = "~" + Math.abs(plugin.count - 101);
@@ -97,8 +111,7 @@ class DaeyaltEssenceOverlay extends Overlay {
 							count = "SOON";
 						}
 						final Point canvasPoint = plugin.current_deayalt_essence.getCanvasTextLocation(graphics, count, plugin.current_deayalt_essence.getModel().getCenterZ());
-						OverlayUtil.renderTextLocation(graphics, count, 20,
-								Font.TRUETYPE_FONT, Color.WHITE, canvasPoint, false, 0);
+						OverlayUtil.renderTextLocation(graphics, canvasPoint, count, Color.WHITE);
 					}
 				}
 			}

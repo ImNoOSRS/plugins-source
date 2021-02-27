@@ -33,9 +33,9 @@ import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.client.ui.overlay.*;
+import net.runelite.client.ui.overlay.components.LineComponent;
+import net.runelite.client.ui.overlay.components.PanelComponent;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableAlignment;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
 
 @Slf4j
 @Singleton
@@ -57,33 +57,44 @@ class advancedmahoganyhomesOverlayPanel extends OverlayPanel {
 
     @Override
     public Dimension render(Graphics2D graphics) {
-        TableComponent tableComponent = new TableComponent();
-        tableComponent.setColumnAlignments(TableAlignment.LEFT, TableAlignment.RIGHT);
-        tableComponent.addRow("NPC: ", plugin.npc);
-        tableComponent.addRow("Location: ", plugin.location);
-        showdata(tableComponent, "object1", null, client.getVarbitValue(plugin.var_object1));
-        showdata(tableComponent, "object2", null, client.getVarbitValue(plugin.var_object2));
-        showdata(tableComponent, "object3", null, client.getVarbitValue(plugin.var_object3));
-        showdata(tableComponent, "object4", null, client.getVarbitValue(plugin.var_object4));
-        showdata(tableComponent, "object5", null, client.getVarbitValue(plugin.var_object5));
-        showdata(tableComponent, "object6", null, client.getVarbitValue(plugin.var_object6));
-        showdata(tableComponent, "object7", null, client.getVarbitValue(plugin.var_object7));
-        showdata(tableComponent, "object8", null, client.getVarbitValue(plugin.var_object8));
-        panelComponent.getChildren().add(tableComponent);
+        panelComponent.getChildren().add(LineComponent.builder()
+                .left("NPC: ")
+                .right("" + plugin.npc)
+                .build());
+
+        panelComponent.getChildren().add(LineComponent.builder()
+                .left("Location: ")
+                .right("" + plugin.location)
+                .build());
+
+        showdata(panelComponent, "object1", null, client.getVarbitValue(plugin.var_object1));
+        showdata(panelComponent, "object2", null, client.getVarbitValue(plugin.var_object2));
+        showdata(panelComponent, "object3", null, client.getVarbitValue(plugin.var_object3));
+        showdata(panelComponent, "object4", null, client.getVarbitValue(plugin.var_object4));
+        showdata(panelComponent, "object5", null, client.getVarbitValue(plugin.var_object5));
+        showdata(panelComponent, "object6", null, client.getVarbitValue(plugin.var_object6));
+        showdata(panelComponent, "object7", null, client.getVarbitValue(plugin.var_object7));
+        showdata(panelComponent, "object8", null, client.getVarbitValue(plugin.var_object8));
+        //panelComponent.getChildren().add(panelComponent);
 
         return super.render(graphics);
     }
 
-    public void showdata(TableComponent t, String name, GameObject g, int varbit)
+    public void showdata(PanelComponent t, String name, GameObject g, int varbit)
     {
         String objectname = "";
         if(g != null) {
-            ObjectDefinition od = client.getObjectDefinition(g.getId());
+            ObjectComposition od = client.getObjectDefinition(g.getId());
             if (od != null) {
                 objectname = "(" + od.getName() + ")";
             }
         }
-        t.addRow(name + objectname, "" + varbit + "-" + plugin.get_furniture_state(varbit));
+
+        panelComponent.getChildren().add(LineComponent.builder()
+                .left(name + objectname)
+                .right("" + varbit + "-" + plugin.get_furniture_state(varbit))
+                .build());
+
     }
 
 }

@@ -42,8 +42,8 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.game.WorldLocation;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.Finder.FinderConfig;
 import net.runelite.client.plugins.Finder.FinderPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -51,9 +51,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
@@ -85,6 +82,22 @@ class FinderOverlay extends Overlay
         return client.getMouseCanvasPosition();
     }
 
+    public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)
+    {
+        if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
+        {
+            graphics.setColor(configColor.darker());
+        }
+        else
+        {
+            graphics.setColor(configColor);
+        }
+
+        graphics.draw(objectClickbox);
+        graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
+        graphics.fill(objectClickbox);
+    }
+
     @Override
     public Dimension render(Graphics2D graphics) {
         for (Map.Entry<GameObject, String> entry : plugin.getGameobjects().entrySet()) {
@@ -95,8 +108,8 @@ class FinderOverlay extends Overlay
             {
                 continue;
             }
-            OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.color());
-            Entity e = g.getEntity();
+            renderClickBox(graphics, mouse(), clickbox, config.color());
+            Model e = g.getModel();
             if(e == null)
             {
                 continue;
@@ -119,8 +132,8 @@ class FinderOverlay extends Overlay
             {
                 continue;
             }
-            OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.color());
-            Entity e = g.getEntity();
+            renderClickBox(graphics, mouse(), clickbox, config.color());
+            Model e = g.getModel();
             if(e == null)
             {
                 continue;
@@ -143,8 +156,8 @@ class FinderOverlay extends Overlay
             {
                 continue;
             }
-            OverlayUtil.renderClickBox(graphics, mouse(), clickbox, config.color());
-            Entity e = g.getEntity1();
+            renderClickBox(graphics, mouse(), clickbox, config.color());
+            Model e = g.getModelA();
             if(e == null)
             {
                 continue;
@@ -164,7 +177,7 @@ class FinderOverlay extends Overlay
             Shape clickbox = Perspective.getClickbox(client, g.getModel(), g.getOrientation(), g.getLocalLocation());
             if(clickbox != null) {
 
-                OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
+                renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
                 if(config.shownames()) {
                     Point p = g.getCanvasTextLocation(graphics, g.getName(), g.getModelHeight() + 40);
                     if (p == null) {
@@ -188,7 +201,7 @@ class FinderOverlay extends Overlay
             Shape clickbox = Perspective.getClickbox(client, g.getModel(), g.getOrientation(), g.getLocalLocation());
             if(clickbox != null) {
 
-                OverlayUtil.renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
+                renderClickBox(graphics, mouse(), clickbox, Color.CYAN);
                 if(config.shownames()) {
                     Point p = g.getCanvasTextLocation(graphics, g.getName(), g.getModelHeight() + 40);
                     if (p == null) {

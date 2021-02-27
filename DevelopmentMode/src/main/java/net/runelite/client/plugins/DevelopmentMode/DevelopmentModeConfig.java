@@ -34,11 +34,6 @@ public interface DevelopmentModeConfig extends Config {
 			name = "Example Checkbox",
 			description = "",
 			position = 1,
-			keyName = "examplecheckbox"
 	)
-	default boolean examplecheckbox()
-	{
-		return false;
-	}
+	String examplecheckbox = "examplecheckbox";
 	
-}

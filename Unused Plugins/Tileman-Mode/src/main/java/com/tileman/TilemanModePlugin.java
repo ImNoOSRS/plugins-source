@@ -131,7 +131,7 @@ public class TilemanModePlugin extends Plugin {
 
     @Subscribe
     public void onMenuOptionClicked(MenuOptionClicked event) {
-        if (event.getMenuOpcode().getId() != MenuOpcode.RUNELITE.getId() ||
+        if (event.getMenuAction().getId() != MenuAction.RUNELITE.getId() ||
                 !(event.getTarget().equals(MARK) || event.getTarget().equals(UNMARK))) {
             return;
         }
@@ -146,7 +146,7 @@ public class TilemanModePlugin extends Plugin {
     @Subscribe
     public void onMenuEntryAdded(MenuEntryAdded event) {
         final boolean hotKeyPressed = client.isKeyPressed(KeyCode.KC_SHIFT);
-        if (hotKeyPressed && event.getOption().equals(WALK_HERE)) {
+        if (hotKeyPressed && event.getMenuOption().equals(WALK_HERE)) {
             final Tile selectedSceneTile = client.getSelectedSceneTile();
 
             if (selectedSceneTile == null) {
@@ -163,7 +163,7 @@ public class TilemanModePlugin extends Plugin {
 
             menuEntry.setOption(getTiles(regionId).contains(point) ? UNMARK : MARK);
             menuEntry.setTarget(event.getTarget());
-            menuEntry.setOpcode(MenuOpcode.RUNELITE.getId());
+            menuEntry.setOpcode(MenuAction.RUNELITE.getId());
 
             client.setMenuEntries(menuEntries);
         }

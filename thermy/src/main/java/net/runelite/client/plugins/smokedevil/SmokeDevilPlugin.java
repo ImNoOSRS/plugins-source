@@ -20,11 +20,7 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.overlay.OverlayManager;
-import net.runelite.client.util.Clipboard;
-import net.runelite.client.util.QuantityFormatter;
-import org.apache.commons.lang3.ObjectUtils;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
@@ -34,8 +30,7 @@ import javax.inject.Inject;
         name = "Smoke Devil",
         enabledByDefault = false,
         description = "Show freeze timer against Smoke Devil",
-        tags = {"Smoke", "devil", "Lazy", "Dildo looking mofo"},
-        type = PluginType.PVM
+        tags = {"Smoke", "devil", "Lazy", "Dildo looking mofo", "imno"}
 )
 
 
@@ -210,7 +205,8 @@ public class SmokeDevilPlugin extends Plugin {
                 return;
             }
             //Also check this again on BARRAGE ANIMATIOn 1679 or some id idk
-            if (NPC_NAME.getSpotAnimation() == ice_barrage) {
+            //NPC_NAME.getSpotAnimationFrame() MIGHT BE WRONG.
+            if (NPC_NAME.getSpotAnimationFrame() == ice_barrage) {
                 need1reload = false;
                 log.info("Barraging...");
                 is_barraged = true;

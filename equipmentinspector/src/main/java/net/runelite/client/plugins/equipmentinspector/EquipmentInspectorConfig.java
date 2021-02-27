@@ -23,12 +23,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package net.runelite.client.plugins.equipmentinspector;
-
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.Range;
-
 @ConfigGroup("equipmentinspector")
 public interface EquipmentInspectorConfig extends Config
 {
@@ -42,7 +40,6 @@ public interface EquipmentInspectorConfig extends Config
 	{
 		return true;
 	}
-
 	@Range(
 		min = 1,
 		max = 4
@@ -57,7 +54,6 @@ public interface EquipmentInspectorConfig extends Config
 	{
 		return 1;
 	}
-
 	@ConfigItem(
 		keyName = "ExactValue",
 		name = "Show exact value",

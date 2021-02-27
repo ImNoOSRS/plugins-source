@@ -40,18 +40,12 @@ import net.runelite.api.*;
 import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.game.WorldLocation;
-import net.runelite.client.graphics.ModelOutlineRenderer;
+import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.ui.overlay.components.table.TableComponent;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
@@ -151,7 +145,7 @@ class SmokeDevilOverlay extends Overlay
 			case SOUTH_WEST_TILE:
 			{
 				int size = 1;
-				NPCDefinition composition = actor.getTransformedDefinition();
+				NPCComposition composition = actor.getTransformedComposition();
 				if (composition != null)
 				{
 					size = composition.getSize();
@@ -170,7 +164,7 @@ class SmokeDevilOverlay extends Overlay
 			case TILE:
 			{
 				int size = 1;
-				NPCDefinition composition = actor.getTransformedDefinition();
+				NPCComposition composition = actor.getTransformedComposition();
 				if (composition != null)
 				{
 					size = composition.getSize();
@@ -183,7 +177,7 @@ class SmokeDevilOverlay extends Overlay
 			case THIN_TILE:
 			{
 				int size = 1;
-				NPCDefinition composition = actor.getTransformedDefinition();
+				NPCComposition composition = actor.getTransformedComposition();
 				if (composition != null)
 				{
 					size = composition.getSize();
@@ -216,7 +210,7 @@ class SmokeDevilOverlay extends Overlay
 			case TRUE_LOCATIONS:
 			{
 				int size = 1;
-				NPCDefinition composition = actor.getTransformedDefinition();
+				NPCComposition composition = actor.getTransformedComposition();
 				if (composition != null)
 				{
 					size = composition.getSize();
@@ -233,7 +227,7 @@ class SmokeDevilOverlay extends Overlay
 			case THIN_TRUE_LOCATIONS:
 			{
 				int size = 1;
-				NPCDefinition composition = actor.getTransformedDefinition();
+				NPCComposition composition = actor.getTransformedComposition();
 				if (composition != null)
 				{
 					size = composition.getSize();
