@@ -1,7 +1,7 @@
 # plugins
  ImNo's Plugins
 
-Join our discord: https://discord.com/invite/6MwVqJu
+Join our discord: https://discord.gg/Pn735axzPP
 
 As of now the source repository is not public, once we cleaned up some code it will go public.
 This does "NOT" mean the plugins might be malicius, all plugins can be easely decompiled and are "NOT" obsfucated.
