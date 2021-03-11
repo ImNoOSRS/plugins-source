@@ -119,6 +119,17 @@ public interface DenseEssenceOverlayConfig extends Config {
     {
         return true;
     }
+    @ConfigItem(
+            name = "Laps to Goal",
+            description = "Toggles the lap tracker",
+            position = 4,
+            keyName = "showLapOverlay",
+            section = toggleSection
+    )
+    default boolean showLapOverlay()
+    {
+        return true;
+    }
 
     //Indicators
     @ConfigItem(
