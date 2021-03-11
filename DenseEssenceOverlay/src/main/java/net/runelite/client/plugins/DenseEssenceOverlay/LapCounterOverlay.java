@@ -92,12 +92,12 @@ class LapCounterOverlay extends OverlayPanel {
         //Naming shit (tables) idk
 									panelComponent.getChildren().add(LineComponent.builder()
 										.left("Total Laps:")
-										.right("" + Math.round(Math.abs(currentexp - startexp)))
+										.right("" + Math.round(Math.abs(currentexp - startexp) / exp_devider))
 										.build());
 
 									panelComponent.getChildren().add(LineComponent.builder()
 										.left("Laps until level:")
-										.right("" + format(Math.abs(currentexp - exp_for_next_level)))
+										.right("" + format(Math.abs(currentexp - exp_for_next_level / exp_devider)))
 										.build());
 
         int goal_end = client.getVar(VarPlayer.RUNECRAFT_GOAL_END);
@@ -105,7 +105,7 @@ class LapCounterOverlay extends OverlayPanel {
         if (config.lapstogoal()) {
 									panelComponent.getChildren().add(LineComponent.builder()
 										.left("Laps until goal:")
-										.right("" + format(Math.abs(currentexp - client.getVar(VarPlayer.RUNECRAFT_GOAL_END))))
+										.right("" + format(Math.abs(currentexp - client.getVar(VarPlayer.RUNECRAFT_GOAL_END) / exp_devider)))
 										.build());
 
         }
