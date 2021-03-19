@@ -58,7 +58,7 @@ public class DeveloperHelperPlugin extends Plugin {
     @Inject
     private Client client;
     @Inject
-    private ClientThread clientThread;
+    public ClientThread clientThread;
     @Inject
     private ClientToolbar clientToolbar;
     

@@ -129,6 +129,25 @@ class DeveloperHelperPanel extends PluginPanel
             Clipboard.store("Copying...");
         });
 
+        JButton WidgetInspectorHotfix = new JButton("Widget Inspector Hotfix");
+        container.add(WidgetInspectorHotfix);
+        WidgetInspectorHotfix.addActionListener((ev) ->
+        {
+            plugin.clientThread.invoke((() ->
+            {
+                Widget w = client.getWidget(161, 16);
+                if(w != null)
+                    w.setHidden(true);
+                Widget w2 = client.getWidget(84, 21);
+                if(w2 != null)
+                    w2.setHidden(true);
+
+                Widget w3 = client.getWidget(281, 189);
+                if(w3 != null)
+                    w3.setHidden(true);
+            }));
+        });
+
         JButton CopyStringStack = new JButton("Copy StringStack");
         container.add(CopyStringStack);
         CopyStringStack.addActionListener((ev) ->
