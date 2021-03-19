@@ -116,9 +116,24 @@ public class DeveloperHelperPlugin extends Plugin {
     }
 
 
+    public boolean widgethotfix = false;
     @Subscribe
     private void onGameTick(GameTick gameTick)
     {
+        if(widgethotfix)
+        {
+            Widget w = client.getWidget(161, 16);
+            if(w != null)
+                w.setHidden(true);
+
+            Widget w2 = client.getWidget(84, 21);
+            if(w2 != null)
+                w2.setHidden(true);
+
+            Widget w3 = client.getWidget(281, 189);
+            if(w3 != null)
+                w3.setHidden(true);
+        }
         if(copy_widgets_on_next_tick)
         {
             copy_widgets_on_next_tick = false;
