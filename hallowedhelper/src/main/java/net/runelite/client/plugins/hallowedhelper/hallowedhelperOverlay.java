@@ -172,7 +172,6 @@ class hallowedhelperOverlay extends Overlay
                 {
                     OverlayText(g, plugin.Floor4WizardBottom1.getLocalLocation(), "Wait for next Rotation", Color.CYAN, 0, 0);
                 }
-                int rotationno = 0;
                 for(Color current : rotation)
                 {
                     if(unreachable)
@@ -1103,8 +1102,8 @@ class hallowedhelperOverlay extends Overlay
             }
 
             int ticks = statue.getTicksUntilNextAnimation();
-            int maxtick = statue.maxTickperfloor(plugin.currentfloor, plugin.subfloor);
-            if(maxtick == -1)
+            int maxTick = statue.maxTickperfloor(plugin.currentfloor, plugin.subfloor);
+            if(maxTick == -1)
             {
                 continue;
             }
@@ -1135,8 +1134,8 @@ class hallowedhelperOverlay extends Overlay
                     }
 
 
-                    if (maxtick != -1) {
-                        int diffrence = Math.abs(maxtick - ticks);
+                    if (maxTick != -1) {
+                        int diffrence = Math.abs(maxTick - ticks);
                         if (diffrence < 1) {
                             if(!config.ShowUnsafeTiles())
                             {
@@ -1169,10 +1168,10 @@ class hallowedhelperOverlay extends Overlay
                 }
 
                 String overlaytext = "";
-                int diffrenceinticks = Math.abs(ticks - maxtick);
+                int diffrenceinticks = Math.abs(ticks - maxTick);
                 int ticksuntillunsafe = -1;
                 if(config.ShowValues()) {
-                    OverlayUtil.renderTileOverlay(graphics, statue.getGameObject(), "" + statue.getTicksUntilNextAnimation() + "/" + maxtick, color);
+                    OverlayUtil.renderTileOverlay(graphics, statue.getGameObject(), "" + statue.getTicksUntilNextAnimation() + "/" + maxTick, color);
                 }
                 else
                 {
@@ -1183,7 +1182,7 @@ class hallowedhelperOverlay extends Overlay
                     }
                     else
                     {
-                        ticksuntillunsafe = Math.abs(ticks - maxtick);
+                        ticksuntillunsafe = Math.abs(ticks - maxTick);
                         if(config.ShowReversedFireTickCounter()) {
                             overlaytext = "(" + ticksuntillunsafe + ")";
                         }
@@ -1286,6 +1285,9 @@ class hallowedhelperOverlay extends Overlay
                 offset2 = 0;
             }
 
+            offset++;
+            offset2++;
+
             if(overlaytext != "") {
                 OverlayText(graphics, lp, overlaytext, color, offset, offset2);
             }
@@ -1373,6 +1375,9 @@ class hallowedhelperOverlay extends Overlay
                 offset = -1;
                 offset2 = -1;
             }
+
+            offset++;
+            offset2++;
 
             if(overlaytext != "") {
                 OverlayText(graphics, lp, overlaytext, color, offset, offset2);

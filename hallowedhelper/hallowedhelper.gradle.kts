@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.1.3"
+version = "0.1.4"
 
 project.extra["PluginName"] = "Sepulcre Deluxe"
 project.extra["PluginDescription"] = "This is a HallowedHelper plugin by ImNo#0890."
