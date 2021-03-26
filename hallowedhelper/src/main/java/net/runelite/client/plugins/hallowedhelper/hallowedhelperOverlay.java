@@ -165,6 +165,7 @@ class hallowedhelperOverlay extends Overlay
         boolean unreachable = client.getLocalPlayer().getLocalLocation().getX() > 7359 && plugin.floor4_fire_rotation > 2;
         if(plugin.Floor4WizardBottom1 != null) {
             w = plugin.Floor4WizardBottom1.getWorldLocation();
+            w = new WorldPoint(w.getX() + 1, w.getY() + 1, w.getPlane());
             ArrayList<Color> rotation = Rotation.floor4_rotations.get(plugin.floor4_fire_rotation - 1);
             if(rotation != null)
             {
@@ -190,6 +191,7 @@ class hallowedhelperOverlay extends Overlay
         currentpoint = 1;
         if(plugin.Floor5BottomLeft != null) {
             w = plugin.Floor5BottomLeft.getWorldLocation();
+            w = new WorldPoint(w.getX() + 1, w.getY() + 1, w.getPlane());
             ArrayList<Color> rotation = Rotation.floor5_rotations.get(plugin.floor5_fire_rotation - 1);
             if(rotation != null)
             {
@@ -213,7 +215,7 @@ class hallowedhelperOverlay extends Overlay
         if(plugin.Floor5_2ATopLeft != null) {
             w = plugin.Floor5_2ATopLeft.getWorldLocation();
             //Offset since were at the top.
-            w = new WorldPoint(w.getX() + 12, w.getY(), w.getPlane());
+            w = new WorldPoint(w.getX() + 12 + 1, w.getY() + 1, w.getPlane());
             ArrayList<Color> rotation = Rotation.floor5_2A_rotations.get(plugin.floor5_2A_fire_rotation - 1);
             ArrayList<Color> rotation2 = Rotation.floor5_3A_rotations.get(plugin.floor5_2A_fire_rotation - 1);
             if(rotation != null)
@@ -257,6 +259,7 @@ class hallowedhelperOverlay extends Overlay
         currentpoint = 1;
         if(plugin.floor5_4BottomLeft != null) {
             w = plugin.floor5_4BottomLeft.getWorldLocation();
+            w = new WorldPoint(w.getX() + 1, w.getY() + 1, w.getPlane());
             ArrayList<Color> rotation = Rotation.floor5_4_rotations.get(plugin.floor5_4_fire_rotation - 1);
             if(rotation != null)
             {
