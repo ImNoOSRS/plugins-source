@@ -394,7 +394,7 @@ public class DeveloperHelperPlugin extends Plugin {
 
         menuEntry2.setOption(copyworldpoint);
         menuEntry2.setTarget(event.getTarget());
-        menuEntry2.setParam0(event.getParam0() + 1);
+        menuEntry2.setParam0(event.getParam0());
         menuEntry2.setParam1(event.getParam1());
         menuEntry2.setIdentifier(event.getId());
         menuEntry2.setOpcode(MenuAction.RUNELITE.getId());
@@ -403,7 +403,7 @@ public class DeveloperHelperPlugin extends Plugin {
 
         menuEntry3.setOption(copylocalpoint);
         menuEntry3.setTarget(event.getTarget());
-        menuEntry3.setParam0(event.getParam0() + 2);
+        menuEntry3.setParam0(event.getParam0());
         menuEntry3.setParam1(event.getParam1());
         menuEntry3.setIdentifier(event.getId());
         menuEntry3.setOpcode(MenuAction.RUNELITE.getId());
