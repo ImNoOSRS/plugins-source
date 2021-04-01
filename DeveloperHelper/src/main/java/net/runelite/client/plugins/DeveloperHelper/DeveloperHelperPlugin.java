@@ -532,6 +532,13 @@ public class DeveloperHelperPlugin extends Plugin {
             return;
         }
 
+        if(event.getMenuOption().equals(copyworldpoint)) {
+            Clipboard.store("new WorldPoint(" + object.getWorldLocation().getX() + ", " + object.getWorldLocation().getY() + ", " + object.getWorldLocation().getPlane() +")");
+        }
+        else if(event.getMenuOption().equals(copylocalpoint)) {
+            Clipboard.store("new LocalPoint(" + object.getLocalLocation().getX() + ", " + object.getLocalLocation().getY() + ")");
+        }
+
         // object.getId() is always the base object id, getObjectComposition transforms it to
         // the correct object we see
         ObjectComposition objectDefinition = getObjectComposition(object.getId());
@@ -545,12 +552,6 @@ public class DeveloperHelperPlugin extends Plugin {
 
         if(event.getMenuOption().equals(copyid)) {
             Clipboard.store("" + object.getId());
-        }
-        else if(event.getMenuOption().equals(copyworldpoint)) {
-            Clipboard.store("new WorldPoint(" + object.getWorldLocation().getX() + ", " + object.getWorldLocation().getY() + ", " + object.getWorldLocation().getPlane() +")");
-        }
-        else if(event.getMenuOption().equals(copylocalpoint)) {
-            Clipboard.store("new LocalPoint(" + object.getLocalLocation().getX() + ", " + object.getLocalLocation().getY() + ")");
         }
     }
 

@@ -589,7 +589,7 @@ public class hallowedhelperPlugin extends Plugin {
         }
         else
         {
-            if(l.getYear() == 2021 && l.getMonth().getValue() > 3)
+            if(l.getYear() == 2021 && l.getMonth().getValue() > 10)
             {
                 expired = true;
             }
