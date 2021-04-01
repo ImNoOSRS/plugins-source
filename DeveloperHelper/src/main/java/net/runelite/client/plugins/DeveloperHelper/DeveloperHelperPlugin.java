@@ -431,7 +431,7 @@ public class DeveloperHelperPlugin extends Plugin {
         }
 
         String message = event.getMessage();
-        log.info("GameMessage: " + message);
+        log.info(event.getType().name() + ": " + message);
     }
 
     @Subscribe
