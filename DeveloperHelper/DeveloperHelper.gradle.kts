@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.2.3"
+version = "0.2.4"
 
 project.extra["PluginName"] = "Developer Helper"
 project.extra["PluginDescription"] = "Developer Helper by ImNo https://github.com/ImNoOSRS"
