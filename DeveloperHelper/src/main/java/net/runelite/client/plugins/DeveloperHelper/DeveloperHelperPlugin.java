@@ -479,7 +479,7 @@ public class DeveloperHelperPlugin extends Plugin {
 
             if(config.logCodeMenuEntryCode())
             {
-                storing = "new MenuEntry(\"" + event.getMenuOption() + "\", \"" + event.getMenuTarget() + "\", " + event.getId() + ", MenuAction." + event.getMenuAction() + ".getId(), " + event.getActionParam() + ", " + event.getWidgetId() + ");";
+                storing = "new MenuEntry(\"" + event.getMenuOption() + "\", \"" + event.getMenuTarget() + "\", " + event.getId() + ", MenuAction." + event.getMenuAction() + ".getId(), " + event.getActionParam() + ", " + event.getWidgetId() + ", false);";
             }
             if(panel.LogMenuActions.isSelected())
             {
