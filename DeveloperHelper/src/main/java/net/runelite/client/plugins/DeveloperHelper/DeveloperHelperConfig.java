@@ -96,4 +96,15 @@ public interface DeveloperHelperConfig extends Config {
         return true;
     }
 
+    @ConfigItem(
+            name = "MenuEntry (Code Form)",
+            description = "Logs menuEntry in code form",
+            position = 6,
+            keyName = "logCodeMenuEntryCode"
+    )
+    default boolean logCodeMenuEntryCode()
+    {
+        return true;
+    }
+
 }

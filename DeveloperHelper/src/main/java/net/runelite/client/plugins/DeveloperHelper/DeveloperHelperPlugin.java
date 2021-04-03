@@ -476,6 +476,11 @@ public class DeveloperHelperPlugin extends Plugin {
             storing += " Param0:" + event.getActionParam();
             storing += " Param1:" + event.getWidgetId();
             storing += "]";
+
+            if(config.logCodeMenuEntryCode())
+            {
+                storing = "new MenuEntry(\"" + event.getMenuOption() + "\", \"" + event.getMenuTarget() + "\", " + event.getId() + ", MenuAction." + event.getMenuAction() + ".getId(), " + event.getActionParam() + "," + event.getWidgetId();
+            }
             if(panel.LogMenuActions.isSelected())
             {
                 switch((String)panel.ActionHandleType.getSelectedItem()) {
