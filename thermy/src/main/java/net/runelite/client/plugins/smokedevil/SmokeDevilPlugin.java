@@ -206,7 +206,7 @@ public class SmokeDevilPlugin extends Plugin {
             }
             //Also check this again on BARRAGE ANIMATIOn 1679 or some id idk
             //NPC_NAME.getSpotAnimationFrame() MIGHT BE WRONG.
-            if (NPC_NAME.getSpotAnimationFrame() == ice_barrage) {
+            if (NPC_NAME.getSpotAnimFrame() == ice_barrage) {
                 need1reload = false;
                 log.info("Barraging...");
                 is_barraged = true;
