@@ -724,11 +724,11 @@ public class hallowedhelperPlugin extends Plugin {
         ticksleft = client.getVarbitValue(ticksleftvar);
         doorOpen = (ticksleft != 1);
 
-        graphic = client.getLocalPlayer().getSpotAnimFrame();
+        graphic = client.getLocalPlayer().getGraphic();
         if(waitforspot)
         {
-            if(client.getLocalPlayer().getSpotAnimFrame() == 1805) {
-                client.getLocalPlayer().setSpotAnimFrame(137);
+            if(client.getLocalPlayer().getGraphic() == 1805) {
+                client.getLocalPlayer().setGraphic(137);
                 waitforspot = false;
             }
         }
