@@ -105,8 +105,10 @@ class DeveloperHelperPanel extends PluginPanel
 
     public JCheckBox LogMenuActions = new JCheckBox();
     public JCheckBox LogChatbox = new JCheckBox();
+    public JCheckBox LogGameSateChanged = new JCheckBox();
     public JCheckBox LogMenuEntryAdded = new JCheckBox();
     public JCheckBox LogOnWidgetLoaded = new JCheckBox();
+    public JCheckBox LogWidgetHiddenChanged = new JCheckBox();
     public JCheckBox LogGameObjectSpawned = new JCheckBox();
     public JCheckBox LogGameObjectDespawned = new JCheckBox();
     public JCheckBox LogGameObjectChanged = new JCheckBox();
@@ -220,10 +222,16 @@ class DeveloperHelperPanel extends PluginPanel
         container.add(new JLabel("Log Chatbox"));
         container.add(LogChatbox);
 
+        container.add(new JLabel("Log GameStateChanged"));
+        container.add(LogGameSateChanged);
+
         container.add(new JLabel("Log MenuEntryAdded"));
         container.add(LogMenuEntryAdded);
 
-        container.add(new JLabel("Log WidgetCreated"));
+        container.add(new JLabel("Log WidgetHiddenChanged"));
+        container.add(LogWidgetHiddenChanged);
+
+        container.add(new JLabel("Log WidgetHiddenChanged"));
         container.add(LogOnWidgetLoaded);
 
         container.add(new JLabel("Log GameObjectSpawned"));

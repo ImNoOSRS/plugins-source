@@ -118,7 +118,26 @@ public class DeveloperHelperPlugin extends Plugin {
 
     public boolean widgethotfix = false;
     @Subscribe
-    private void onGameTick(GameTick gameTick)
+    private void onGameStateChanged(GameStateChanged event)
+    {
+        if(panel.LogGameSateChanged.isSelected())
+        {
+            log("GameStateChanged: " + event.getGameState().toString());
+        }
+    }
+
+    @Subscribe
+    private void onWidgetHiddenChanged(WidgetHiddenChanged event)
+    {
+        if(panel.LogWidgetHiddenChanged.isSelected())
+        {
+            Widget widget = event.getWidget();
+            log("WidgetHiddenChanged: " + widget.getName() + " (" + widget.getRSName() + ")" + "(" + widget.getId() + ") : Hidden: " + widget.isHidden());
+        }
+    }
+
+    @Subscribe
+    private void onGameTick(GameTick event)
     {
         if(widgethotfix)
         {
