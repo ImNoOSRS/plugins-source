@@ -189,6 +189,17 @@ class DeveloperHelperPanel extends PluginPanel
             Clipboard.store(all.trim());
         });
 
+        JButton CopyAllVarbits = new JButton("Copy All Varbits");
+        container.add(CopyAllVarbits);
+        CopyAllVarbits.addActionListener((ev) ->
+        {
+                String all = "";
+                for (Varbits varbit : Varbits.values()) {
+                    all += varbit.name() + ":" + client.getVarbitValue(varbit.getId()) + "\n";
+                }
+                Clipboard.store(all.trim());
+        });
+
         JButton CopyWallObjects = new JButton("Copy All WallObjects");
         container.add(CopyWallObjects);
         CopyWallObjects.addActionListener(ev -> clientThread.invokeLater(() ->
