@@ -141,17 +141,10 @@ public class DeveloperHelperPlugin extends Plugin {
     {
         if(widgethotfix)
         {
-            Widget w = client.getWidget(161, 16);
-            if(w != null)
-                w.setHidden(true);
-
-            Widget w2 = client.getWidget(84, 21);
-            if(w2 != null)
-                w2.setHidden(true);
-
-            Widget w3 = client.getWidget(281, 189);
-            if(w3 != null)
-                w3.setHidden(true);
+            tryHide(client.getWidget(161, 16));
+            tryHide(client.getWidget(84, 21));
+            tryHide(client.getWidget(281, 189));
+            tryHide(client.getWidget(281, 192));
         }
         if(copy_widgets_on_next_tick)
         {
@@ -160,6 +153,14 @@ public class DeveloperHelperPlugin extends Plugin {
                 return;
             }
             CopyWidgets();
+        }
+    }
+
+    public void tryHide(Widget widget)
+    {
+        if(widget != null)
+        {
+            widget.setHidden(true);
         }
     }
 
