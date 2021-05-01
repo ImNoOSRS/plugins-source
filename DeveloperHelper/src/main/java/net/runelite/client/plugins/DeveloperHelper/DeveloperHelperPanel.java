@@ -118,6 +118,27 @@ class DeveloperHelperPanel extends PluginPanel
     public JPanel options;
     public JComboBox plugins;
 
+    String widgetdata = "";
+    private void processWidget(final Widget widget) {
+        if (widget == null) {
+            return;
+        }
+
+        String line =  "Widget{" + widget.getName() + "}:" + widget.getText() + "(" + widget.getId() + ") - Type:" + widget.getType() + ", CT:" + widget.getContentType();
+        String group = "__" + WidgetInfo.TO_GROUP(widget.getId()) + "." + WidgetInfo.TO_CHILD(widget.getId()) + "[" + widget.getIndex() + "]";
+        widgetdata += line + group + "\n";
+
+        for (final Widget child : widget.getStaticChildren()) {
+            this.processWidget(child);
+        }
+        for (final Widget dynamicChild : widget.getDynamicChildren()) {
+            this.processWidget(dynamicChild);
+        }
+        for (final Widget nestedChild : widget.getNestedChildren()) {
+            this.processWidget(nestedChild);
+        }
+    }
+
     private JPanel createOptionsPanel()
     {
         final JPanel container = new JPanel();
@@ -125,11 +146,15 @@ class DeveloperHelperPanel extends PluginPanel
         container.setLayout(new GridLayout(0, 1, 3, 3));
         JButton CopyWidgets = new JButton("Copy All Widgets");
         container.add(CopyWidgets);
-        CopyWidgets.addActionListener((ev) ->
+        CopyWidgets.addActionListener(ev -> clientThread.invokeLater(() ->
         {
-            plugin.copy_widgets_on_next_tick = true;
-            Clipboard.store("Copying...");
-        });
+            widgetdata = "DUMP_WIDGETS_START\n";
+            for (final Widget widgetRoot : client.getWidgetRoots()) {
+                this.processWidget(widgetRoot);
+            }
+            widgetdata += "END";
+            Clipboard.store(widgetdata);
+        }));
 
         JButton WidgetInspectorHotfix = new JButton("Widget Inspector Hotfix");
         container.add(WidgetInspectorHotfix);
