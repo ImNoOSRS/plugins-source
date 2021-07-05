@@ -26,58 +26,36 @@
 package net.runelite.client.plugins.HouseOverlay;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.Point;
-import net.runelite.api.coords.LocalPoint;
-import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.kit.KitType;
 import net.runelite.api.queries.DecorativeObjectQuery;
 import net.runelite.api.queries.GameObjectQuery;
-import net.runelite.client.game.AgilityShortcut;
-import net.runelite.client.game.ItemManager;
-import com.openosrs.client.game.WorldLocation;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
-import net.runelite.client.plugins.HouseOverlay.HouseOverlayConfig;
-import net.runelite.client.plugins.HouseOverlay.HouseOverlayPlugin;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.TextComponent;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @Singleton
 class HouseOverlayOverlay extends Overlay {
-    @Inject
-    private ItemManager itemManager;
-    private final ModelOutlineRenderer modelOutlineRenderer;
-
     private final Client client;
     private final HouseOverlayConfig config;
     private final HouseOverlayPlugin plugin;
     private final TextComponent textComponent = new TextComponent();
 
     @Inject
-    private HouseOverlayOverlay(final Client client, final HouseOverlayConfig config, final HouseOverlayPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
+    private HouseOverlayOverlay(final Client client, final HouseOverlayConfig config, final HouseOverlayPlugin plugin) {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_SCENE);
         this.client = client;
         this.config = config;
         this.plugin = plugin;
-        this.modelOutlineRenderer = modelOutlineRenderer;
     }
 
 
@@ -107,35 +85,33 @@ class HouseOverlayOverlay extends Overlay {
         if(plugin.inhouse)
         {
             final LocatableQueryResults<GameObject> locatableQueryResults = new GameObjectQuery().result(client);
-
             for (final GameObject gameObject : locatableQueryResults)
             {
                 lastaction = "";
                 extrainfo = "";
                 int id = gameObject.getId();
-                String name = "";
-                name = hotfixednames(id);
+                String name = hotfixednames(id);
                 if(name.isEmpty()) {
                     name = getname(id);
-                    if(name == "skip")
+                    if(name.equals("skip"))
                     {
                         continue;
                     }
                 }
 
 
-                int modelheight = gameObject.getModel().getModelHeight();
+                int modelHeight = gameObject.getRenderable().getModelHeight();
                 switch(id)
                 {
                     case 29241://Rejuvenate Pool
                     case 40848://Frozen reju Pool
                     case 33375://Portal Nexus
                     case 4525://Exit Portal
-                        modelheight = 65;
+                        modelHeight = 65;
                         break;
                 }
 
-                ProcessObject(graphics, id, name, gameObject.getClickbox(), modelheight, gameObject.getCanvasTextLocation(graphics, name, modelheight), config.HouseObjectsDefaultColor());
+                ProcessObject(graphics, id, name, gameObject.getClickbox(), modelHeight, gameObject.getCanvasTextLocation(graphics, name, modelHeight), config.HouseObjectsDefaultColor());
             }
 
             final LocatableQueryResults<DecorativeObject> DecorativeQueryResults = new DecorativeObjectQuery().result(client);
@@ -145,16 +121,15 @@ class HouseOverlayOverlay extends Overlay {
                 lastaction = "";
                 extrainfo = "";
                 int id = dob.getId();
-                String name = "";
-                name = hotfixednames(id);
+                String name = hotfixednames(id);
                 if(name.isEmpty()) {
                     name = getname(id);
-                    if(name == "skip")
+                    if(name.equals("skip"))
                     {
                         continue;
                     }
                 }
-                ProcessObject(graphics, id, name, dob.getClickbox(), dob.getModel1().getModelHeight(), dob.getCanvasTextLocation(graphics, name, dob.getModel1().getModelHeight()), config.DecorativeColors());
+                ProcessObject(graphics, id, name, dob.getClickbox(), dob.getRenderable2().getModelHeight(), dob.getCanvasTextLocation(graphics, name, dob.getRenderable2().getModelHeight()), config.DecorativeColors());
             }
         }
         return null;
@@ -210,7 +185,7 @@ class HouseOverlayOverlay extends Overlay {
                     return "skip";
                 }
                 if (actions[1].equals("Jars")) {
-                        return "skip";
+                    return "skip";
                 }
             }
 
@@ -284,11 +259,11 @@ class HouseOverlayOverlay extends Overlay {
         if(id == 29228)//Fairy Ring
         {
             if(config.fairyStaff())
-            if(!plugin.fairy_ring_has_staff)
-            {
-                extrainfo = "WIELD STAFF";
-                return Color.PINK;
-            }
+                if(!plugin.fairy_ring_has_staff)
+                {
+                    extrainfo = "WIELD STAFF";
+                    return Color.PINK;
+                }
         }
 
         return defaultcolor;
