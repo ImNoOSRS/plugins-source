@@ -43,7 +43,6 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
 import com.openosrs.client.game.WorldLocation;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.Finder.FinderConfig;
 import net.runelite.client.plugins.Finder.FinderPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -58,7 +57,6 @@ class FinderOverlay extends Overlay
 { 
     @Inject
     private ItemManager itemManager;
-    private final ModelOutlineRenderer modelOutlineRenderer;
 
     private final Client client;
     private final FinderConfig config;
@@ -66,7 +64,7 @@ class FinderOverlay extends Overlay
     private final TextComponent textComponent = new TextComponent();
 
     @Inject
-    private FinderOverlay(final Client client, final FinderConfig config, final FinderPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer)
+    private FinderOverlay(final Client client, final FinderConfig config, final FinderPlugin plugin)
     {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
@@ -74,7 +72,6 @@ class FinderOverlay extends Overlay
         this.client = client;
         this.config = config;
         this.plugin = plugin;
-        this.modelOutlineRenderer = modelOutlineRenderer;
     }
 
     public Point mouse()
@@ -109,7 +106,7 @@ class FinderOverlay extends Overlay
                 continue;
             }
             renderClickBox(graphics, mouse(), clickbox, config.color());
-            Model e = g.getModel();
+            Renderable e = g.getRenderable();
             if(e == null)
             {
                 continue;
