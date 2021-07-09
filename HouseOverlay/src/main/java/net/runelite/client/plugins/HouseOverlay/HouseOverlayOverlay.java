@@ -129,7 +129,7 @@ class HouseOverlayOverlay extends Overlay {
                         continue;
                     }
                 }
-                ProcessObject(graphics, id, name, dob.getClickbox(), dob.getRenderable2().getModelHeight(), dob.getCanvasTextLocation(graphics, name, dob.getRenderable2().getModelHeight()), config.DecorativeColors());
+                ProcessObject(graphics, id, name, dob.getClickbox(), dob.getRenderable().getModelHeight(), dob.getCanvasTextLocation(graphics, name, dob.getRenderable().getModelHeight()), config.DecorativeColors());
             }
         }
         return null;

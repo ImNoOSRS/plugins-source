@@ -42,7 +42,6 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
 import com.openosrs.client.game.WorldLocation;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.DaeyaltEssence.DaeyaltEssenceConfig;
 import net.runelite.client.plugins.DaeyaltEssence.DaeyaltEssencePlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -58,7 +57,6 @@ import net.runelite.client.util.ImageUtil;
 class DaeyaltEssenceOverlay extends Overlay {
 	@Inject
 	private ItemManager itemManager;
-	private final ModelOutlineRenderer modelOutlineRenderer;
 
 	private final Client client;
 	private final DaeyaltEssenceConfig config;
@@ -66,14 +64,13 @@ class DaeyaltEssenceOverlay extends Overlay {
 	private final TextComponent textComponent = new TextComponent();
 
 	@Inject
-	private DaeyaltEssenceOverlay(final Client client, final DaeyaltEssenceConfig config, final DaeyaltEssencePlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
+	private DaeyaltEssenceOverlay(final Client client, final DaeyaltEssenceConfig config, final DaeyaltEssencePlugin plugin) {
 		super(plugin);
 		setPosition(OverlayPosition.DYNAMIC);
 		setLayer(OverlayLayer.ABOVE_SCENE);
 		this.client = client;
 		this.config = config;
 		this.plugin = plugin;
-		this.modelOutlineRenderer = modelOutlineRenderer;
 	}
 
 	public Point mouse()
@@ -110,7 +107,7 @@ class DaeyaltEssenceOverlay extends Overlay {
 						if (plugin.count == 102) {
 							count = "SOON";
 						}
-						final Point canvasPoint = plugin.current_deayalt_essence.getCanvasTextLocation(graphics, count, plugin.current_deayalt_essence.getModel().getCenterZ());
+						final Point canvasPoint = plugin.current_deayalt_essence.getCanvasTextLocation(graphics, count, plugin.current_deayalt_essence.getRenderable().getModel().getCenterZ());
 						OverlayUtil.renderTextLocation(graphics, canvasPoint, count, Color.WHITE);
 					}
 				}

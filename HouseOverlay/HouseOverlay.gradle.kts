@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.0.7"
+version = "0.0.9"
 
 project.extra["PluginName"] = "House Overlay"
 project.extra["PluginDescription"] = "Overlays for your house."
