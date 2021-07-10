@@ -106,7 +106,7 @@ public interface HiddenSettingsConfig extends Config
 	)
 	default boolean mirrorMode()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
