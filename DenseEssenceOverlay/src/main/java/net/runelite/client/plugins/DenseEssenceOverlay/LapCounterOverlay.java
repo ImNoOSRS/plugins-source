@@ -21,7 +21,6 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
 import com.openosrs.client.game.WorldLocation;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.*;
 import net.runelite.client.ui.overlay.components.TextComponent;
 import net.runelite.client.ui.overlay.components.LineComponent;

@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
- version = "0.7.0"
+ version = "0.7.1"
 
 project.extra["PluginName"] = "Smoke Devil"
 project.extra["PluginDescription"] = "Plugin for killing Thermonuclear Smoke Devil"

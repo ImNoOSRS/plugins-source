@@ -41,11 +41,11 @@ import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.ItemManager;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.components.TextComponent;
+import net.runelite.client.ui.overlay.outline.ModelOutlineRenderer;
 
 @Slf4j
 @Singleton
@@ -53,7 +53,9 @@ class SmokeDevilOverlay extends Overlay
 {
     @Inject
     private ItemManager itemManager;
-    private final ModelOutlineRenderer modelOutlineRenderer;
+
+    @Inject
+    private ModelOutlineRenderer modelOutlineRenderer;
 
     private final Client client;
     private final SmokeDevilConfig config;
@@ -63,7 +65,7 @@ class SmokeDevilOverlay extends Overlay
     private Player player;
 
     @Inject
-    private SmokeDevilOverlay(final Client client, final SmokeDevilConfig config, final SmokeDevilPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer)
+    private SmokeDevilOverlay(final Client client, final SmokeDevilConfig config, final SmokeDevilPlugin plugin)
     {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
@@ -71,7 +73,6 @@ class SmokeDevilOverlay extends Overlay
         this.client = client;
         this.config = config;
         this.plugin = plugin;
-        this.modelOutlineRenderer = modelOutlineRenderer;
     }
 
 
@@ -196,16 +197,16 @@ class SmokeDevilOverlay extends Overlay
 				}
 				break;
 			case THIN_OUTLINE:
-				modelOutlineRenderer.drawOutline(actor, 1, color);
+				modelOutlineRenderer.drawOutline(actor, 1, color, 1);
 				break;
 			case OUTLINE:
-				modelOutlineRenderer.drawOutline(actor, 2, color);
+				modelOutlineRenderer.drawOutline(actor, 2, color, 1);
 				break;
 			case THIN_GLOW:
-				modelOutlineRenderer.drawOutline(actor, 4, color, TRANSPARENT);
+				modelOutlineRenderer.drawOutline(actor, 4, color, 1);
 				break;
 			case GLOW:
-				modelOutlineRenderer.drawOutline(actor, 8, color, TRANSPARENT);
+				modelOutlineRenderer.drawOutline(actor, 8, color, 1);
 				break;
 			case TRUE_LOCATIONS:
 			{

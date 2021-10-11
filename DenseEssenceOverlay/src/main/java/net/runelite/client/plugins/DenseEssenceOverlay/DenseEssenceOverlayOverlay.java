@@ -31,7 +31,6 @@ import net.runelite.api.*;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.game.SpriteManager;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -52,7 +51,6 @@ class DenseEssenceOverlayOverlay extends Overlay
     private static final int Z_OFFSET = 200;
     private ItemManager itemManager;
     private SpriteManager spriteManager;
-    private final ModelOutlineRenderer modelOutlineRenderer;
 
     private final Client client;
     private final DenseEssenceOverlayConfig config;
@@ -61,7 +59,7 @@ class DenseEssenceOverlayOverlay extends Overlay
     private final SkillIconManager skillIconManager;
 
     @Inject
-    private DenseEssenceOverlayOverlay(final Client client, final DenseEssenceOverlayConfig config, final DenseEssenceOverlayPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer, final SkillIconManager skillIconManager, final ItemManager itemManager, final SpriteManager spriteManager)
+    private DenseEssenceOverlayOverlay(final Client client, final DenseEssenceOverlayConfig config, final DenseEssenceOverlayPlugin plugin, final SkillIconManager skillIconManager, final ItemManager itemManager, final SpriteManager spriteManager)
     {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
@@ -69,7 +67,6 @@ class DenseEssenceOverlayOverlay extends Overlay
         this.client = client;
         this.config = config;
         this.plugin = plugin;
-        this.modelOutlineRenderer = modelOutlineRenderer;
         this.skillIconManager = skillIconManager;
         this.itemManager = itemManager;
         this.spriteManager = spriteManager;

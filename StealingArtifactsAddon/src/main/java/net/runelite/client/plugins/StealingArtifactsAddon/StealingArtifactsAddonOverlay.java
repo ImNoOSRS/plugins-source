@@ -42,7 +42,6 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.ItemManager;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -54,7 +53,6 @@ import net.runelite.client.ui.overlay.components.TextComponent;
 class StealingArtifactsAddonOverlay extends Overlay {
     @Inject
     private ItemManager itemManager;
-    private final ModelOutlineRenderer modelOutlineRenderer;
 
     private final Client client;
     private final StealingArtifactsAddonConfig config;
@@ -62,14 +60,13 @@ class StealingArtifactsAddonOverlay extends Overlay {
     private final TextComponent textComponent = new TextComponent();
 
     @Inject
-    private StealingArtifactsAddonOverlay(final Client client, final StealingArtifactsAddonConfig config, final StealingArtifactsAddonPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
+    private StealingArtifactsAddonOverlay(final Client client, final StealingArtifactsAddonConfig config, final StealingArtifactsAddonPlugin plugin) {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_SCENE);
         this.client = client;
         this.config = config;
         this.plugin = plugin;
-        this.modelOutlineRenderer = modelOutlineRenderer;
     }
 
 	private static final int CULL_LINE_OF_SIGHT_RANGE = 3;

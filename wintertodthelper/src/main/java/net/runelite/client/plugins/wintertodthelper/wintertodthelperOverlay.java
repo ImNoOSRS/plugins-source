@@ -33,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.Point;
 import net.runelite.client.game.ItemManager;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -51,7 +50,7 @@ class wintertodthelperOverlay extends Overlay {
 
     @Inject
     private wintertodthelperOverlay(final Client client, final wintertodthelperConfig config,
-                                    final wintertodthelperPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
+                                    final wintertodthelperPlugin plugin) {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_SCENE);

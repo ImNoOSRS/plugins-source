@@ -42,7 +42,6 @@ import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.ItemManager;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -55,7 +54,6 @@ class hallowedhelperOverlay extends Overlay
 {
     @Inject
     private ItemManager itemManager;
-    private final ModelOutlineRenderer modelOutlineRenderer;
 
 
     private static final int MAX_DISTANCE = 2350;
@@ -70,7 +68,7 @@ class hallowedhelperOverlay extends Overlay
     private Player player;
 
     @Inject
-    private hallowedhelperOverlay(final Client client, final hallowedhelperConfig config, final hallowedhelperPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer)
+    private hallowedhelperOverlay(final Client client, final hallowedhelperConfig config, final hallowedhelperPlugin plugin)
     {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
@@ -78,7 +76,6 @@ class hallowedhelperOverlay extends Overlay
         this.client = client;
         this.config = config;
         this.plugin = plugin;
-        this.modelOutlineRenderer = modelOutlineRenderer;
     }
 
     public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)

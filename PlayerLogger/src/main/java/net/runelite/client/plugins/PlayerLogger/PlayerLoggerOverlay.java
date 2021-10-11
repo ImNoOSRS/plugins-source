@@ -42,7 +42,6 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
 import com.openosrs.client.game.WorldLocation;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.PlayerLogger.PlayerLoggerConfig;
 import net.runelite.client.plugins.PlayerLogger.PlayerLoggerPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -56,7 +55,6 @@ import net.runelite.client.ui.overlay.components.TextComponent;
 class PlayerLoggerOverlay extends Overlay {
 	@Inject
 	private ItemManager itemManager;
-	private final ModelOutlineRenderer modelOutlineRenderer;
 
 	private final Client client;
 	private final PlayerLoggerConfig config;
@@ -64,14 +62,13 @@ class PlayerLoggerOverlay extends Overlay {
 	private final TextComponent textComponent = new TextComponent();
 
 	@Inject
-	private PlayerLoggerOverlay(final Client client, final PlayerLoggerConfig config, final PlayerLoggerPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
+	private PlayerLoggerOverlay(final Client client, final PlayerLoggerConfig config, final PlayerLoggerPlugin plugin) {
 		super(plugin);
 		setPosition(OverlayPosition.DYNAMIC);
 		setLayer(OverlayLayer.ABOVE_SCENE);
 		this.client = client;
 		this.config = config;
 		this.plugin = plugin;
-		this.modelOutlineRenderer = modelOutlineRenderer;
 	}
 
 	public static void renderClickBox(Graphics2D graphics, Point mousePosition, Shape objectClickbox, Color configColor)

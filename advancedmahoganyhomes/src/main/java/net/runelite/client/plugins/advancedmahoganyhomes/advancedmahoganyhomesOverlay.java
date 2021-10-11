@@ -43,7 +43,6 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.game.AgilityShortcut;
 import net.runelite.client.game.ItemManager;
 import com.openosrs.client.game.WorldLocation;
-import com.openosrs.client.graphics.ModelOutlineRenderer;
 import net.runelite.client.plugins.advancedmahoganyhomes.advancedmahoganyhomesConfig;
 import net.runelite.client.plugins.advancedmahoganyhomes.advancedmahoganyhomesPlugin;
 import net.runelite.client.ui.overlay.Overlay;
@@ -57,7 +56,6 @@ import net.runelite.client.ui.overlay.components.TextComponent;
 class advancedmahoganyhomesOverlay extends Overlay {
     @Inject
     private ItemManager itemManager;
-    private final ModelOutlineRenderer modelOutlineRenderer;
 
     private final Client client;
     private final advancedmahoganyhomesConfig config;
@@ -65,14 +63,13 @@ class advancedmahoganyhomesOverlay extends Overlay {
     private final TextComponent textComponent = new TextComponent();
 
     @Inject
-    private advancedmahoganyhomesOverlay(final Client client, final advancedmahoganyhomesConfig config, final advancedmahoganyhomesPlugin plugin, final ModelOutlineRenderer modelOutlineRenderer) {
+    private advancedmahoganyhomesOverlay(final Client client, final advancedmahoganyhomesConfig config, final advancedmahoganyhomesPlugin plugin) {
         super(plugin);
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_SCENE);
         this.client = client;
         this.config = config;
         this.plugin = plugin;
-        this.modelOutlineRenderer = modelOutlineRenderer;
     }
 
     public Point mouse()
