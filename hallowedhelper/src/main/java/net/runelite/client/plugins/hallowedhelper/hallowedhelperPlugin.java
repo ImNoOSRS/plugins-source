@@ -431,11 +431,6 @@ public class hallowedhelperPlugin extends Plugin {
 
     private boolean isInSepulchreRegion()
     {
-        if(expired)
-        {
-            log.info("Beta Expired.");
-            return false;
-        }
         return REGION_IDS.contains(client.getMapRegions()[0]);
     }
 
@@ -578,22 +573,10 @@ public class hallowedhelperPlugin extends Plugin {
         }
     }
 
-    public boolean expired = false;
     @Override
     protected void startUp() {
         Rotation.init(config.SafeTileColor(), config.UnsafeTileColor(), Color.BLUE, new Color(255, 102, 0));
         LocalDateTime l = LocalDateTime.now();
-        if(l.getYear() > 2021)
-        {
-            expired = true;
-        }
-        else
-        {
-            if(l.getYear() == 2021 && l.getMonth().getValue() > 10)
-            {
-                expired = true;
-            }
-        }
         /*
         for (Map.Entry<Integer, Object> entry : client.getVarcMap().entrySet()) {
             log.info("INT:" + entry.getKey() + ",VAL:" + entry.getValue());
