@@ -333,6 +333,8 @@ public class DeveloperHelperPlugin extends Plugin {
         }
 
         //int op = event.getMenuAction();
+
+        /*
         String option = event.getOption();
         switch(option)
         {
@@ -354,7 +356,8 @@ public class DeveloperHelperPlugin extends Plugin {
                 MenuEntry copy_name = base_entry(event, "Copy item NAME");
                 insert_menu_entry(copy_name);
                 break;
-        }
+        }*/
+        
         if (event.getMenuAction() != MenuAction.EXAMINE_OBJECT)
         {
             if(!config.copyTileData())
