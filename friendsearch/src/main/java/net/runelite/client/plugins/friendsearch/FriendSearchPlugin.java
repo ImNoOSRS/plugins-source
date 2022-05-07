@@ -224,7 +224,7 @@ public class FriendSearchPlugin extends Plugin
 		client.playSoundEffect(SoundEffectID.UI_BOOP);
 		friendSearchButton.setAction(1, MENU_CLOSE);
 		friendSearchButton.setOnOpListener((JavaScriptCallback) e -> closeSearch());
-		searchInput = chatboxPanelManager.openTextInput("Search quest list")
+		searchInput = chatboxPanelManager.openTextInput("Search friend list")
 				.onChanged(s -> clientThread.invokeLater(() -> updateFilter(s)))
 				.onDone(s -> false)
 				.onClose(() ->

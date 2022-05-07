@@ -267,7 +267,7 @@ class DeveloperHelperPanel extends PluginPanel
         container.add(new JLabel("Log WidgetHiddenChanged"));
         container.add(LogWidgetHiddenChanged);
 
-        container.add(new JLabel("Log WidgetHiddenChanged"));
+        container.add(new JLabel("Log WidgetLoaded"));
         container.add(LogOnWidgetLoaded);
 
         container.add(new JLabel("Log GameObjectSpawned"));

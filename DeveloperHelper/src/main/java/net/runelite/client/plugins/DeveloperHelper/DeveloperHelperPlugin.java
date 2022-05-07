@@ -253,33 +253,33 @@ public class DeveloperHelperPlugin extends Plugin {
 
     public MenuEntry base_entry(MenuEntry current, String newname)
     {
-        MenuEntry base = new MenuEntry();
+        MenuEntry base = client.createMenuEntry(-1);
         base.setOption(newname);
         base.setTarget(current.getTarget());
-        base.setOpcode(MenuAction.RUNELITE.getId());
+        base.setType(MenuAction.RUNELITE);
         counter++;
         base.setParam0(counter);
         base.setParam1(current.getParam1());
-        base.setIdentifier(current.getId());
+        base.setIdentifier(current.getIdentifier());
         return base;
     }
 
     public MenuEntry base_entry(MenuEntryAdded current, String newname)
     {
-        MenuEntry base = new MenuEntry();
+        MenuEntry base = client.createMenuEntry(-1);
         base.setOption(newname);
         base.setTarget(current.getTarget());
-        base.setOpcode(MenuAction.RUNELITE.getId());
+        base.setType(MenuAction.RUNELITE);
         counter++;
         base.setParam0(counter);
         base.setParam1(current.getParam1());
-        base.setIdentifier(current.getId());
+        base.setIdentifier(current.getIdentifier());
         return base;
     }
 
     public void insert_menu_entry(MenuEntry entry)
     {
-        client.insertMenuItem(entry.getOption(), entry.getTarget(), entry.getMenuAction().getId(), entry.getId(), entry.getParam0(), entry.getParam1(), false);
+        //client.insertMenuItem(entry.getOption(), entry.getTarget(), entry.getMenuAction().getId(), entry.getIdentifier(), entry.getParam0(), entry.getParam1(), false);
     }
 
     public String selected_chat_text = "";
@@ -289,7 +289,7 @@ public class DeveloperHelperPlugin extends Plugin {
         if(panel.LogMenuEntryAdded.isSelected())
         {
             String storing = "MenuEntryAdded: " + event.getOption() + " > [";
-            storing += "Identifier:" + event.getId();
+            storing += "Identifier:" + event.getIdentifier();
             storing += " Target:" + event.getTarget();
             storing += " MenuAction:" + event.getMenuAction();
             storing += " Param0:" + event.getParam0();
@@ -344,7 +344,7 @@ public class DeveloperHelperPlugin extends Plugin {
             case "Destroy":
                 MenuEntry copy_id = base_entry(event, "Copy item ID");
                 insert_menu_entry(copy_id);
-                ItemComposition def = client.getItemDefinition(event.getId());
+                ItemComposition def = client.getItemDefinition(event.getIdentifier());
                 if(def.getNote() != -1)
                 {
                     MenuEntry copy_id_unnoted = base_entry(event, "Copy item ID (Unnoted)");
@@ -363,23 +363,23 @@ public class DeveloperHelperPlugin extends Plugin {
             }
             if(event.getOption().equals(WALK_HERE))
             {
-                MenuEntry menuEntry = new MenuEntry();
+                MenuEntry menuEntry = client.createMenuEntry(-1);
 
                 menuEntry.setOption(copytileworldpoint);
                 menuEntry.setTarget(event.getTarget());
                 menuEntry.setParam0(menuEntry.getParam0());
                 menuEntry.setParam1(event.getParam1());
-                menuEntry.setIdentifier(event.getId());
+                menuEntry.setIdentifier(event.getIdentifier());
                 menuEntry.setOpcode(MenuAction.RUNELITE.getId());
 
                 insert_menu_entry(menuEntry);
-                MenuEntry menuEntry3 = new MenuEntry();
+                MenuEntry menuEntry3 = client.createMenuEntry(-1);
 
                 menuEntry3.setOption(copytilelocalpoint);
                 menuEntry3.setTarget(event.getTarget());
                 menuEntry3.setParam0(menuEntry3.getParam0());
                 menuEntry3.setParam1(event.getParam1());
-                menuEntry3.setIdentifier(event.getId());
+                menuEntry3.setIdentifier(event.getIdentifier());
                 menuEntry3.setOpcode(MenuAction.RUNELITE.getId());
                 insert_menu_entry(menuEntry3);
             }
@@ -392,7 +392,7 @@ public class DeveloperHelperPlugin extends Plugin {
         }
 
         final Tile tile = client.getScene().getTiles()[client.getPlane()][event.getParam0()][event.getParam1()];
-        final TileObject tileObject = findTileObject(tile, event.getId());
+        final TileObject tileObject = findTileObject(tile, event.getIdentifier());
 
         if (tileObject == null)
         {
@@ -401,31 +401,31 @@ public class DeveloperHelperPlugin extends Plugin {
 
         MenuEntry[] menuEntries = client.getMenuEntries();
         menuEntries = Arrays.copyOf(menuEntries, menuEntries.length + 2);
-        MenuEntry menuEntry = menuEntries[menuEntries.length - 1] = new MenuEntry();
+        MenuEntry menuEntry = menuEntries[menuEntries.length - 1]  = client.createMenuEntry(-1);
 
         menuEntry.setOption(copyid);
         menuEntry.setTarget(event.getTarget());
         menuEntry.setParam0(event.getParam0());
         menuEntry.setParam1(event.getParam1());
-        menuEntry.setIdentifier(event.getId());
+        menuEntry.setIdentifier(event.getIdentifier());
         menuEntry.setOpcode(MenuAction.RUNELITE.getId());
 
-        MenuEntry menuEntry2 = menuEntries[menuEntries.length - 2] = new MenuEntry();
+        MenuEntry menuEntry2 = menuEntries[menuEntries.length - 2] = client.createMenuEntry(-1);
 
         menuEntry2.setOption(copyworldpoint);
         menuEntry2.setTarget(event.getTarget());
         menuEntry2.setParam0(event.getParam0());
         menuEntry2.setParam1(event.getParam1());
-        menuEntry2.setIdentifier(event.getId());
+        menuEntry2.setIdentifier(event.getIdentifier());
         menuEntry2.setOpcode(MenuAction.RUNELITE.getId());
 
-        MenuEntry menuEntry3 = menuEntries[menuEntries.length - 3] = new MenuEntry();
+        MenuEntry menuEntry3 = menuEntries[menuEntries.length - 3] = client.createMenuEntry(-1);
 
         menuEntry3.setOption(copylocalpoint);
         menuEntry3.setTarget(event.getTarget());
         menuEntry3.setParam0(event.getParam0());
         menuEntry3.setParam1(event.getParam1());
-        menuEntry3.setIdentifier(event.getId());
+        menuEntry3.setIdentifier(event.getIdentifier());
         menuEntry3.setOpcode(MenuAction.RUNELITE.getId());
         client.setMenuEntries(menuEntries);
     }
@@ -499,7 +499,15 @@ public class DeveloperHelperPlugin extends Plugin {
 
             if(config.logCodeMenuEntryCode())
             {
-                storing = "new MenuEntry(\"" + event.getMenuOption() + "\", \"" + event.getMenuTarget() + "\", " + event.getId() + ", MenuAction." + event.getMenuAction() + ".getId(), " + event.getActionParam() + ", " + event.getWidgetId() + ", false);";
+                String widget = "" + event.getWidgetId();
+                for(WidgetInfo w : WidgetInfo.values())
+                {
+                    if(w.getId() == event.getWidgetId())
+                    {
+                        widget = "WidgetInfo." + w.name() + ".getId()";
+                    }
+                }
+                storing = "new TempMenu(\"" + event.getMenuOption() + "\", \"" + event.getMenuTarget() + "\", " + event.getId() + ", MenuAction." + event.getMenuAction() + ".getId(), " + event.getActionParam() + ", " + widget + ", false);";
             }
             if(panel.LogMenuActions.isSelected())
             {
