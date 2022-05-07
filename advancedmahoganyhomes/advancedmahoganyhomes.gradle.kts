@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.2.2"
+version = "0.2.3"
 
 project.extra["PluginName"] = "Advanced Mahogany Homes"
 project.extra["PluginDescription"] = "Advanced Mahogany Homes Assistant."
