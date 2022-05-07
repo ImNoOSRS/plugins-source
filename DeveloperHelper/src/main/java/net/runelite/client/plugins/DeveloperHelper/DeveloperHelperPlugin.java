@@ -357,7 +357,7 @@ public class DeveloperHelperPlugin extends Plugin {
                 insert_menu_entry(copy_name);
                 break;
         }*/
-        
+
         if (event.getMenuAction() != MenuAction.EXAMINE_OBJECT)
         {
             if(!config.copyTileData())
